@@ -197,6 +197,23 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .wx-error{color:rgba(224,122,84,.8);font-size:.8rem;padding:.5rem 0}
 
 /* ══ COST TRACKER ══ */
+/* ══ SYNC STATUS BAR ══ */
+#sync-status-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:10px;padding:.8rem 1.1rem;margin-bottom:1.5rem;transition:background .4s,border-color .4s}
+.sync-saved{background:rgba(74,103,65,.18);border:1.5px solid rgba(122,184,114,.45)}
+.sync-syncing{background:rgba(200,168,75,.12);border:1.5px solid rgba(200,168,75,.4)}
+.sync-offline{background:rgba(184,92,56,.15);border:1.5px solid rgba(224,122,84,.4)}
+.sync-loading{background:rgba(45,90,110,.18);border:1.5px solid rgba(74,143,168,.4)}
+#sync-status{font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:8px;transition:color .3s}
+#sync-status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;transition:background .3s}
+.sync-saved #sync-status-dot{background:#7ab872;box-shadow:0 0 8px rgba(122,184,114,.7)}
+.sync-saved #sync-status{color:#7ab872}
+.sync-syncing #sync-status-dot{background:#e8c96a;box-shadow:0 0 8px rgba(232,201,106,.6);animation:syncPulse 1s ease-in-out infinite}
+.sync-syncing #sync-status{color:#e8c96a}
+.sync-offline #sync-status-dot{background:#e07a54}
+.sync-offline #sync-status{color:#e07a54}
+.sync-loading #sync-status-dot{background:#4a8fa8;box-shadow:0 0 8px rgba(74,143,168,.6);animation:syncPulse 1s ease-in-out infinite}
+.sync-loading #sync-status{color:#4a8fa8}
+@keyframes syncPulse{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.1)}}
 #sync-status{ font-size:.68rem; }
 .cost-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:2rem}
 .cost-total-card{background:linear-gradient(135deg,rgba(200,168,75,.15),rgba(200,168,75,.04));border:1px solid rgba(200,168,75,.3);border-radius:12px;padding:1.2rem;text-align:center}
@@ -1597,6 +1614,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
   </div>
 
+  <!-- Sync status bar -->
+  <div id="sync-status-bar" class="sync-loading">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div id="sync-status-dot"></div>
+      <span id="sync-status">⟳ Connecting…</span>
+    </div>
+    <span style="font-size:.65rem;color:rgba(245,240,232,.5);letter-spacing:.06em;text-transform:uppercase">☁ Firebase · Live sync</span>
+  </div>
+
   <!-- Summary cards -->
   <div class="cost-summary" id="cost-summary-cards">
     <div class="cost-total-card">
@@ -2653,11 +2679,14 @@ let syncTimeout    = null;
 
 // ── Status indicator ────────────────────────────────────────
 function setSyncStatus(state, msg) {
-  const el = document.getElementById('sync-status');
+  const el  = document.getElementById('sync-status');
+  const bar = document.getElementById('sync-status-bar');
   if (!el) return;
-  const colours = { syncing:'#c8a84b', saved:'#7ab872', offline:'#e07a54', loading:'#4a8fa8' };
-  el.style.color   = colours[state] || colours.offline;
-  el.textContent   = msg;
+  el.textContent = msg;
+  if (bar) {
+    bar.className = '';
+    bar.classList.add('sync-' + state);
+  }
 }
 
 // ── Firebase REST helpers ───────────────────────────────────

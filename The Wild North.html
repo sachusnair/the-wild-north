@@ -211,6 +211,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .sync-syncing #sync-status{color:#e8c96a}
 .sync-offline #sync-status-dot{background:#e07a54}
 .sync-offline #sync-status{color:#e07a54}
+.sync-failed #sync-status-dot{background:#e07a54}
+.sync-failed #sync-status{color:#e07a54}
+.sync-localonly #sync-status-dot{background:#888}
+.sync-localonly #sync-status{color:#aaa}
 .sync-loading #sync-status-dot{background:#4a8fa8;box-shadow:0 0 8px rgba(74,143,168,.6);animation:syncPulse 1s ease-in-out infinite}
 .sync-loading #sync-status{color:#4a8fa8}
 @keyframes syncPulse{0%,100%{opacity:.4;transform:scale(.9)}50%{opacity:1;transform:scale(1.1)}}
@@ -471,7 +475,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Depart London — First Stop Chesterfield (Pick Up Stanley)</div>
         <div class="event-desc">Leave London at 21:30 on the A1(M). First stop: Chesterfield to collect Stanley — exit M1 J29 onto A617 (~2.5 hrs from London). Once Stanley is on board, continue north on A1(M) to Edinburgh. Fill up fuel before leaving London. Roads are clear at night.</div>
-        <a class="map-link" href="https://www.google.com/maps/dir/London/Edinburgh" target="_blank">🗺 London → Edinburgh route</a>
+        <a class="map-link" href="https://www.google.com/maps/dir/London/Edinburgh" target="_blank" rel="noopener noreferrer">🗺 London → Edinburgh route</a>
         <div class="tags"><span class="tag tag-drive">Night drive — clear roads after 10pm</span></div>
       </div>
     </div>
@@ -480,7 +484,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Chesterfield — Pick Up Stanley</div>
         <div class="event-desc">Exit M1 at J29, follow A617 into Chesterfield. Quick stop to collect Stanley and his bags, then back onto the M1 north. Fuel up at the petrol station by J29 if needed — good price and open 24 hours.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+M1+Junction+29+A617" target="_blank">🗺 M1 J29 / Chesterfield</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+M1+Junction+29+A617" target="_blank" rel="noopener noreferrer">🗺 M1 J29 / Chesterfield</a>
         <div class="tags"><span class="tag tag-drive">Pick up Stanley</span></div>
       </div>
     </div>
@@ -489,7 +493,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Scotch Corner — fuel stop before Scotland</div>
         <div class="event-desc">Quick fuel stop and coffee. Scotch Corner Services are open 24 hours. From here: A1(M) straight to Edinburgh is fastest. The A68 via Carter Bar is more scenic if you want to mark the border crossing.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Scotch+Corner+Services+North+Yorkshire" target="_blank">🗺 Scotch Corner Services</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Scotch+Corner+Services+North+Yorkshire" target="_blank" rel="noopener noreferrer">🗺 Scotch Corner Services</a>
         <div class="tags"><span class="tag tag-drive">Fuel up</span></div>
       </div>
     </div>
@@ -498,7 +502,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Carter Bar — Welcome to Scotland (optional dawn stop)</div>
         <div class="event-desc">If taking the A68, Carter Bar at 418m is the iconic Scottish border crossing. A 5-min stop to mark the moment of entering Scotland — atmospheric at pre-dawn in summer.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Carter+Bar+Scottish+Border+A68" target="_blank">🗺 Carter Bar, Scottish Border</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Carter+Bar+Scottish+Border+A68" target="_blank" rel="noopener noreferrer">🗺 Carter Bar, Scottish Border</a>
         <div class="tags"><span class="tag tag-gem">Welcome to Scotland</span></div>
       </div>
     </div>
@@ -507,7 +511,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Arrive Edinburgh — Park View House</div>
         <div class="event-desc">Check in to Park View House, 14 Hermitage Place, Edinburgh EH6 8AF. Early arrival — head straight to the room and get a few hours of sleep before the Edinburgh day begins.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Park+View+House+14+Hermitage+Place+Edinburgh+EH6+8AF" target="_blank">🗺 Park View House, Edinburgh</a>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Park+View+House+14+Hermitage+Place+Edinburgh+EH6+8AF" target="_blank" rel="noopener noreferrer">🗺 Park View House, Edinburgh</a>
         <div class="tags"><span class="tag tag-night">Park View House · EH6 8AF</span></div>
       </div>
     </div>
@@ -539,7 +543,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Rest &amp; freshen up — Park View House</div>
         <div class="event-desc">Sleep for a few hours after the overnight drive. Park View House, 14 Hermitage Place EH6 8AF. Once rested, walk into the Old Town for breakfast — about 25 minutes on foot or a quick bus.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Park+View+House+14+Hermitage+Place+Edinburgh+EH6+8AF" target="_blank">🗺 Park View House, Edinburgh</a>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Park+View+House+14+Hermitage+Place+Edinburgh+EH6+8AF" target="_blank" rel="noopener noreferrer">🗺 Park View House, Edinburgh</a>
       </div>
     </div>
     <div class="event type-food">
@@ -547,8 +551,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Breakfast — Loudons Bakehouse or The Milkman</div>
         <div class="event-desc">Loudons Bakehouse &amp; Kitchen (Fountainbridge) — outstanding sourdough, pastries, coffee. The Milkman on Cockburn Street — best espresso in the Old Town.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Loudons+Bakehouse+Kitchen+Edinburgh+Fountainbridge" target="_blank">🗺 Loudons Bakehouse</a>
-        <a class="map-link" href="https://www.google.com/maps/search/The+Milkman+Coffee+Shop+Edinburgh+Cockburn+Street" target="_blank">🗺 The Milkman Coffee</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Loudons+Bakehouse+Kitchen+Edinburgh+Fountainbridge" target="_blank" rel="noopener noreferrer">🗺 Loudons Bakehouse</a>
+        <a class="map-link" href="https://www.google.com/maps/search/The+Milkman+Coffee+Shop+Edinburgh+Cockburn+Street" target="_blank" rel="noopener noreferrer">🗺 The Milkman Coffee</a>
       </div>
     </div>
     <div class="event type-photo">
@@ -556,7 +560,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Calton Hill — Edinburgh's best 360° panorama</div>
         <div class="event-desc">15 mins walk from Princes Street. Full 360° views: Edinburgh Castle, Arthur's Seat, the New Town, Firth of Forth, East Lothian coast. Nelson Monument and Scottish National Monument here too. Free — go before midday for the best light.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Calton+Hill+Edinburgh+viewpoint" target="_blank">🗺 Calton Hill, Edinburgh</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Calton+Hill+Edinburgh+viewpoint" target="_blank" rel="noopener noreferrer">🗺 Calton Hill, Edinburgh</a>
         <div class="tags"><span class="tag tag-photo">360° city panorama</span></div>
       </div>
     </div>
@@ -565,9 +569,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Victoria Street, Grassmarket &amp; Greyfriars Kirkyard</div>
         <div class="event-desc">Walk the Royal Mile from the top. Victoria Street — the curved, colourful street said to inspire Diagon Alley. Explore Grassmarket. Greyfriars Kirkyard — atmospheric 16th-century cemetery connected to Greyfriars Bobby.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Victoria+Street+Edinburgh+Old+Town" target="_blank">🗺 Victoria Street</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Greyfriars+Kirkyard+Edinburgh" target="_blank">🗺 Greyfriars Kirkyard</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Grassmarket+Edinburgh" target="_blank">🗺 Grassmarket</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Victoria+Street+Edinburgh+Old+Town" target="_blank" rel="noopener noreferrer">🗺 Victoria Street</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Greyfriars+Kirkyard+Edinburgh" target="_blank" rel="noopener noreferrer">🗺 Greyfriars Kirkyard</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Grassmarket+Edinburgh" target="_blank" rel="noopener noreferrer">🗺 Grassmarket</a>
         <div class="tags"><span class="tag tag-photo">Victoria Street</span><span class="tag tag-gem">Greyfriars Kirkyard</span></div>
       </div>
     </div>
@@ -576,8 +580,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Edinburgh Castle</div>
         <div class="event-desc">Timed entry at 15:00 — BOOKED ✓. Crown Jewels, Stone of Destiny, and views over the city. Allow 1.5–2 hrs.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Edinburgh+Castle" target="_blank">🗺 Edinburgh Castle</a>
-        <a class="map-link" href="https://www.edinburghcastle.scot" target="_blank">🎟 Book tickets: edinburghcastle.scot</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Edinburgh+Castle" target="_blank" rel="noopener noreferrer">🗺 Edinburgh Castle</a>
+        <a class="map-link" href="https://www.edinburghcastle.scot" target="_blank" rel="noopener noreferrer">🎟 Book tickets: edinburghcastle.scot</a>
         <div class="tags"><span class="tag tag-photo">Castle esplanade views</span></div>
       </div>
     </div>
@@ -586,8 +590,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Lunch — The Outsider</div>
         <div class="event-desc">The Outsider on George IV Bridge — creative Scottish dishes with direct castle views. Superb value. For a pub lunch: Deacon Brodie's Tavern on the Royal Mile.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/The+Outsider+Restaurant+Edinburgh+George+IV+Bridge" target="_blank">🗺 The Outsider Restaurant</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Deacon+Brodie%27s+Tavern+Edinburgh+Royal+Mile" target="_blank">🗺 Deacon Brodie's Tavern</a>
+        <a class="map-link" href="https://www.google.com/maps/search/The+Outsider+Restaurant+Edinburgh+George+IV+Bridge" target="_blank" rel="noopener noreferrer">🗺 The Outsider Restaurant</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Deacon+Brodie%27s+Tavern+Edinburgh+Royal+Mile" target="_blank" rel="noopener noreferrer">🗺 Deacon Brodie's Tavern</a>
       </div>
     </div>
     <div class="event type-highlight">
@@ -595,7 +599,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Arthur's Seat — Edinburgh's ancient volcano</div>
         <div class="event-desc">251m summit, ~1.5 miles return, ~1.5 hrs easy pace. Extraordinary views: the whole city, Firth of Forth, East Lothian coast. Walk via Salisbury Crags for the most dramatic photography route.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Arthur%27s+Seat+Holyrood+Park+Edinburgh" target="_blank">🗺 Arthur's Seat, Holyrood Park</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Arthur%27s+Seat+Holyrood+Park+Edinburgh" target="_blank" rel="noopener noreferrer">🗺 Arthur's Seat, Holyrood Park</a>
         <div class="tags"><span class="tag tag-hike">1.5 hr return hike</span><span class="tag tag-photo">Summit panorama</span></div>
       </div>
     </div>
@@ -604,7 +608,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Pre-dinner — Bow Bar (600+ whiskies)</div>
         <div class="event-desc">Bow Bar on West Bow — Victorian pub with over 600 whiskies. Knowledgeable bartenders will guide you to the perfect dram.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Bow+Bar+Edinburgh+West+Bow+Old+Town" target="_blank">🗺 Bow Bar, West Bow</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Bow+Bar+Edinburgh+West+Bow+Old+Town" target="_blank" rel="noopener noreferrer">🗺 Bow Bar, West Bow</a>
         <div class="tags"><span class="tag tag-gem">600+ whiskies</span></div>
       </div>
     </div>
@@ -613,9 +617,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Dinner — The Witchery by the Castle</div>
         <div class="event-desc">Dramatically gothic, quintessentially Edinburgh — stone vaults, candles, outstanding Scottish food at the castle gates. Book weeks ahead. Alternative: Timberyard on Lothian Road for modern Scottish cuisine.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/The+Witchery+by+the+Castle+Edinburgh" target="_blank">🗺 The Witchery</a>
-        <a class="map-link" href="https://www.thewitchery.com" target="_blank">🎟 Reserve: thewitchery.com</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Timberyard+Restaurant+Edinburgh+Lothian+Road" target="_blank">🗺 Timberyard (alternative)</a>
+        <a class="map-link" href="https://www.google.com/maps/search/The+Witchery+by+the+Castle+Edinburgh" target="_blank" rel="noopener noreferrer">🗺 The Witchery</a>
+        <a class="map-link" href="https://www.thewitchery.com" target="_blank" rel="noopener noreferrer">🎟 Reserve: thewitchery.com</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Timberyard+Restaurant+Edinburgh+Lothian+Road" target="_blank" rel="noopener noreferrer">🗺 Timberyard (alternative)</a>
       </div>
     </div>
     <div class="event type-gem">
@@ -623,7 +627,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Sandy Bell's pub — live folk music every night</div>
         <div class="event-desc">Sandy Bell's on Forrest Road — free live traditional folk music almost every night. Just musicians who turn up and play. One of Edinburgh's great hidden cultural treasures.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Sandy+Bell%27s+pub+Edinburgh+Forrest+Road" target="_blank">🗺 Sandy Bell's Pub</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Sandy+Bell%27s+pub+Edinburgh+Forrest+Road" target="_blank" rel="noopener noreferrer">🗺 Sandy Bell's Pub</a>
         <div class="tags"><span class="tag tag-gem">Free live folk music nightly</span></div>
       </div>
     </div>
@@ -655,8 +659,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Dean Village — Edinburgh's hidden gorge</div>
         <div class="event-desc">Medieval mill village 10 mins walk from Princes Street, tucked in the Water of Leith gorge. Almost no tourists at this hour. The stone bridge over the river is one of Edinburgh's finest photo spots. Breakfast at Peter's Yard (Quartermile) — Swedish sourdough bakery.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Dean+Village+Water+of+Leith+Edinburgh" target="_blank">🗺 Dean Village, Edinburgh</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Peter%27s+Yard+Bakery+Edinburgh+Quartermile" target="_blank">🗺 Peter's Yard Bakery</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Dean+Village+Water+of+Leith+Edinburgh" target="_blank" rel="noopener noreferrer">🗺 Dean Village, Edinburgh</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Peter%27s+Yard+Bakery+Edinburgh+Quartermile" target="_blank" rel="noopener noreferrer">🗺 Peter's Yard Bakery</a>
         <div class="tags"><span class="tag tag-gem">Dean Village gorge</span><span class="tag tag-photo">Water of Leith bridge</span></div>
       </div>
     </div>
@@ -665,8 +669,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Depart Edinburgh — A9 north then A82</div>
         <div class="event-desc">Head north on A9, join A82 at Crianlarich. The road alongside Loch Lomond is beautiful — pull over at any loch-side layby for photos.</div>
-        <a class="map-link" href="https://www.google.com/maps/dir/Edinburgh/Glencoe" target="_blank">🗺 Edinburgh → Glencoe route</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Loch+Lomond+layby+A82+viewpoint" target="_blank">🗺 Loch Lomond A82 laybys</a>
+        <a class="map-link" href="https://www.google.com/maps/dir/Edinburgh/Glencoe" target="_blank" rel="noopener noreferrer">🗺 Edinburgh → Glencoe route</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Loch+Lomond+layby+A82+viewpoint" target="_blank" rel="noopener noreferrer">🗺 Loch Lomond A82 laybys</a>
       </div>
     </div>
   </div>
@@ -677,8 +681,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Rannoch Moor — Europe's last great wilderness</div>
         <div class="event-desc">The A82 crosses this vast primordial bog. Pull over anywhere for photographs. Kings House Hotel is right on the moor — excellent coffee stop (Scotland's oldest inn).</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Rannoch+Moor+A82+viewpoint+Highland" target="_blank">🗺 Rannoch Moor Viewpoint</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Kings+House+Hotel+Glencoe+Rannoch+Moor" target="_blank">🗺 Kings House Hotel</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Rannoch+Moor+A82+viewpoint+Highland" target="_blank" rel="noopener noreferrer">🗺 Rannoch Moor Viewpoint</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Kings+House+Hotel+Glencoe+Rannoch+Moor" target="_blank" rel="noopener noreferrer">🗺 Kings House Hotel</a>
         <div class="tags"><span class="tag tag-photo">Moor panorama</span></div>
       </div>
     </div>
@@ -687,9 +691,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Glencoe — Scotland\'s most dramatic glen</div>
         <div class="event-desc">Three Sisters, Meeting of Three Waters (2-min roadside walk). NTS Glencoe Visitor Centre layby for the classic shots.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Glencoe+Three+Sisters+viewpoint+NTS" target="_blank">🗺 Glencoe Three Sisters</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Meeting+of+Three+Waters+Glencoe+waterfall" target="_blank">🗺 Meeting of Three Waters</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Glencoe+Visitor+Centre+NTS" target="_blank">🗺 Glencoe Visitor Centre</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Glencoe+Three+Sisters+viewpoint+NTS" target="_blank" rel="noopener noreferrer">🗺 Glencoe Three Sisters</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Meeting+of+Three+Waters+Glencoe+waterfall" target="_blank" rel="noopener noreferrer">🗺 Meeting of Three Waters</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Glencoe+Visitor+Centre+NTS" target="_blank" rel="noopener noreferrer">🗺 Glencoe Visitor Centre</a>
         <div class="tags"><span class="tag tag-photo">Three Sisters viewpoint</span></div>
       </div>
     </div>
@@ -698,7 +702,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Glen Etive — the James Bond Skyfall road</div>
         <div class="event-desc">Turn left off A82 at foot of Glencoe onto B8001. 10-mile single-track to Loch Etive — river pools for wild swimming, extraordinary peaks. Filmed in Skyfall. Drive to the loch at the end for the mountain reflection shot. Allow 45–60 mins return.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Glen+Etive+Loch+Etive+Argyll+Scotland" target="_blank">🗺 Glen Etive / Loch Etive</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Glen+Etive+Loch+Etive+Argyll+Scotland" target="_blank" rel="noopener noreferrer">🗺 Glen Etive / Loch Etive</a>
         <div class="tags"><span class="tag tag-gem">James Bond Skyfall road</span><span class="tag tag-photo">Loch Etive reflection</span></div>
       </div>
     </div>
@@ -707,8 +711,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Ballachulish — fuel &amp; lunch</div>
         <div class="event-desc">Ballachulish Hotel for lunch with loch views. Fuel at the Spar near the bridge — last easy petrol before Fort William.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Ballachulish+Hotel+Loch+Linnhe" target="_blank">🗺 Ballachulish Hotel</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Ballachulish+Bridge+Loch+Linnhe+viewpoint" target="_blank">🗺 Ballachulish Bridge</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Ballachulish+Hotel+Loch+Linnhe" target="_blank" rel="noopener noreferrer">🗺 Ballachulish Hotel</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Ballachulish+Bridge+Loch+Linnhe+viewpoint" target="_blank" rel="noopener noreferrer">🗺 Ballachulish Bridge</a>
       </div>
     </div>
     <div class="event type-photo">
@@ -716,9 +720,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Glenfinnan Viaduct — the Harry Potter bridge</div>
         <div class="event-desc">Park at NTS Glenfinnan Visitor Centre, 15 min uphill walk to the viewpoint above the curve. Classic shot: 21-arch curve with Loch Shiel and mountains behind. Check Jacobite steam train timetable — if it passes while you're there it's spectacular.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Glenfinnan+Viaduct+viewpoint+Lochaber" target="_blank">🗺 Glenfinnan Viaduct Viewpoint</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Glenfinnan+Monument+Loch+Shiel+NTS" target="_blank">🗺 Glenfinnan Monument &amp; Loch Shiel</a>
-        <a class="map-link" href="https://www.westcoastrailways.co.uk/jacobite" target="_blank">🎟 Jacobite train timetable</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Glenfinnan+Viaduct+viewpoint+Lochaber" target="_blank" rel="noopener noreferrer">🗺 Glenfinnan Viaduct Viewpoint</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Glenfinnan+Monument+Loch+Shiel+NTS" target="_blank" rel="noopener noreferrer">🗺 Glenfinnan Monument &amp; Loch Shiel</a>
+        <a class="map-link" href="https://www.westcoastrailways.co.uk/jacobite" target="_blank" rel="noopener noreferrer">🎟 Jacobite train timetable</a>
         <div class="tags"><span class="tag tag-photo">Iconic viaduct shot</span><span class="tag tag-gem">Jacobite steam train</span></div>
       </div>
     </div>
@@ -727,9 +731,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">A87 — Five Sisters of Kintail</div>
         <div class="event-desc">One of Europe's finest driving roads. Five peaks line the road like a guard of honour. Pull over at Morvich or Loch Duich laybys. Cluanie Inn for a quick pint if time allows.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Five+Sisters+of+Kintail+viewpoint+A87+Glen+Shiel" target="_blank">🗺 Five Sisters of Kintail</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Loch+Duich+viewpoint+Dornie+A87" target="_blank">🗺 Loch Duich Viewpoint</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Eilean+Donan+Castle+Dornie" target="_blank">🗺 Eilean Donan Castle (en route)</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Five+Sisters+of+Kintail+viewpoint+A87+Glen+Shiel" target="_blank" rel="noopener noreferrer">🗺 Five Sisters of Kintail</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Loch+Duich+viewpoint+Dornie+A87" target="_blank" rel="noopener noreferrer">🗺 Loch Duich Viewpoint</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Eilean+Donan+Castle+Dornie" target="_blank" rel="noopener noreferrer">🗺 Eilean Donan Castle (en route)</a>
       </div>
     </div>
     <div class="event type-sleep">
@@ -737,11 +741,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Arrive Isle of Skye — Check In Portree</div>
         <div class="event-desc">Check in to Portree Independent Hostel, The Green, Portree IV51 9BT — booked ✓. Cross the Skye Bridge at dusk. Dinner: The Isles Inn right on Portree harbour for local seafood. The harbour at night is beautifully lit.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Skye+Bridge+Kyle+of+Lochalsh" target="_blank">🗺 Skye Bridge</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Portree+Harbour+Isle+of+Skye" target="_blank">🗺 Portree Harbour, Skye</a>
-        <a class="map-link" href="https://www.google.com/maps/search/The+Isles+Inn+Portree+Isle+of+Skye" target="_blank">🗺 The Isles Inn, Portree</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Sligachan+Hotel+Isle+of+Skye" target="_blank">🗺 Sligachan Hotel</a>
-        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Portree+Independent+Hostel+The+Green+Portree+IV51+9BT" target="_blank">🗺 Portree Independent Hostel</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Skye+Bridge+Kyle+of+Lochalsh" target="_blank" rel="noopener noreferrer">🗺 Skye Bridge</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Portree+Harbour+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Portree Harbour, Skye</a>
+        <a class="map-link" href="https://www.google.com/maps/search/The+Isles+Inn+Portree+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 The Isles Inn, Portree</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Sligachan+Hotel+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Sligachan Hotel</a>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Portree+Independent+Hostel+The+Green+Portree+IV51+9BT" target="_blank" rel="noopener noreferrer">🗺 Portree Independent Hostel</a>
       </div>
     </div>
   </div>
@@ -773,7 +777,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Sunrise — Sligachan Old Bridge</div>
         <div class="event-desc">Skye's most iconic photo — ancient stone bridge reflected in the river, Black Cuillin mountains behind. Drive from Portree (~15 mins). Arrive before 07:00 for the best light before other visitors arrive.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Sligachan+Old+Bridge+Isle+of+Skye" target="_blank">🗺 Sligachan Old Bridge</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Sligachan+Old+Bridge+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Sligachan Old Bridge</a>
         <div class="tags"><span class="tag tag-photo">Skye's #1 sunrise shot</span></div>
       </div>
     </div>
@@ -782,7 +786,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Fairy Pools — turquoise cascades</div>
         <div class="event-desc">Crystal-clear pools at the foot of the Cuillins in Glen Brittle. 30–40 min walk from car park. Go before 10am to beat crowds. Wild swimming possible.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Fairy+Pools+Glen+Brittle+Isle+of+Skye" target="_blank">🗺 Fairy Pools, Glen Brittle</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Fairy+Pools+Glen+Brittle+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Fairy Pools, Glen Brittle</a>
         <div class="tags"><span class="tag tag-photo">Turquoise pool photography</span><span class="tag tag-hike">40 min easy walk</span></div>
       </div>
     </div>
@@ -791,7 +795,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">The Quiraing — otherworldly pinnacle landscape</div>
         <div class="event-desc">Drive the Trotternish Peninsula. Jaw-dropping viewpoint from the single-track car park road. Full walk is 2.5 hrs return if time allows.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Quiraing+viewpoint+Trotternish+Isle+of+Skye" target="_blank">🗺 The Quiraing, Trotternish</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Quiraing+viewpoint+Trotternish+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 The Quiraing, Trotternish</a>
         <div class="tags"><span class="tag tag-photo">Pinnacle landscape</span></div>
       </div>
     </div>
@@ -800,8 +804,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Kilt Rock &amp; Mealt Falls</div>
         <div class="event-desc">Basalt sea cliff 60m to the sea with waterfall off the edge. Free roadside viewpoint. Staffin community café for coffee.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Kilt+Rock+Mealt+Falls+viewpoint+Skye" target="_blank">🗺 Kilt Rock &amp; Mealt Falls</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Staffin+cafe+Isle+of+Skye" target="_blank">🗺 Staffin Café</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Kilt+Rock+Mealt+Falls+viewpoint+Skye" target="_blank" rel="noopener noreferrer">🗺 Kilt Rock &amp; Mealt Falls</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Staffin+cafe+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Staffin Café</a>
       </div>
     </div>
   </div>
@@ -812,8 +816,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Drive to Uig Ferry Terminal — arrive 12:30</div>
         <div class="event-desc">~40 mins from Portree. Arrive by 13:15 for the 14:00 CalMac sailing. Check-in closes 13:15 — be there early. Uig Bakery near the port for takeaway rolls and coffee for the crossing.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Uig+Ferry+Terminal+Skye+CalMac" target="_blank">🗺 Uig Ferry Terminal</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Uig+Bakery+Isle+of+Skye" target="_blank">🗺 Uig Bakery</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Uig+Ferry+Terminal+Skye+CalMac" target="_blank" rel="noopener noreferrer">🗺 Uig Ferry Terminal</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Uig+Bakery+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Uig Bakery</a>
       </div>
     </div>
     <div class="event type-highlight">
@@ -821,8 +825,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Ferry: Uig → Tarbert, Harris (~3 hrs)</div>
         <div class="event-desc">Stand on deck — dolphins, porpoises, possibly minke whales. The approach into East Loch Tarbert is one of the most beautiful ferry arrivals in Britain. Ferry café for hot drinks.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Uig+Ferry+Terminal+Skye" target="_blank">🗺 Uig Ferry Terminal</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Tarbert+Ferry+Terminal+Harris+Outer+Hebrides" target="_blank">🗺 Tarbert Ferry Terminal, Harris</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Uig+Ferry+Terminal+Skye" target="_blank" rel="noopener noreferrer">🗺 Uig Ferry Terminal</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Tarbert+Ferry+Terminal+Harris+Outer+Hebrides" target="_blank" rel="noopener noreferrer">🗺 Tarbert Ferry Terminal, Harris</a>
         <div class="tags"><span class="tag tag-gem">Wildlife on deck</span></div>
       </div>
     </div>
@@ -831,8 +835,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Tarbert, Harris — Harris Tweed &amp; supplies</div>
         <div class="event-desc">Harris Tweed &amp; Knitwear shop right by the ferry. Stock up at the Co-op. This is your last reliable shop before Luskentyre.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Tarbert+Harris+Outer+Hebrides+village" target="_blank">🗺 Tarbert, Harris</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Harris+Tweed+Knitwear+shop+Tarbert+Harris" target="_blank">🗺 Harris Tweed Shop</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Tarbert+Harris+Outer+Hebrides+village" target="_blank" rel="noopener noreferrer">🗺 Tarbert, Harris</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Harris+Tweed+Knitwear+shop+Tarbert+Harris" target="_blank" rel="noopener noreferrer">🗺 Harris Tweed Shop</a>
       </div>
     </div>
     <div class="event type-photo">
@@ -840,7 +844,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Luskentyre Beach — finest beach in Britain</div>
         <div class="event-desc">20 mins west from Tarbert (B887). White sand, Caribbean-turquoise water, Harris mountains behind — almost always empty. Sunset here is transcendent. Walk down to the tidal estuary for the best photographs.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Luskentyre+Beach+Isle+of+Harris" target="_blank">🗺 Luskentyre Beach, Harris</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Luskentyre+Beach+Isle+of+Harris" target="_blank" rel="noopener noreferrer">🗺 Luskentyre Beach, Harris</a>
         <div class="tags"><span class="tag tag-photo">Caribbean-blue beach sunset</span><span class="tag tag-gem">Often near-empty</span></div>
       </div>
     </div>
@@ -849,9 +853,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Overnight on Harris — dinner</div>
         <div class="event-desc">BOOKED ✓ — Hotel Hebrides, Pier Road, Tarbert HS3 3DG. The Anchorage Restaurant for dinner (reserve a table when you arrive or call ahead). Hotel Hebrides bar for a dram. If fishermen are selling at Tarbert pier, fresh langoustines are unmissable.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Anchorage+Restaurant+Tarbert+Harris" target="_blank">🗺 The Anchorage Restaurant</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Harris+Hotel+Tarbert" target="_blank">🗺 Harris Hotel, Tarbert</a>
-        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Hotel+Hebrides+Pier+Road+Tarbert+HS3+3DG" target="_blank">🗺 Harris Accommodation</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Anchorage+Restaurant+Tarbert+Harris" target="_blank" rel="noopener noreferrer">🗺 The Anchorage Restaurant</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Harris+Hotel+Tarbert" target="_blank" rel="noopener noreferrer">🗺 Harris Hotel, Tarbert</a>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Hotel+Hebrides+Pier+Road+Tarbert+HS3+3DG" target="_blank" rel="noopener noreferrer">🗺 Harris Accommodation</a>
       </div>
     </div>
   </div>
@@ -882,7 +886,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Sunrise — Scarista Beach</div>
         <div class="event-desc">Just south of Luskentyre — one of Britain's most remote and beautiful beaches, completely empty at dawn.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Scarista+Beach+Isle+of+Harris" target="_blank">🗺 Scarista Beach, Harris</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Scarista+Beach+Isle+of+Harris" target="_blank" rel="noopener noreferrer">🗺 Scarista Beach, Harris</a>
         <div class="tags"><span class="tag tag-photo">Empty beach at sunrise</span><span class="tag tag-gem">Rarely visited</span></div>
       </div>
     </div>
@@ -891,8 +895,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">The Golden Road — South Harris coastal drive</div>
         <div class="event-desc">B887 single-track along the east coast — 3-billion-year-old Lewisian gneiss rocks, hidden sea lochs, fishing villages of Finsbay, Geocrab, Flodabay. Allow 1.5 hrs for the full loop.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Golden+Road+South+Harris+B887+Hebrides" target="_blank">🗺 Golden Road, South Harris</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Finsbay+Harris+Outer+Hebrides" target="_blank">🗺 Finsbay Village</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Golden+Road+South+Harris+B887+Hebrides" target="_blank" rel="noopener noreferrer">🗺 Golden Road, South Harris</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Finsbay+Harris+Outer+Hebrides" target="_blank" rel="noopener noreferrer">🗺 Finsbay Village</a>
         <div class="tags"><span class="tag tag-drive">Single-track coastal road</span><span class="tag tag-gem">Hidden fishing villages</span></div>
       </div>
     </div>
@@ -901,7 +905,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Breakfast — Harris Hotel, Tarbert. Fuel up.</div>
         <div class="event-desc">Full Scottish breakfast at the Harris Hotel. Stock up on snacks. Fuel up here — very few petrol stations on Lewis.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Harris+Hotel+Tarbert+Isle+of+Harris" target="_blank">🗺 Harris Hotel, Tarbert</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Harris+Hotel+Tarbert+Isle+of+Harris" target="_blank" rel="noopener noreferrer">🗺 Harris Hotel, Tarbert</a>
       </div>
     </div>
     <div class="event type-gem">
@@ -909,8 +913,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Callanish Standing Stones — older than Stonehenge</div>
         <div class="event-desc">Detour off A859 to this 5,000-year-old stone circle on Lewis. More atmospheric than Stonehenge and far fewer visitors. Free, always open. Allow 45 mins.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Callanish+Standing+Stones+Isle+of+Lewis" target="_blank">🗺 Callanish Standing Stones</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Callanish+Visitor+Centre+Lewis" target="_blank">🗺 Callanish Visitor Centre</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Callanish+Standing+Stones+Isle+of+Lewis" target="_blank" rel="noopener noreferrer">🗺 Callanish Standing Stones</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Callanish+Visitor+Centre+Lewis" target="_blank" rel="noopener noreferrer">🗺 Callanish Visitor Centre</a>
         <div class="tags"><span class="tag tag-gem">5,000-year-old ancient site · Free</span></div>
       </div>
     </div>
@@ -919,8 +923,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Stornoway Ferry Terminal — 13:00 sailing</div>
         <div class="event-desc">~1 hr from Callanish to Stornoway. Be there by 13:15 (check-in closes). Ferry departs 14:00, arrives Ullapool 16:40. Ferry café does fish &amp; chips — this is lunch. BOOKED ✓ · 4 passengers + car.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Stornoway+CalMac+Ferry+Terminal+Lewis" target="_blank">🗺 Stornoway Ferry Terminal</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Stornoway+Ferry+Terminal+Lewis" target="_blank">🗺 Stornoway Ferry Terminal</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Stornoway+CalMac+Ferry+Terminal+Lewis" target="_blank" rel="noopener noreferrer">🗺 Stornoway Ferry Terminal</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Stornoway+Ferry+Terminal+Lewis" target="_blank" rel="noopener noreferrer">🗺 Stornoway Ferry Terminal</a>
       </div>
     </div>
     <div class="event type-gem">
@@ -928,8 +932,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Ullapool — Highland village stop</div>
         <div class="event-desc">White-painted cottages on Loch Broom. Walk the seafront. Arch Inn for a pint of local Ullapool Brewing Co beer. Worth 30 mins.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Ullapool+village+Loch+Broom+Highland" target="_blank">🗺 Ullapool, Loch Broom</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Arch+Inn+Ullapool+pub" target="_blank">🗺 Arch Inn, Ullapool</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Ullapool+village+Loch+Broom+Highland" target="_blank" rel="noopener noreferrer">🗺 Ullapool, Loch Broom</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Arch+Inn+Ullapool+pub" target="_blank" rel="noopener noreferrer">🗺 Arch Inn, Ullapool</a>
       </div>
     </div>
     <div class="event type-photo">
@@ -937,7 +941,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Corrieshalloch Gorge — box canyon &amp; waterfall</div>
         <div class="event-desc">60m deep canyon with Falls of Measach and a Victorian suspension bridge directly over the gorge. Free NTS site, 20 min stop. Spectacular in any weather.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Corrieshalloch+Gorge+Falls+of+Measach+NTS" target="_blank">🗺 Corrieshalloch Gorge</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Corrieshalloch+Gorge+Falls+of+Measach+NTS" target="_blank" rel="noopener noreferrer">🗺 Corrieshalloch Gorge</a>
         <div class="tags"><span class="tag tag-gem">Victorian suspension bridge · Free</span></div>
       </div>
     </div>
@@ -946,10 +950,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Arrive Inverness — dinner &amp; overnight</div>
         <div class="event-desc">BOOKED ✓ — Waverley Inn Holiday Apartments, 1 Fraser Street IV1 1DW. The Kitchen Restaurant for dinner. Hootananny pub on Church Street for live Celtic music.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/The+Kitchen+Restaurant+Inverness+Academy+Street" target="_blank">🗺 The Kitchen, Inverness</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Hootananny+pub+Inverness+Church+Street" target="_blank">🗺 Hootananny Pub</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Rocpool+Restaurant+Inverness" target="_blank">🗺 Rocpool Restaurant</a>
-        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Waverley+Inn+Holiday+Apartments+1+Fraser+Street+Inverness+IV1+1DW" target="_blank">🗺 Waverley Inn, Inverness</a>
+        <a class="map-link" href="https://www.google.com/maps/search/The+Kitchen+Restaurant+Inverness+Academy+Street" target="_blank" rel="noopener noreferrer">🗺 The Kitchen, Inverness</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Hootananny+pub+Inverness+Church+Street" target="_blank" rel="noopener noreferrer">🗺 Hootananny Pub</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Rocpool+Restaurant+Inverness" target="_blank" rel="noopener noreferrer">🗺 Rocpool Restaurant</a>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Waverley+Inn+Holiday+Apartments+1+Fraser+Street+Inverness+IV1+1DW" target="_blank" rel="noopener noreferrer">🗺 Waverley Inn, Inverness</a>
       </div>
     </div>
   </div>
@@ -980,9 +984,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Inverness River Walk &amp; breakfast</div>
         <div class="event-desc">River Ness walk past Victorian suspension bridges, Inverness Castle above. Velocity Café on Crown Avenue — one of the best independent coffee shops in Scotland.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/River+Ness+walk+Inverness+suspension+bridge" target="_blank">🗺 River Ness Walk</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Velocity+Cafe+Inverness+Crown+Avenue" target="_blank">🗺 Velocity Café, Inverness</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Inverness+Castle+Highland" target="_blank">🗺 Inverness Castle</a>
+        <a class="map-link" href="https://www.google.com/maps/search/River+Ness+walk+Inverness+suspension+bridge" target="_blank" rel="noopener noreferrer">🗺 River Ness Walk</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Velocity+Cafe+Inverness+Crown+Avenue" target="_blank" rel="noopener noreferrer">🗺 Velocity Café, Inverness</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Inverness+Castle+Highland" target="_blank" rel="noopener noreferrer">🗺 Inverness Castle</a>
       </div>
     </div>
     <div class="event type-gem">
@@ -990,8 +994,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Culloden Battlefield — Scotland's most powerful site</div>
         <div class="event-desc">5 miles east of Inverness, 15 min drive. 1746 battlefield, clan grave markers on a windswept moor. NTS visitor centre is outstanding. Allow 45 mins–1 hr.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Culloden+Battlefield+NTS+Inverness" target="_blank">🗺 Culloden Battlefield</a>
-        <a class="map-link" href="https://www.nts.org.uk/visit/places/culloden" target="_blank">🎟 Book: nts.org.uk Culloden</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Culloden+Battlefield+NTS+Inverness" target="_blank" rel="noopener noreferrer">🗺 Culloden Battlefield</a>
+        <a class="map-link" href="https://www.nts.org.uk/visit/places/culloden" target="_blank" rel="noopener noreferrer">🎟 Book: nts.org.uk Culloden</a>
         <div class="tags"><span class="tag tag-gem">1746 Jacobite battlefield</span></div>
       </div>
     </div>
@@ -1000,9 +1004,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Urquhart Castle &amp; Loch Ness</div>
         <div class="event-desc">Ruined Highland fortress on a promontory in Loch Ness. Allow 1 hour. Loch Ness Lookout layby for classic views. Castle café for lunch.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Urquhart+Castle+Loch+Ness+Drumnadrochit" target="_blank">🗺 Urquhart Castle, Loch Ness</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Loch+Ness+viewpoint+layby+A82" target="_blank">🗺 Loch Ness Viewpoint</a>
-        <a class="map-link" href="https://www.historicenvironment.scot/visit-a-place/places/urquhart-castle" target="_blank">🎟 Book Urquhart Castle tickets</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Urquhart+Castle+Loch+Ness+Drumnadrochit" target="_blank" rel="noopener noreferrer">🗺 Urquhart Castle, Loch Ness</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Loch+Ness+viewpoint+layby+A82" target="_blank" rel="noopener noreferrer">🗺 Loch Ness Viewpoint</a>
+        <a class="map-link" href="https://www.historicenvironment.scot/visit-a-place/places/urquhart-castle" target="_blank" rel="noopener noreferrer">🎟 Book Urquhart Castle tickets</a>
         <div class="tags"><span class="tag tag-photo">Castle &amp; loch panorama</span></div>
       </div>
     </div>
@@ -1011,7 +1015,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Rest and Be Thankful — mountain pass viewpoint</div>
         <div class="event-desc">A83 near Arrochar — classic Scottish mountain pass with dramatic views down the glen. 10 min stop.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Rest+and+Be+Thankful+viewpoint+A83+Arrochar" target="_blank">🗺 Rest &amp; Be Thankful Pass</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Rest+and+Be+Thankful+viewpoint+A83+Arrochar" target="_blank" rel="noopener noreferrer">🗺 Rest &amp; Be Thankful Pass</a>
       </div>
     </div>
     <div class="event type-photo">
@@ -1019,7 +1023,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Luss Village — Loch Lomond</div>
         <div class="event-desc">Postcard-perfect village on the western shore of Loch Lomond. Sandy beach, stone cottages, loch views. 20 min stop.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Luss+Village+Loch+Lomond+Trossachs" target="_blank">🗺 Luss Village, Loch Lomond</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Luss+Village+Loch+Lomond+Trossachs" target="_blank" rel="noopener noreferrer">🗺 Luss Village, Loch Lomond</a>
       </div>
     </div>
     <div class="event type-food">
@@ -1027,9 +1031,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Dinner Glasgow — Ox &amp; Finch</div>
         <div class="event-desc">Ox &amp; Finch on Sauchiehall Street — perfect for groups with sharing plates and outstanding Scottish produce. Book ahead. Alternative: The Gannet on Finneston Street.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Ox+and+Finch+Glasgow+Sauchiehall+Street" target="_blank">🗺 Ox &amp; Finch, Glasgow</a>
-        <a class="map-link" href="https://www.oxandfinch.com" target="_blank">🎟 Reserve: oxandfinch.com</a>
-        <a class="map-link" href="https://www.google.com/maps/search/The+Gannet+Restaurant+Finneston+Glasgow" target="_blank">🗺 The Gannet, Finneston</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Ox+and+Finch+Glasgow+Sauchiehall+Street" target="_blank" rel="noopener noreferrer">🗺 Ox &amp; Finch, Glasgow</a>
+        <a class="map-link" href="https://www.oxandfinch.com" target="_blank" rel="noopener noreferrer">🎟 Reserve: oxandfinch.com</a>
+        <a class="map-link" href="https://www.google.com/maps/search/The+Gannet+Restaurant+Finneston+Glasgow" target="_blank" rel="noopener noreferrer">🗺 The Gannet, Finneston</a>
       </div>
     </div>
     <div class="event type-gem">
@@ -1037,9 +1041,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Glasgow nightlife — Ashton Lane &amp; Finneston</div>
         <div class="event-desc">Ashton Lane — cobbled alley with Brel, The Grosvenor. Tennent's Bar on Byres Road is the classic Glasgow pub. Finneston strip for cocktail bars.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Ashton+Lane+Glasgow+West+End+bars" target="_blank">🗺 Ashton Lane, Glasgow</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Tennent%27s+Bar+Glasgow+Byres+Road" target="_blank">🗺 Tennent's Bar, Byres Road</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Finneston+cocktail+bars+Glasgow+Argyle+Street" target="_blank">🗺 Finneston, Glasgow</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Ashton+Lane+Glasgow+West+End+bars" target="_blank" rel="noopener noreferrer">🗺 Ashton Lane, Glasgow</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Tennent%27s+Bar+Glasgow+Byres+Road" target="_blank" rel="noopener noreferrer">🗺 Tennent's Bar, Byres Road</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Finneston+cocktail+bars+Glasgow+Argyle+Street" target="_blank" rel="noopener noreferrer">🗺 Finneston, Glasgow</a>
       </div>
     </div>
     <div class="event type-drive">
@@ -1047,8 +1051,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Depart Glasgow — overnight drive to Chesterfield</div>
         <div class="event-desc">~220 miles, ~3.5 hours. M74 south, join M6 at Carlisle, M1 south to J29, A617 to Chesterfield. Rotate drivers every 90 mins. Arrive ~02:30–03:00 at Stanley's.</div>
-        <a class="map-link" href="https://www.google.com/maps/dir/Glasgow/Chesterfield+UK" target="_blank">🗺 Glasgow → Chesterfield route</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Stafford+Services+M6" target="_blank">🗺 Stafford Services M6 (3am coffee)</a>
+        <a class="map-link" href="https://www.google.com/maps/dir/Glasgow/Chesterfield+UK" target="_blank" rel="noopener noreferrer">🗺 Glasgow → Chesterfield route</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Stafford+Services+M6" target="_blank" rel="noopener noreferrer">🗺 Stafford Services M6 (3am coffee)</a>
         <div class="tags"><span class="tag tag-drive">M74 → M6 → M1 → A617</span></div>
       </div>
     </div>
@@ -1077,7 +1081,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Arrive Chesterfield — Stanley's home</div>
         <div class="event-desc">Arrive at Stanley's home early Saturday morning after the overnight drive from Glasgow. Sleep in and recover from the week.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+Derbyshire" target="_blank">🗺 Chesterfield, Derbyshire</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+Derbyshire" target="_blank" rel="noopener noreferrer">🗺 Chesterfield, Derbyshire</a>
       </div>
     </div>
     <div class="event type-food">
@@ -1085,8 +1089,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Chesterfield Saturday Market &amp; Crooked Spire</div>
         <div class="event-desc">Running since 1143 — one of England's finest traditional markets. The Crooked Spire of St Mary's Church is Chesterfield's icon. Great for fresh produce, street food and local goods.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+Market+Hall+Derbyshire" target="_blank">🗺 Chesterfield Market</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Crooked+Spire+St+Mary%27s+Church+Chesterfield" target="_blank">🗺 Crooked Spire Church</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+Market+Hall+Derbyshire" target="_blank" rel="noopener noreferrer">🗺 Chesterfield Market</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Crooked+Spire+St+Mary%27s+Church+Chesterfield" target="_blank" rel="noopener noreferrer">🗺 Crooked Spire Church</a>
         <div class="tags"><span class="tag tag-gem">Market since 1143</span></div>
       </div>
     </div>
@@ -1095,10 +1099,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Optional — Chatsworth House or Stanage Edge</div>
         <div class="event-desc">Chatsworth House (15 mins drive) — one of England's finest stately homes with spectacular gardens. Stanage Edge near Hathersage — gritstone escarpment with dramatic views, perfect for photography and a short walk. Monsal Head viaduct viewpoint is also stunning.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Chatsworth+House+Derbyshire+Peak+District" target="_blank">🗺 Chatsworth House</a>
-        <a class="map-link" href="https://www.chatsworth.org" target="_blank">🎟 Chatsworth tickets: chatsworth.org</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Stanage+Edge+Hathersage+Peak+District+gritstone" target="_blank">🗺 Stanage Edge</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Monsal+Head+viewpoint+viaduct+Peak+District" target="_blank">🗺 Monsal Head Viewpoint</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Chatsworth+House+Derbyshire+Peak+District" target="_blank" rel="noopener noreferrer">🗺 Chatsworth House</a>
+        <a class="map-link" href="https://www.chatsworth.org" target="_blank" rel="noopener noreferrer">🎟 Chatsworth tickets: chatsworth.org</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Stanage+Edge+Hathersage+Peak+District+gritstone" target="_blank" rel="noopener noreferrer">🗺 Stanage Edge</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Monsal+Head+viewpoint+viaduct+Peak+District" target="_blank" rel="noopener noreferrer">🗺 Monsal Head Viewpoint</a>
         <div class="tags"><span class="tag tag-photo">Stanage Edge photography</span><span class="tag tag-gem">Chatsworth House grounds</span></div>
       </div>
     </div>
@@ -1107,8 +1111,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Dinner — final evening together</div>
         <div class="event-desc">Casa Hotel on Lockoford Lane has one of Chesterfield's best restaurants. The Devonshire Arms in Middle Handley is a superb country pub with excellent food.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Casa+Hotel+Chesterfield+restaurant" target="_blank">🗺 Casa Hotel, Chesterfield</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Devonshire+Arms+Middle+Handley+Chesterfield" target="_blank">🗺 Devonshire Arms</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Casa+Hotel+Chesterfield+restaurant" target="_blank" rel="noopener noreferrer">🗺 Casa Hotel, Chesterfield</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Devonshire+Arms+Middle+Handley+Chesterfield" target="_blank" rel="noopener noreferrer">🗺 Devonshire Arms</a>
       </div>
     </div>
   </div>
@@ -1138,7 +1142,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Rest, photos, memories</div>
         <div class="event-desc">Use the day to recover and go through photographs together. Chesterfield town centre is perfect for a relaxed afternoon wander.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+town+centre+Derbyshire" target="_blank">🗺 Chesterfield Town Centre</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Chesterfield+town+centre+Derbyshire" target="_blank" rel="noopener noreferrer">🗺 Chesterfield Town Centre</a>
       </div>
     </div>
     <div class="event type-food">
@@ -1146,7 +1150,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">Early dinner before the drive</div>
         <div class="event-desc">The Sandpiper at Ault Hucknall — a historic country pub with excellent food. Or the Olde House in Chesterfield. Fuel up and pack snacks for the drive.</div>
-        <a class="map-link" href="https://www.google.com/maps/search/The+Sandpiper+Ault+Hucknall+Chesterfield" target="_blank">🗺 The Sandpiper, Ault Hucknall</a>
+        <a class="map-link" href="https://www.google.com/maps/search/The+Sandpiper+Ault+Hucknall+Chesterfield" target="_blank" rel="noopener noreferrer">🗺 The Sandpiper, Ault Hucknall</a>
       </div>
     </div>
     <div class="event type-drive">
@@ -1154,8 +1158,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="event-body"><div class="event-dot"></div>
         <div class="event-title">A617 east → M1 south → London</div>
         <div class="event-desc">A617 to J29 of the M1, then straight south. M1 is quieter on Sunday evenings. Leicester Forest East Services is a good coffee stop. Allow 2.5–3 hours. Arrive London ~20:30–21:00.</div>
-        <a class="map-link" href="https://www.google.com/maps/dir/Chesterfield/London" target="_blank">🗺 Chesterfield → London route</a>
-        <a class="map-link" href="https://www.google.com/maps/search/Leicester+Forest+East+Services+M1" target="_blank">🗺 Leicester Forest East Services</a>
+        <a class="map-link" href="https://www.google.com/maps/dir/Chesterfield/London" target="_blank" rel="noopener noreferrer">🗺 Chesterfield → London route</a>
+        <a class="map-link" href="https://www.google.com/maps/search/Leicester+Forest+East+Services+M1" target="_blank" rel="noopener noreferrer">🗺 Leicester Forest East Services</a>
         <div class="tags"><span class="tag tag-drive">M1 south — easy Sunday run</span></div>
       </div>
     </div>
@@ -1297,140 +1301,140 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="photo-spot-name">Calton Hill</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Mon 20 Jul</span></div>
       <div class="photo-spot-tip">360° city panorama — castle, Arthur's Seat, Firth of Forth. Best in morning light. Free, always open.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Calton+Hill+Edinburgh+viewpoint" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Calton+Hill+Edinburgh+viewpoint" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Victoria Street</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Mon 20 Jul</span></div>
       <div class="photo-spot-tip">Curved, colourful cobbled street — the real Diagon Alley. Shoot from the top looking down for best composition.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Victoria+Street+Edinburgh+Old+Town" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Victoria+Street+Edinburgh+Old+Town" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Arthur's Seat Summit</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Mon 20 Jul</span></div>
       <div class="photo-spot-tip">251m volcanic summit — full city and coastline panorama. Walk via Salisbury Crags for dramatic ridgeline shots.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Arthur%27s+Seat+Holyrood+Park+Edinburgh" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Arthur%27s+Seat+Holyrood+Park+Edinburgh" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Dean Village Gorge</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Tue 21 Jul</span></div>
       <div class="photo-spot-tip">Medieval stone bridge over the Water of Leith gorge. Almost no tourists at 8am. Reflections in the water at dawn.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Dean+Village+Water+of+Leith+Edinburgh" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Dean+Village+Water+of+Leith+Edinburgh" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Rannoch Moor</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Tue 21 Jul</span></div>
       <div class="photo-spot-tip">Pull over anywhere on the A82. Vast, treeless bog stretching to every horizon — hauntingly beautiful in any weather or light.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Rannoch+Moor+A82+Highland+Scotland" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Rannoch+Moor+A82+Highland+Scotland" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Three Sisters, Glencoe</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Tue 21 Jul</span></div>
       <div class="photo-spot-tip">Three massive buttresses dominating the valley floor. NTS Visitor Centre layby for the classic shot. Dramatic in any conditions.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Glencoe+Three+Sisters+viewpoint+A82" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Glencoe+Three+Sisters+viewpoint+A82" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Glen Etive / Loch Etive</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Tue 21 Jul</span></div>
       <div class="photo-spot-tip">The Skyfall road. Drive to the loch at the end for the mountain reflection shot — Buachaille Etive Mòr perfectly mirrored.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Glen+Etive+Loch+Etive+Argyll+Scotland" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Glen+Etive+Loch+Etive+Argyll+Scotland" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Glenfinnan Viaduct</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Tue 21 Jul</span></div>
       <div class="photo-spot-tip">Walk 15 mins uphill from the NTS car park to the viewpoint above the 21-arch curve. Shoot from above, looking along the curve with Loch Shiel behind.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Glenfinnan+Viaduct+viewpoint+Lochaber" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Glenfinnan+Viaduct+viewpoint+Lochaber" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Five Sisters of Kintail</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Tue 21 Jul</span></div>
       <div class="photo-spot-tip">Five Munros lining the A87 like a guard of honour. Pull into the Morvich or Loch Duich laybys for unobstructed shots of the full ridge.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Five+Sisters+of+Kintail+Glen+Shiel+A87" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Five+Sisters+of+Kintail+Glen+Shiel+A87" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Sligachan Old Bridge</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Wed 22 Jul</span></div>
       <div class="photo-spot-tip">Skye's most iconic shot — ancient stone bridge reflected in the river with Black Cuillin mountains behind. 07:00 sunrise is magic. Wide angle works best.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Sligachan+Old+Bridge+Isle+of+Skye" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Sligachan+Old+Bridge+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Fairy Pools</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Wed 22 Jul</span></div>
       <div class="photo-spot-tip">Crystal turquoise pools cascading down from the Cuillins. Long exposure on the falls. Go before 10am — pools reflect sky when the crowds aren't churning the water.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Fairy+Pools+Glen+Brittle+Isle+of+Skye" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Fairy+Pools+Glen+Brittle+Isle+of+Skye" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">The Quiraing</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Wed 22 Jul</span></div>
       <div class="photo-spot-tip">Otherworldly pinnacles and hidden plateaus on the Trotternish ridge. The road itself gives jaw-dropping views. Walk 10 mins in for the hidden table plateau.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Quiraing+viewpoint+Trotternish+Skye" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Quiraing+viewpoint+Trotternish+Skye" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Kilt Rock &amp; Mealt Falls</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Wed 22 Jul</span></div>
       <div class="photo-spot-tip">Basalt sea cliff plunging 60m to the sea, with the falls pouring off the edge beside it. Shoot wide to capture both cliff and waterfall in one frame.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Kilt+Rock+Mealt+Falls+Staffin+Skye" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Kilt+Rock+Mealt+Falls+Staffin+Skye" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Luskentyre Beach</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Wed 22 Jul · Sunset</span></div>
       <div class="photo-spot-tip">White sand, Caribbean-turquoise shallows, Harris mountains behind. Walk down to the tidal estuary — the sand patterns and reflections at low tide are extraordinary. Sunset turns everything gold.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Luskentyre+Beach+Isle+of+Harris" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Luskentyre+Beach+Isle+of+Harris" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Scarista Beach</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Thu 23 Jul · Sunrise</span></div>
       <div class="photo-spot-tip">Even more remote than Luskentyre. Empty at dawn. The sunrise over the bay with the Harris hills is extraordinary — arrive before first light for the full experience.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Scarista+Beach+Isle+of+Harris" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Scarista+Beach+Isle+of+Harris" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Golden Road, South Harris</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Thu 23 Jul</span></div>
       <div class="photo-spot-tip">3-billion-year-old Lewisian gneiss rock formations and hidden sea lochs along the B887. Stop at any of the fishing villages — Finsbay is especially photogenic at the water's edge.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Golden+Road+South+Harris+B887" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Golden+Road+South+Harris+B887" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Callanish Standing Stones</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Thu 23 Jul</span></div>
       <div class="photo-spot-tip">5,000-year-old stone circle on a peninsula above Loch Roag. Shoot from within the circle looking out to the loch. Early morning light rakes across the stones dramatically.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Callanish+Standing+Stones+Isle+of+Lewis" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Callanish+Standing+Stones+Isle+of+Lewis" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Corrieshalloch Gorge</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Thu 23 Jul</span></div>
       <div class="photo-spot-tip">60m deep box canyon with the Falls of Measach thundering below. Shoot from the Victorian suspension bridge looking down the gorge for scale. Spray creates natural diffusion.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Corrieshalloch+Gorge+Falls+of+Measach+NTS" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Corrieshalloch+Gorge+Falls+of+Measach+NTS" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Urquhart Castle &amp; Loch Ness</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Fri 24 Jul</span></div>
       <div class="photo-spot-tip">Ruined fortress on a peninsula in Loch Ness — the classic Highland castle shot. Best from the loch-side lower path with the tower and water in frame. Mid-morning light is ideal.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Urquhart+Castle+Loch+Ness+Drumnadrochit" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Urquhart+Castle+Loch+Ness+Drumnadrochit" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
     <div class="photo-spot">
       <div class="photo-spot-name">Monsal Head, Peak District</div>
       <div class="photo-spot-meta"><span class="photo-spot-day">Sat 25 Jul</span></div>
       <div class="photo-spot-tip">Victorian viaduct curving through a limestone gorge — one of England's most photographed views. Shoot from the Monsal Head pub terrace looking down the valley and viaduct.</div>
-      <a class="photo-spot-link" href="https://www.google.com/maps/search/Monsal+Head+viewpoint+viaduct+Peak+District" target="_blank">🗺 Open in Maps</a>
+      <a class="photo-spot-link" href="https://www.google.com/maps/search/Monsal+Head+viewpoint+viaduct+Peak+District" target="_blank" rel="noopener noreferrer">🗺 Open in Maps</a>
     </div>
 
   </div>
@@ -1620,7 +1624,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div id="sync-status-dot"></div>
       <span id="sync-status">⟳ Connecting…</span>
     </div>
-    <span style="font-size:.65rem;color:rgba(245,240,232,.5);letter-spacing:.06em;text-transform:uppercase">☁ Firebase · Live sync</span>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+      <span style="font-size:.65rem;color:rgba(245,240,232,.5);letter-spacing:.06em;text-transform:uppercase">☁ Firebase · Live sync</span>
+      <span id="firebase-rules-hint" style="display:none;font-size:.6rem;color:#e07a54">Database rules need updating — <a href="https://console.firebase.google.com" target="_blank" style="color:#e8c96a" rel="noopener noreferrer">Firebase Console →</a></span>
+    </div>
   </div>
 
   <!-- Summary cards -->
@@ -1742,7 +1749,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cream);margin-bottom:.3rem">☁ Enable Cloud Sync</div>
     <div style="font-size:.75rem;color:var(--ink3);margin-bottom:1rem">So all 4 people see the same live cost tracker — takes 3 minutes to set up.</div>
     <div style="display:flex;flex-direction:column;gap:.6rem">
-      <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">1.</span><span>Go to <a href="https://console.firebase.google.com" target="_blank" style="color:var(--loch2)">console.firebase.google.com</a> → Create a free project</span></div>
+      <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">1.</span><span>Go to <a href="https://console.firebase.google.com" target="_blank" style="color:var(--loch2)" rel="noopener noreferrer">console.firebase.google.com</a> → Create a free project</span></div>
       <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">2.</span><span>Click <strong style="color:var(--cream)">Build → Realtime Database → Create database</strong> → Start in <strong style="color:var(--cream)">test mode</strong></span></div>
       <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">3.</span><span>Copy your database URL (looks like <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">https://my-trip-xxxxx-default-rtdb.firebaseio.com</code>)</span></div>
       <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">4.</span><span>Open this HTML file in a text editor, find <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">YOUR_FIREBASE_URL_HERE</code> and replace it with your URL</span></div>
@@ -1767,7 +1774,7 @@ const CL_FB_PATH = 'checklist';
 async function clFbGet() {
   try {
     const r = await fetch(
-      `https://the-wild-north-default-rtdb.firebaseio.com/scotland_jul_2026/${CL_FB_PATH}.json`,
+      `https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app/scotland_jul_2026/${CL_FB_PATH}.json`,
       { signal: AbortSignal.timeout(5000) }
     );
     return r.ok ? r.json() : null;
@@ -1777,7 +1784,7 @@ async function clFbGet() {
 async function clFbSet(data) {
   try {
     await fetch(
-      `https://the-wild-north-default-rtdb.firebaseio.com/scotland_jul_2026/${CL_FB_PATH}.json`,
+      `https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app/scotland_jul_2026/${CL_FB_PATH}.json`,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -2282,7 +2289,7 @@ function initMap() {
         <div class="map-popup-day"  id="popup-day"></div>
         <div class="map-popup-name" id="popup-name"></div>
         <div class="map-popup-desc" id="popup-desc"></div>
-        <a class="map-popup-gmaps"  id="popup-gmaps" href="#" target="_blank">&#x1F5FA; Open in Google Maps</a>
+        <a class="map-popup-gmaps"  id="popup-gmaps" href="#" target="_blank" rel="noopener noreferrer">&#x1F5FA; Open in Google Maps</a>
       </div>
     </div>`;
 
@@ -2598,7 +2605,7 @@ async function loadWeather() {
       // Try wttr.in as backup
       try {
         const q   = encodeURIComponent(loc.name + ', UK');
-        const r2  = await fetch(`https://wttr.in/${q}?format=j1`, { signal: AbortSignal.timeout(5000) });
+        const r2  = await fetch(`https://wttr.in/${encodeURIComponent(q)}?format=j1`, { signal: AbortSignal.timeout(5000) });
         if (!r2.ok) throw new Error('wttr ' + r2.status);
         const w   = await r2.json();
         const cur = w.current_condition[0];
@@ -2666,7 +2673,7 @@ const DEFAULT_CONFIRMED = [
 // 2. Build → Realtime Database → Create database (start in test mode)
 // 3. Copy your database URL and paste it below
 // 4. Share the HTML file with your group — everyone sees the same data
-const FB_URL   = 'https://the-wild-north-default-rtdb.firebaseio.com';
+const FB_URL   = 'https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app';
 const TRIP_KEY = 'scotland_jul_2026';
 const FB_READY = FB_URL !== 'YOUR_FIREBASE_URL_HERE';
 
@@ -2691,12 +2698,16 @@ function setSyncStatus(state, msg) {
 
 // ── Firebase REST helpers ───────────────────────────────────
 async function fbGet(path) {
-  const r = await fetch(`${FB_URL}/${TRIP_KEY}/${path}.json`, { signal: AbortSignal.timeout(6000) });
+  const url = path ? `${FB_URL}/${TRIP_KEY}/${path}.json` : `${FB_URL}/${TRIP_KEY}.json`;
+  console.log('[SYNC] GET →', url);
+  const r = await fetch(url, { signal: AbortSignal.timeout(6000) });
   if (!r.ok) throw new Error('FB GET ' + r.status);
   return r.json();
 }
 async function fbSet(path, data) {
-  const r = await fetch(`${FB_URL}/${TRIP_KEY}/${path}.json`, {
+  const url = path ? `${FB_URL}/${TRIP_KEY}/${path}.json` : `${FB_URL}/${TRIP_KEY}.json`;
+  console.log('[SYNC] PUT →', url);
+  const r = await fetch(url, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -2720,21 +2731,29 @@ async function loadFromCloud() {
     return;
   }
   setSyncStatus('loading', '⟳ Connecting…');
+  console.log('[SYNC] REMOTE LOAD START → Firebase GET', FB_URL + '/' + TRIP_KEY);
   try {
     const data = await fbGet('');
+    console.log('[SYNC] REMOTE LOAD SUCCESS ✅ data:', data ? Object.keys(data) : 'null');
     if (data) {
       if (data.confirmed) confirmedCosts = data.confirmed;
       if (data.custom)    customExpenses = data.custom;
     }
     fbConnected = true;
-    setSyncStatus('saved', '☁ Synced');
+    setSyncStatus('saved', '☁ Synced to cloud ✓');
     renderCosts();
-    // Start polling for real-time updates (every 10s)
     startPolling();
   } catch(e) {
     fbConnected = false;
-    setSyncStatus('offline', '⚡ Offline — saving locally');
-    // Fall back to localStorage
+    console.error('[SYNC] REMOTE LOAD FAILED ❌', e.message || e);
+    if (e.message && e.message.includes('403')) {
+      console.error('[SYNC] 403 Forbidden — Firebase rules are blocking access.');
+      console.error('[SYNC] Fix: Go to Firebase Console → Realtime Database → Rules → set read/write to true');
+      setSyncStatus('failed', '🔴 Firebase blocked (403) — see console');
+      const hint = document.getElementById('firebase-rules-hint'); if(hint) hint.style.display='block';
+    } else {
+      setSyncStatus('offline', '⚡ Offline — saved locally');
+    }
     try {
       const sc = localStorage.getItem('trip_confirmed');
       const se = localStorage.getItem('trip_expenses');
@@ -2747,21 +2766,32 @@ async function loadFromCloud() {
 
 // ── Save to Firebase + localStorage backup ──────────────────
 async function saveToCloud() {
-  // Always save locally as backup
+  console.log('[SYNC] SAVE START — fbConnected:', fbConnected, 'cloudEnabled:', cloudEnabled);
+
+  // Always save locally as backup first
+  console.log('[SYNC] LOCAL SAVE START');
   try {
     localStorage.setItem('trip_confirmed', JSON.stringify(confirmedCosts));
     localStorage.setItem('trip_expenses',  JSON.stringify(customExpenses));
-  } catch(_) {}
+    console.log('[SYNC] LOCAL SAVE COMPLETE');
+  } catch(e) { console.warn('[SYNC] localStorage failed:', e); }
 
-  if (!fbConnected) { setSyncStatus('offline', '⚡ Saved locally'); return; }
+  if (!fbConnected) {
+    console.warn('[SYNC] Skipping remote save — fbConnected is false');
+    setSyncStatus('localonly', '⚫ Saved locally only');
+    return;
+  }
 
-  setSyncStatus('syncing', '⟳ Saving…');
+  console.log('[SYNC] REMOTE SAVE START → Firebase PUT');
+  setSyncStatus('syncing', '⟳ Saving to cloud…');
   try {
     await fbSet('', { confirmed: confirmedCosts, custom: customExpenses, updated: Date.now() });
-    setSyncStatus('saved', '☁ Saved · ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'}));
+    console.log('[SYNC] REMOTE SAVE SUCCESS ✅');
+    setSyncStatus('saved', '☁ Synced to cloud ✓ ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'}));
   } catch(e) {
     fbConnected = false;
-    setSyncStatus('offline', '⚡ Offline — saved locally');
+    console.error('[SYNC] REMOTE SAVE FAILED ❌', e.message || e);
+    setSyncStatus('failed', '🔴 Cloud sync failed — saved locally');
   }
 }
 
@@ -2853,7 +2883,7 @@ function renderSettlement(allItems) {
         actionHtml = `<div class="pp-balance-pos" style="margin-top:.4rem;font-size:.72rem">Settled ✓</div>`;
       }
       ppPanel.innerHTML += `<div class="per-person-card">
-        <div class="pp-name">${T_NAMES[t]}</div>
+        <div class="pp-name">${escapeHtml(T_NAMES[t])}</div>
         <div class="pp-row"><span class="pp-row-lbl">Paid</span><span class="pp-row-val">£${(paid[t]||0).toFixed(2)}</span></div>
         <div class="pp-row"><span class="pp-row-lbl">Share</span><span class="pp-row-val">£${(share[t]||0).toFixed(2)}</span></div>
         <div class="pp-row"><span class="pp-row-lbl">Balance</span><span class="pp-row-val" style="color:${b>0.01?'#7ab872':b<-0.01?'#e07a54':'rgba(245,240,232,.5)'}">${b>0.01?'+':''}£${b.toFixed(2)}</span></div>
@@ -2894,12 +2924,16 @@ function renderSettlement(allItems) {
 
   sPanel.innerHTML = txns.map(tx =>
     `<div class="settlement-card owes">
-      <span><strong style="color:var(--cream)">${T_NAMES[tx.from]}</strong> → <strong style="color:var(--cream)">${T_NAMES[tx.to]}</strong></span>
+      <span><strong style="color:var(--cream)">${escapeHtml(T_NAMES[tx.from])}</strong> → <strong style="color:var(--cream)">${escapeHtml(T_NAMES[tx.to])}</strong></span>
       <span class="settlement-owe-amount">£${tx.amt.toFixed(2)}</span>
     </div>`
   ).join('');
 }
 
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 function renderCosts() {
   const cb = document.getElementById('confirmed-costs-body');
   if (!cb) return;
@@ -2940,7 +2974,7 @@ function renderCosts() {
     }
 
     cb.innerHTML += `<tr style="${rowStyle}">
-      <td style="color:var(--cream)">${item.name}</td>
+      <td style="color:var(--cream)">${escapeHtml(item.name)}</td>
       <td>${catBadge(item.cat)}</td>
       <td style="font-size:.72rem;color:${paidByColor}">${paidByLabel}</td>
       <td>${splitDisplay}</td>
@@ -3280,7 +3314,7 @@ async function loadQAWeather() {
   const tripStart = new Date('2026-07-19');
   const loc = now >= tripStart ? {lat:55.9533, lon:-3.1883, name:'Edinburgh'} : {lat:51.5074, lon:-0.1278, name:'London'};
   try {
-    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&timezone=Europe%2FLondon&forecast_days=1`, {signal:AbortSignal.timeout(6000)});
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${parseFloat(loc.lat).toFixed(4)}&longitude=${parseFloat(loc.lon).toFixed(4)}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&timezone=Europe%2FLondon&forecast_days=1`, {signal:AbortSignal.timeout(6000)});
     if (!r.ok) throw new Error();
     const d = await r.json();
     const cur = d.current_weather;

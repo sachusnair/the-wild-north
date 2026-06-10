@@ -1650,7 +1650,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
       <div class="cl-item" onclick="toggle(this)">
         <div class="cl-checkbox"></div>
-        <div class="cl-text"><strong>Download offline maps — Google Maps or OS Maps</strong><span class="cl-detail">Download Scotland, Skye, Lewis &amp; Harris offline before departure. Signal is zero on the Outer Hebrides — you will need offline maps.</span></div>
+        <div class="cl-text"><strong>Download offline maps — HERE WeGo, Google Maps or OS Maps</strong><span class="cl-detail">HERE WeGo is the best for road trips — download the entire UK for free with full turn-by-turn navigation that works offline. Also download Scotland on Google Maps or OS Maps. Signal is zero on the Outer Hebrides — do this before leaving London. <a href="https://play.google.com/store/apps/details?id=com.here.app.maps" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="color:rgba(74,143,168,.9);">HERE WeGo (Android)</a> · <a href="https://apps.apple.com/gb/app/here-wego-maps-navigation/id955837609" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="color:rgba(74,143,168,.9);">HERE WeGo (iOS)</a></span></div>
         <span class="cl-date-badge">Before trip</span>
       </div>
       <div class="cl-item" onclick="toggle(this)">
@@ -2426,8 +2426,26 @@ function initMap() {
   btns.innerHTML = `
     <button onclick="zoomMap(1)" style="width:32px;height:32px;background:rgba(12,10,6,0.9);border:1px solid rgba(200,168,75,0.4);color:#c8a84b;font-size:20px;border-radius:7px;cursor:pointer;line-height:1;">+</button>
     <button onclick="zoomMap(-1)" style="width:32px;height:32px;background:rgba(12,10,6,0.9);border:1px solid rgba(200,168,75,0.4);color:#c8a84b;font-size:20px;border-radius:7px;cursor:pointer;line-height:1;">−</button>
-    <button onclick="fitMap()" style="width:32px;height:32px;background:rgba(12,10,6,0.9);border:1px solid rgba(200,168,75,0.4);color:#c8a84b;font-size:12px;border-radius:7px;cursor:pointer;line-height:1;" title="Reset">⊡</button>`;
+    <button onclick="fitMap()" style="width:32px;height:32px;background:rgba(12,10,6,0.9);border:1px solid rgba(200,168,75,0.4);color:#c8a84b;font-size:12px;border-radius:7px;cursor:pointer;line-height:1;" title="Reset">&#x229F;</button>`;
   wrap.appendChild(btns);
+
+  // Offline download button + progress bar
+  const offlineUI = document.createElement('div');
+  offlineUI.style.cssText = 'position:absolute;bottom:40px;right:12px;z-index:10;display:flex;flex-direction:column;align-items:flex-end;gap:6px;';
+  offlineUI.innerHTML = `
+    <button id="offline-dl-btn" onclick="startOfflineDownload()"
+      style="background:rgba(12,10,6,0.9);border:1px solid rgba(200,168,75,0.4);color:#c8a84b;
+             font-size:11px;font-family:inherit;border-radius:7px;cursor:pointer;padding:5px 10px;
+             white-space:nowrap;line-height:1.3;">
+      &#x2B07; Save map offline
+    </button>
+    <div id="offline-progress-wrap" style="display:none;width:160px;">
+      <div style="background:rgba(12,10,6,0.85);border:1px solid rgba(200,168,75,0.25);border-radius:5px;overflow:hidden;height:6px;">
+        <div id="offline-progress-fill" style="height:100%;width:0%;background:#c8a84b;transition:width .2s;"></div>
+      </div>
+      <div id="offline-progress-label" style="font-size:10px;color:rgba(200,168,75,0.75);margin-top:3px;text-align:right;font-family:inherit;"></div>
+    </div>`;
+  wrap.appendChild(offlineUI);
 
   // Size canvas (always match CSS size)
   function resize() {
@@ -3513,12 +3531,34 @@ function buildTripProgress() {
   }
 }
 
-// QA card weather (loads current location for summary card)
+// Day-aware weather locations keyed by trip day number
+const DAY_WEATHER_LOCS = {
+  0: { lat:51.5074, lon:-0.1278, name:'London' },
+  1: { lat:51.5074, lon:-0.1278, name:'London' },
+  2: { lat:55.9533, lon:-3.1883, name:'Edinburgh' },
+  3: { lat:57.4138, lon:-6.1955, name:'Portree, Skye' },
+  4: { lat:57.8967, lon:-6.7994, name:'Tarbert, Harris' },
+  5: { lat:57.4778, lon:-4.2247, name:'Inverness' },
+  6: { lat:55.8642, lon:-4.2518, name:'Glasgow' },
+  7: { lat:53.2355, lon:-1.4197, name:'Chesterfield' },
+  8: { lat:51.5074, lon:-0.1278, name:'London' },
+};
+
+// QA card weather — shows weather for wherever the crew actually is today
 async function loadQAWeather() {
-  // Use Edinburgh as the "today" location when before trip, else use first trip location
-  const now = new Date();
-  const tripStart = new Date('2026-07-19');
-  const loc = now >= tripStart ? {lat:55.9533, lon:-3.1883, name:'Edinburgh'} : {lat:51.5074, lon:-0.1278, name:'London'};
+  const now   = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const start = new Date('2026-07-19');
+  const end   = new Date('2026-07-26');
+
+  let dayNum = 0;
+  if (today >= start && today <= end) {
+    dayNum = Math.round((today - start) / (1000*60*60*24)) + 1;
+  } else if (today > end) {
+    dayNum = 8;
+  }
+
+  const loc = DAY_WEATHER_LOCS[dayNum] || DAY_WEATHER_LOCS[0];
   try {
     const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${parseFloat(loc.lat).toFixed(4)}&longitude=${parseFloat(loc.lon).toFixed(4)}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&timezone=Europe%2FLondon&forecast_days=1`, {});
     if (!r.ok) throw new Error();
@@ -3587,13 +3627,101 @@ window.show = function(id, btn) {
 };
 
 
-// ── SERVICE WORKER ──
-// Blob-URL registration is blocked on https:// origins (security restriction).
-// SW is skipped silently — fonts load from Google CDN as normal.
-// To enable full offline support, host sw.js as a separate file on your server.
-if ('serviceWorker' in navigator && location.protocol === 'http:') {
-  console.log('[SW] localhost detected — SW would register here with a separate sw.js');
+// ── SERVICE WORKER — offline tile cache ──────────────────
+(function () {
+  if (!('serviceWorker' in navigator)) return;
+
+  navigator.serviceWorker.register('./sw.js', { scope: './' })
+    .then(reg => {
+      console.log('[SW] Registered. Scope:', reg.scope);
+      window._swReg = reg;
+    })
+    .catch(err => console.warn('[SW] Registration failed:', err));
+})();
+
+// ── TILE PRE-LOADER ── covers full Scotland route + Skye + Outer Hebrides
+function buildTileUrls(z, minLat, maxLat, minLng, maxLng) {
+  const urls = [];
+  const n = Math.pow(2, z);
+  function latToTileY(lat) {
+    const r = lat * Math.PI / 180;
+    return Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * n);
+  }
+  function lngToTileX(lng) { return Math.floor((lng + 180) / 360 * n); }
+
+  const tx0 = lngToTileX(minLng), tx1 = lngToTileX(maxLng);
+  const ty0 = latToTileY(maxLat), ty1 = latToTileY(minLat); // y0 < y1
+  for (let tx = tx0; tx <= tx1; tx++) {
+    for (let ty = ty0; ty <= ty1; ty++) {
+      const s = ['a','b','c'][(Math.abs(tx) + Math.abs(ty)) % 3];
+      urls.push(`https://${s}.tile.openstreetmap.org/${z}/${tx}/${ty}.png`);
+    }
+  }
+  return urls;
 }
+
+function getAllOfflineTiles() {
+  const tiles = [];
+  // Zoom 6 — whole Scotland overview (tiny, ~20 tiles)
+  tiles.push(...buildTileUrls(6,  51.0, 59.0, -8.5, -0.5));
+  // Zoom 8 — full route corridor
+  tiles.push(...buildTileUrls(8,  53.0, 58.8, -7.8, -1.2));
+  // Zoom 10 — key areas: Highlands, Skye, Harris/Lewis, Loch Ness corridor
+  tiles.push(...buildTileUrls(10, 56.0, 58.4, -6.6, -3.8)); // Highlands + Skye
+  tiles.push(...buildTileUrls(10, 57.6, 58.5, -7.3, -6.0)); // Outer Hebrides
+  // Zoom 12 — detail for ferry ports and overnight stops
+  tiles.push(...buildTileUrls(12, 57.24, 57.34, -6.42, -6.08)); // Uig + Sligachan
+  tiles.push(...buildTileUrls(12, 57.87, 57.92, -6.85, -6.72)); // Tarbert Harris
+  tiles.push(...buildTileUrls(12, 58.18, 58.23, -6.42, -6.33)); // Stornoway
+  tiles.push(...buildTileUrls(12, 57.47, 57.49, -4.26, -4.20)); // Inverness
+  tiles.push(...buildTileUrls(12, 55.94, 55.97, -3.22, -3.14)); // Edinburgh
+  tiles.push(...buildTileUrls(12, 55.85, 55.88, -4.29, -4.22)); // Glasgow
+  // Deduplicate
+  return [...new Set(tiles)];
+}
+
+window.startOfflineDownload = function () {
+  const btn   = document.getElementById('offline-dl-btn');
+  const bar   = document.getElementById('offline-progress-wrap');
+  const fill  = document.getElementById('offline-progress-fill');
+  const label = document.getElementById('offline-progress-label');
+
+  if (!('serviceWorker' in navigator)) {
+    alert('Service workers are not supported in this browser.');
+    return;
+  }
+  if (!navigator.serviceWorker.controller) {
+    alert('Map cache is setting up — please wait a few seconds and try again.');
+    return;
+  }
+
+  const tiles = getAllOfflineTiles();
+  btn.disabled = true;
+  btn.textContent = 'Downloading…';
+  bar.style.display = 'block';
+  label.textContent = `0 / ${tiles.length} tiles`;
+
+  const mc = new MessageChannel();
+  mc.port1.onmessage = ev => {
+    const { done, total, complete } = ev.data;
+    const pct = Math.round(done / total * 100);
+    fill.style.width  = pct + '%';
+    label.textContent = complete
+      ? '✓ Map saved for offline use'
+      : `${done} / ${total} tiles`;
+    if (complete) {
+      btn.textContent  = '✓ Offline Map Ready';
+      btn.style.background = 'rgba(74,138,82,0.3)';
+      btn.style.borderColor = 'rgba(74,168,84,0.6)';
+      btn.style.color  = '#7de87d';
+    }
+  };
+
+  navigator.serviceWorker.controller.postMessage(
+    { type: 'PRELOAD_TILES', tiles },
+    [mc.port2]
+  );
+};
 
 // ── PDF BOOKING ATTACHMENTS ──
 // PDFs are stored as base64 in localStorage keyed by slot ID

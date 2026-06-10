@@ -476,6 +476,25 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .hist-who{color:rgba(245,240,232,.55);flex:1}
 .hist-amt{color:#7ab872;font-weight:500;font-family:'Playfair Display',serif}
 .hist-date{color:rgba(245,240,232,.3);margin-left:auto;white-space:nowrap}
+
+/* ══ PDF BOOKING ATTACHMENTS ══ */
+.booking-pdfs{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0 .5rem}
+.pdf-slot{display:flex;align-items:center;gap:8px;padding:.6rem .9rem;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);cursor:pointer;transition:all .2s;position:relative;min-width:200px;max-width:320px}
+.pdf-slot:hover{border-color:rgba(200,168,75,.4);background:rgba(200,168,75,.07)}
+.pdf-slot.has-file{border-color:rgba(200,168,75,.35);background:rgba(200,168,75,.06)}
+.pdf-slot.has-file:hover{border-color:rgba(200,168,75,.7);background:rgba(200,168,75,.14)}
+.pdf-icon{font-size:1.4rem;flex-shrink:0}
+.pdf-info{flex:1;min-width:0}
+.pdf-label{font-size:.72rem;font-weight:500;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdf-sublabel{font-size:.62rem;color:var(--ink3);margin-top:1px}
+.pdf-action{font-size:.6rem;padding:2px 8px;border-radius:100px;border:1px solid;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}
+.pdf-action.open{border-color:rgba(200,168,75,.5);color:var(--gold2);background:rgba(200,168,75,.1)}
+.pdf-action.open:hover{background:rgba(200,168,75,.25)}
+.pdf-action.upload{border-color:rgba(255,255,255,.15);color:rgba(245,240,232,.4);background:transparent}
+.pdf-action.upload:hover{border-color:rgba(255,255,255,.35);color:rgba(245,240,232,.7)}
+.pdf-upload-input{display:none}
+.pdf-section-title{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
+.pdf-section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
 </style>
 </head>
 <body>
@@ -537,6 +556,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">London to<br><em>Edinburgh</em></h2>
       <p class="day-sub">Depart 21:30, Sun 19 Jul · Stop Chesterfield to collect Stanley · Continue to Edinburgh · Arrive Mon 20 Jul ~06:00</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-sun1_accom" data-label="Park View House · Edinburgh Accommodation"></div>
+    <div class="pdf-slot" id="pdf-slot-sun1_drive" data-label="London → Edinburgh Drive / Route Confirmation"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">Sun 19 Jul · 21:30</span>
       <span class="stat-pill">~375 miles inc. Chesterfield</span>
@@ -605,6 +631,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">Full Day<br><em>Edinburgh</em></h2>
       <p class="day-sub">Mon 20 Jul · Arrive ~04:30 · Rest · Full day sightseeing · Old Town, viewpoints &amp; nightlife · Overnight stay</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-mon_accom" data-label="Park View House · Edinburgh Accommodation"></div>
+    <div class="pdf-slot" id="pdf-slot-mon_ticket" data-label="Edinburgh Attractions / Tickets"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">All on foot</span>
       <span class="stat-pill">Arthur's Seat hike</span>
@@ -720,6 +753,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">Edinburgh to<br><em>Isle of Skye</em></h2>
       <p class="day-sub">Tue 21 Jul · Morning Edinburgh · Noon depart · Glencoe · Glen Etive · Glenfinnan Viaduct · Arrive Skye ~20:30</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-tue_accom" data-label="Glencoe / Fort William Accommodation"></div>
+    <div class="pdf-slot" id="pdf-slot-tue_route" data-label="Edinburgh → Glencoe Route"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">~195 miles</span>
       <span class="stat-pill">~6 hrs + stops</span>
@@ -838,6 +878,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">Skye Morning,<br><em>Harris</em> by Evening</h2>
       <p class="day-sub">Wed 22 Jul · Skye 07:00–12:00 · Ferry departs Uig 14:00 · Arrive Tarbert 16:00 · Luskentyre sunset</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-wed_ferry" data-label="CalMac Ferry · Uig → Tarbert (Harris)"></div>
+    <div class="pdf-slot" id="pdf-slot-wed_accom" data-label="Isle of Harris Accommodation"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">Uig → Tarbert</span>
       <span class="stat-pill">Ferry 13:00 — arrive early!</span>
@@ -948,6 +995,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">Harris · Ferry · to<br><em>Inverness</em></h2>
       <p class="day-sub">Thu 23 Jul · Golden Road · Callanish Stones · Stornoway ferry 14:00 · Arrive Ullapool 16:40 · Inverness ~19:30</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-thu_ferry" data-label="CalMac Ferry · Stornoway → Ullapool"></div>
+    <div class="pdf-slot" id="pdf-slot-thu_accom" data-label="Inverness Accommodation"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">Stornoway → Ullapool</span>
       <span class="stat-pill">Ferry departs 14:00</span>
@@ -1046,6 +1100,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">Inverness · Loch Ness<br>to <em>Glasgow</em></h2>
       <p class="day-sub">Fri 24 Jul · Culloden · Urquhart Castle · A82 south · Arrive Glasgow ~17:30 · Depart midnight for Chesterfield</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-fri_accom" data-label="Inverness Accommodation"></div>
+    <div class="pdf-slot" id="pdf-slot-fri_route" data-label="Inverness → Glasgow Route"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">~105 miles to Glasgow</span>
       <span class="stat-pill">~220 miles to Chesterfield</span>
@@ -1144,6 +1205,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">Rest Day<br><em>Chesterfield</em></h2>
       <p class="day-sub">Sat 25 Jul · Arrive ~02:30 early morning · Stanley's home · Rest · Optional Peak District exploring</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-sat_accom" data-label="Chesterfield / Peak District Accommodation"></div>
+    <div class="pdf-slot" id="pdf-slot-sat_route" data-label="Glasgow → Chesterfield Route"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">Recovery day</span>
       <span class="stat-pill">Peak District nearby</span>
@@ -1204,6 +1272,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2 class="day-title">Chesterfield<br>to <em>London</em></h2>
       <p class="day-sub">Sun 26 Jul · Relax all day · Depart ~18:00 · A617 → M1 south → London · ~160 miles · ~2.5–3 hrs</p>
     </div>
+  <!-- PDF Booking Attachments -->
+  <div class="pdf-section-title">📎 Booking Confirmations</div>
+  <div class="booking-pdfs">
+    <div class="pdf-slot" id="pdf-slot-sun2_drive" data-label="Chesterfield → London Drive Confirmation"></div>
+  </div>
+
     <div class="day-stats">
       <span class="stat-pill">~160 miles</span>
       <span class="stat-pill">Depart ~18:00</span>
@@ -3520,6 +3594,92 @@ window.show = function(id, btn) {
 if ('serviceWorker' in navigator && location.protocol === 'http:') {
   console.log('[SW] localhost detected — SW would register here with a separate sw.js');
 }
+
+// ── PDF BOOKING ATTACHMENTS ──
+// PDFs are stored as base64 in localStorage keyed by slot ID
+// Each slot: { name, data (base64), size, addedAt }
+
+function pdfKey(slotId) { return 'pdf_' + slotId; }
+
+function savePdf(slotId, file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const b64 = e.target.result; // data:application/pdf;base64,...
+    const record = { name: file.name, data: b64, size: file.size, addedAt: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) };
+    try {
+      localStorage.setItem(pdfKey(slotId), JSON.stringify(record));
+      renderPdfSlot(slotId);
+    } catch(err) {
+      alert('PDF too large to store offline. Please use a compressed PDF (under 4MB).');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function openPdf(slotId) {
+  try {
+    const raw = localStorage.getItem(pdfKey(slotId));
+    if (!raw) return;
+    const rec = JSON.parse(raw);
+    // Open base64 PDF in new tab
+    const byteStr = atob(rec.data.split(',')[1]);
+    const bytes   = new Uint8Array(byteStr.length);
+    for (let i = 0; i < byteStr.length; i++) bytes[i] = byteStr.charCodeAt(i);
+    const blob    = new Blob([bytes], { type: 'application/pdf' });
+    const url     = URL.createObjectURL(blob);
+    window.open(url, '_blank', 'noopener');
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch(e) {
+    alert('Could not open PDF: ' + e.message);
+  }
+}
+
+function removePdf(slotId) {
+  if (!confirm('Remove this PDF?')) return;
+  localStorage.removeItem(pdfKey(slotId));
+  renderPdfSlot(slotId);
+}
+
+function renderPdfSlot(slotId) {
+  const el = document.getElementById('pdf-slot-' + slotId);
+  if (!el) return;
+  const raw = localStorage.getItem(pdfKey(slotId));
+  if (raw) {
+    const rec = JSON.parse(raw);
+    const sizeMB = (rec.size / 1024 / 1024).toFixed(1);
+    el.className = 'pdf-slot has-file';
+    el.innerHTML = `
+      <span class="pdf-icon">📄</span>
+      <div class="pdf-info">
+        <div class="pdf-label" title="${escapeHtml(rec.name)}">${escapeHtml(rec.name)}</div>
+        <div class="pdf-sublabel">${sizeMB}MB · Added ${rec.addedAt}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+        <button class="pdf-action open" onclick="openPdf('${slotId}');event.stopPropagation()">Open ↗</button>
+        <button class="pdf-action upload" onclick="removePdf('${slotId}');event.stopPropagation()" style="font-size:.55rem;opacity:.5">✕ Remove</button>
+      </div>`;
+  } else {
+    el.className = 'pdf-slot';
+    el.innerHTML = `
+      <span class="pdf-icon" style="opacity:.35">📎</span>
+      <div class="pdf-info">
+        <div class="pdf-label" style="opacity:.45">${el.dataset.label || 'Attach booking PDF'}</div>
+        <div class="pdf-sublabel">Tap to upload · stored offline</div>
+      </div>
+      <input type="file" accept=".pdf" class="pdf-upload-input" id="pdf-input-${slotId}"
+        onchange="savePdf('${slotId}', this.files[0])">
+      <button class="pdf-action upload" onclick="document.getElementById('pdf-input-${slotId}').click();event.stopPropagation()">+ Add</button>`;
+  }
+}
+
+function initAllPdfSlots() {
+  document.querySelectorAll('.pdf-slot[id]').forEach(el => {
+    const slotId = el.id.replace('pdf-slot-','');
+    renderPdfSlot(slotId);
+  });
+}
+
+window.addEventListener('load', () => setTimeout(initAllPdfSlots, 300));
 </script>
 </body>
 </html>

@@ -448,6 +448,26 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .u-upper{letter-spacing:.06em;text-transform:uppercase}
 .u-col-end{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .stop-detail{font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem}
+
+/* ══ PARTIAL PAYMENTS ══ */
+.settlement-card{position:relative}
+.settle-amounts{display:flex;flex-direction:column;align-items:flex-end;gap:4px;min-width:120px}
+.settle-total{font-size:.72rem;color:rgba(245,240,232,.35);text-decoration:line-through}
+.settle-remaining{font-family:'Playfair Display',serif;font-weight:600}
+.settle-remaining.paid-off{color:#7ab872}
+.settle-remaining.partial{color:#e8c96a}
+.settle-remaining.unpaid{color:#e07a54}
+.settle-paid-badge{font-size:.62rem;padding:2px 7px;border-radius:100px;background:rgba(122,184,114,.15);border:1px solid rgba(122,184,114,.3);color:#7ab872;white-space:nowrap}
+.settle-actions{display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap}
+.settle-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--cream);font-size:.75rem;padding:.3rem .6rem;width:90px;font-family:'DM Sans',sans-serif}
+.settle-input:focus{outline:none;border-color:rgba(200,168,75,.5)}
+.settle-pay-btn{font-size:.65rem;padding:.3rem .8rem;border-radius:6px;border:1px solid rgba(200,168,75,.4);background:rgba(200,168,75,.1);color:var(--gold2);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.settle-pay-btn:hover{background:rgba(200,168,75,.2);border-color:rgba(200,168,75,.7)}
+.settle-pay-btn.full{border-color:rgba(122,184,114,.4);background:rgba(122,184,114,.1);color:#7ab872}
+.settle-pay-btn.full:hover{background:rgba(122,184,114,.2)}
+.settle-history{font-size:.65rem;color:rgba(245,240,232,.35);margin-top:3px}
+.settle-progress{height:3px;border-radius:100px;background:rgba(255,255,255,.08);margin-top:8px;overflow:hidden}
+.settle-progress-fill{height:100%;border-radius:100px;background:#7ab872;transition:width .4s ease}
 </style>
 </head>
 <body>
@@ -2714,6 +2734,7 @@ const FB_READY = FB_URL !== 'YOUR_FIREBASE_URL_HERE';
 
 let confirmedCosts = JSON.parse(JSON.stringify(DEFAULT_CONFIRMED));
 let customExpenses = [];
+let partialPayments = {}; // key: "from_to" → amount paid so far
 let editTarget     = null;
 let fbConnected    = false;
 let cloudEnabled   = typeof FB_READY !== 'undefined' && FB_READY;
@@ -2759,8 +2780,10 @@ async function loadFromCloud() {
     try {
       const sc = localStorage.getItem('trip_confirmed');
       const se = localStorage.getItem('trip_expenses');
-      if (sc) confirmedCosts = JSON.parse(sc);
-      if (se) customExpenses = JSON.parse(se);
+      const sp = localStorage.getItem('trip_partial');
+      if (sc) confirmedCosts  = JSON.parse(sc);
+      if (se) customExpenses  = JSON.parse(se);
+      if (sp) partialPayments = JSON.parse(sp);
     } catch(_) {}
     renderCosts();
     return;
@@ -2771,8 +2794,9 @@ async function loadFromCloud() {
     const data = await fbGet('');
     console.log('[SYNC] REMOTE LOAD SUCCESS ✅ data:', data ? Object.keys(data) : 'null');
     if (data) {
-      confirmedCosts = data.confirmed ?? confirmedCosts;
-      customExpenses = data.custom    ?? customExpenses;
+      confirmedCosts  = data.confirmed ?? confirmedCosts;
+      customExpenses  = data.custom    ?? customExpenses;
+      partialPayments = data.partial   ?? partialPayments;
     }
     fbConnected = true;
     setSyncStatus('saved', '☁ Synced to cloud ✓');
@@ -2792,8 +2816,10 @@ async function loadFromCloud() {
     try {
       const sc = localStorage.getItem('trip_confirmed');
       const se = localStorage.getItem('trip_expenses');
-      if (sc) confirmedCosts = JSON.parse(sc);
-      if (se) customExpenses = JSON.parse(se);
+      const sp = localStorage.getItem('trip_partial');
+      if (sc) confirmedCosts  = JSON.parse(sc);
+      if (se) customExpenses  = JSON.parse(se);
+      if (sp) partialPayments = JSON.parse(sp);
     } catch(_) {}
     renderCosts();
   }
@@ -2808,6 +2834,7 @@ async function saveToCloud() {
   try {
     localStorage.setItem('trip_confirmed', JSON.stringify(confirmedCosts));
     localStorage.setItem('trip_expenses',  JSON.stringify(customExpenses));
+    localStorage.setItem('trip_partial',   JSON.stringify(partialPayments));
     console.log('[SYNC] LOCAL SAVE COMPLETE');
   } catch(e) { console.warn('[SYNC] localStorage failed:', e); }
 
@@ -2820,7 +2847,7 @@ async function saveToCloud() {
   console.log('[SYNC] REMOTE SAVE START → Firebase PUT');
   setSyncStatus('syncing', '⟳ Saving to cloud…');
   try {
-    await fbSet('', { confirmed: confirmedCosts, custom: customExpenses, updated: Date.now() });
+    await fbSet('', { confirmed: confirmedCosts, custom: customExpenses, partial: partialPayments, updated: Date.now() });
     console.log('[SYNC] REMOTE SAVE SUCCESS ✅');
     setSyncStatus('saved', '☁ Synced to cloud ✓ ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'}));
   } catch(e) {
@@ -2877,6 +2904,28 @@ function saveExpenses() { saveToCloud(); }
 
 const TRAVELLERS = ['sachu','stanley','stenin','prabhin'];
 const T_NAMES   = {sachu:'Sachu',stanley:'Stanley',stenin:'Stenin',prabhin:'Prabhin'};
+
+
+function recordPartialPayment(fromPerson, toPerson, amount) {
+  const key = fromPerson + '_' + toPerson;
+  partialPayments[key] = (partialPayments[key] || 0) + parseFloat(amount || 0);
+  saveToCloud();
+  renderCosts();
+}
+
+function setFullyPaid(fromPerson, toPerson, totalOwed) {
+  const key = fromPerson + '_' + toPerson;
+  partialPayments[key] = totalOwed;
+  saveToCloud();
+  renderCosts();
+}
+
+function undoPayment(fromPerson, toPerson) {
+  const key = fromPerson + '_' + toPerson;
+  delete partialPayments[key];
+  saveToCloud();
+  renderCosts();
+}
 
 function renderSettlement(allItems) {
   // Build per-person paid and share
@@ -2957,12 +3006,50 @@ function renderSettlement(allItems) {
     if (c[ci].amt < 0.01) ci++;
   }
 
-  sPanel.innerHTML = txns.map(tx =>
-    `<div class="settlement-card owes">
-      <span><strong class="u-cream">${escapeHtml(T_NAMES[tx.from])}</strong> → <strong class="u-cream">${escapeHtml(T_NAMES[tx.to])}</strong></span>
-      <span class="settlement-owe-amount">£${tx.amt.toFixed(2)}</span>
-    </div>`
-  ).join('');
+  sPanel.innerHTML = txns.map(tx => {
+    const key       = tx.from + '_' + tx.to;
+    const paidSoFar = partialPayments[key] || 0;
+    const remaining = Math.max(0, tx.amt - paidSoFar);
+    const pct       = Math.min(100, (paidSoFar / tx.amt) * 100);
+    const isPaidOff = remaining < 0.01;
+    const isPartial = paidSoFar > 0.01 && !isPaidOff;
+    const remClass  = isPaidOff ? 'paid-off' : isPartial ? 'partial' : 'unpaid';
+
+    const statusBadge = isPaidOff
+      ? `<span class="settle-paid-badge">✓ Settled</span>`
+      : isPartial
+      ? `<span class="settle-paid-badge" style="background:rgba(232,201,106,.12);border-color:rgba(232,201,106,.3);color:#e8c96a">£${paidSoFar.toFixed(2)} paid</span>`
+      : '';
+
+    const actionRow = isPaidOff
+      ? `<div class="settle-actions">
+           <button class="settle-pay-btn" onclick="undoPayment('${tx.from}','${tx.to}')">↺ Undo</button>
+         </div>`
+      : `<div class="settle-actions">
+           <input class="settle-input" id="partial-${key}" type="number" placeholder="£ amount" min="0.01" step="0.01" max="${remaining.toFixed(2)}" />
+           <button class="settle-pay-btn" onclick="recordPartialPayment('${tx.from}','${tx.to}',document.getElementById('partial-${key}').value)">Record Payment</button>
+           <button class="settle-pay-btn full" onclick="setFullyPaid('${tx.from}','${tx.to}',${tx.amt.toFixed(2)})">Mark Settled ✓</button>
+         </div>`;
+
+    return `<div class="settlement-card owes" style="${isPaidOff ? 'opacity:.55;border-color:rgba(122,184,114,.3)' : ''}">
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+          <span style="font-size:.9rem"><strong style="color:var(--cream)">${escapeHtml(T_NAMES[tx.from])}</strong>
+          <span style="color:rgba(245,240,232,.4)"> → </span>
+          <strong style="color:var(--cream)">${escapeHtml(T_NAMES[tx.to])}</strong></span>
+          ${statusBadge}
+        </div>
+        ${actionRow}
+        <div class="settle-progress" style="margin-top:8px"><div class="settle-progress-fill" style="width:${pct}%"></div></div>
+        ${paidSoFar > 0.01 ? `<div class="settle-history">Paid £${paidSoFar.toFixed(2)} · Remaining £${remaining.toFixed(2)} of £${tx.amt.toFixed(2)}</div>` : ''}
+      </div>
+      <div class="settle-amounts">
+        ${isPartial || isPaidOff ? `<span class="settle-total">£${tx.amt.toFixed(2)}</span>` : ''}
+        <span class="settle-remaining ${remClass}">£${remaining.toFixed(2)}</span>
+        ${!isPaidOff ? `<span style="font-size:.6rem;color:rgba(245,240,232,.3)">remaining</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 
@@ -3157,9 +3244,10 @@ function deleteCustom(i) {
 
 function resetCosts() {
   if (!confirm('Reset ALL expenses?')) return;
-  confirmedCosts = JSON.parse(JSON.stringify(DEFAULT_CONFIRMED));
-  customExpenses = [];
-  editTarget     = null;
+  confirmedCosts  = JSON.parse(JSON.stringify(DEFAULT_CONFIRMED));
+  customExpenses  = [];
+  partialPayments = {};
+  editTarget      = null;
   selectAllSplit();
   renderCosts();
   saveToCloud();

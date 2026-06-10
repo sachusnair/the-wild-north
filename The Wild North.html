@@ -2,13 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org; connect-src https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app https://api.open-meteo.com https://wttr.in;">
+
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'unsafe-inline';
+    style-src 'unsafe-inline' https://fonts.googleapis.com;
+    font-src https://fonts.gstatic.com;
+    img-src 'self' data: https://*.tile.openstreetmap.org https://*.openstreetmap.org;
+    connect-src
+      https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app
+      https://api.open-meteo.com
+      https://wttr.in
+      https://fonts.googleapis.com
+      https://fonts.gstatic.com;
+  ">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Wild North — Scotland Road Trip</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1a1814;--ink2:#3d3830;--ink3:#7a7060;--cream:#f5f0e8;--gold:#c8a84b;--gold2:#e8c96a;--heather:#6b4e7d;--loch:#2d5a6e;--loch2:#4a8fa8;--moss:#4a6741;--rust:#b85c38;--sand:#d4b896}
+:root{--max-w:780px;--card-r:14px;--gap:1.5rem;--ink:#1a1814;--ink2:#3d3830;--ink3:#7a7060;--cream:#f5f0e8;--gold:#c8a84b;--gold2:#e8c96a;--heather:#6b4e7d;--loch:#2d5a6e;--loch2:#4a8fa8;--moss:#4a6741;--rust:#b85c38;--sand:#d4b896}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--ink);font-family:'DM Sans',sans-serif;color:var(--cream);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.4}
@@ -402,6 +418,36 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* cost table split column */
 .cost-split-cell{font-size:.72rem;color:rgba(245,240,232,.5)}
+
+/* ══ UTILITY CLASSES (replaces inline styles) ══ */
+.u-cream{color:var(--cream)}
+.u-gold{color:var(--gold)}
+.u-ink3{color:var(--ink3)}
+.u-sm{font-size:.75rem}
+.u-xs{font-size:.65rem}
+.u-none{display:none}
+.u-flex{display:flex;align-items:center}
+.u-flex-col{display:flex;flex-direction:column}
+.u-gap6{gap:6px}
+.u-gap8{gap:8px}
+.u-right{text-align:right}
+.u-warn{color:#e07a54}
+.u-muted{color:rgba(245,240,232,.5)}
+.u-letter{letter-spacing:.06em;text-transform:uppercase}
+.u-col-end{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.stop-detail{font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem}
+
+
+/* ══ UTILITIES ══ */
+.u-cream{color:var(--cream)}.u-gold{color:var(--gold)}.u-ink3{color:var(--ink3)}
+.u-warn{color:#e07a54}.u-muted{color:rgba(245,240,232,.5)}
+.u-none{display:none}.u-right{text-align:right}
+.u-flex{display:flex;align-items:center}.u-flex-col{display:flex;flex-direction:column}
+.u-gap6{gap:6px}.u-gap8{gap:8px}
+.u-xs{font-size:.65rem}.u-sm{font-size:.75rem}
+.u-upper{letter-spacing:.06em;text-transform:uppercase}
+.u-col-end{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.stop-detail{font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem}
 </style>
 </head>
 <body>
@@ -1620,13 +1666,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
   <!-- Sync status bar -->
   <div id="sync-status-bar" class="sync-loading">
-    <div style="display:flex;align-items:center;gap:8px">
+    <div class="u-flex u-gap8">
       <div id="sync-status-dot"></div>
       <span id="sync-status">⟳ Connecting…</span>
     </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
-      <span style="font-size:.65rem;color:rgba(245,240,232,.5);letter-spacing:.06em;text-transform:uppercase">☁ Firebase · Live sync</span>
-      <span id="firebase-rules-hint" style="display:none;font-size:.6rem;color:#e07a54">Database rules need updating — <a href="https://console.firebase.google.com" target="_blank" style="color:#e8c96a" rel="noopener noreferrer">Firebase Console →</a></span>
+    <div class="u-col-end">
+      <span class="u-xs u-muted u-letter">☁ Firebase · Live sync</span>
+      <span id="firebase-rules-hint" class="u-none u-xs u-warn">Database rules need updating — <a href="https://console.firebase.google.com" target="_blank" style="color:#e8c96a" rel="noopener noreferrer">Firebase Console →</a></span>
     </div>
   </div>
 
@@ -1664,7 +1710,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="cpp-label">Each person owes</div>
       <div class="cpp-sub">Split 4 ways equally</div>
     </div>
-    <div style="text-align:right">
+    <div class="u-right">
       <div class="cpp-value" id="cpp-value">£0.00</div>
     </div>
   </div>
@@ -1749,11 +1795,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cream);margin-bottom:.3rem">☁ Enable Cloud Sync</div>
     <div style="font-size:.75rem;color:var(--ink3);margin-bottom:1rem">So all 4 people see the same live cost tracker — takes 3 minutes to set up.</div>
     <div style="display:flex;flex-direction:column;gap:.6rem">
-      <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">1.</span><span>Go to <a href="https://console.firebase.google.com" target="_blank" style="color:var(--loch2)" rel="noopener noreferrer">console.firebase.google.com</a> → Create a free project</span></div>
-      <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">2.</span><span>Click <strong style="color:var(--cream)">Build → Realtime Database → Create database</strong> → Start in <strong style="color:var(--cream)">test mode</strong></span></div>
-      <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">3.</span><span>Copy your database URL (looks like <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">https://my-trip-xxxxx-default-rtdb.firebaseio.com</code>)</span></div>
-      <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">4.</span><span>Open this HTML file in a text editor, find <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">YOUR_FIREBASE_URL_HERE</code> and replace it with your URL</span></div>
-      <div style="font-size:.78rem;color:rgba(245,240,232,.6);display:flex;gap:.6rem"><span style="color:var(--gold2);flex-shrink:0">5.</span><span>Share the updated HTML file with the group — everyone opens it and sees the same data live</span></div>
+      <div class="stop-detail"><span style="color:var(--gold2);flex-shrink:0">1.</span><span>Go to <a href="https://console.firebase.google.com" target="_blank" style="color:var(--loch2)" rel="noopener noreferrer">console.firebase.google.com</a> → Create a free project</span></div>
+      <div class="stop-detail"><span style="color:var(--gold2);flex-shrink:0">2.</span><span>Click <strong class="u-cream">Build → Realtime Database → Create database</strong> → Start in <strong class="u-cream">test mode</strong></span></div>
+      <div class="stop-detail"><span style="color:var(--gold2);flex-shrink:0">3.</span><span>Copy your database URL (looks like <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">https://my-trip-xxxxx-default-rtdb.firebaseio.com</code>)</span></div>
+      <div class="stop-detail"><span style="color:var(--gold2);flex-shrink:0">4.</span><span>Open this HTML file in a text editor, find <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">YOUR_FIREBASE_URL_HERE</code> and replace it with your URL</span></div>
+      <div class="stop-detail"><span style="color:var(--gold2);flex-shrink:0">5.</span><span>Share the updated HTML file with the group — everyone opens it and sees the same data live</span></div>
     </div>
   </div>
 </section>
@@ -1775,7 +1821,7 @@ async function clFbGet() {
   try {
     const r = await fetch(
       `https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app/scotland_jul_2026/${CL_FB_PATH}.json`,
-      { signal: AbortSignal.timeout(5000) }
+      {  }
     );
     return r.ok ? r.json() : null;
   } catch(e) { return null; }
@@ -1788,9 +1834,7 @@ async function clFbSet(data) {
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-        signal: AbortSignal.timeout(5000)
-      }
+        body: JSON.stringify(data)}
     );
   } catch(e) {}
 }
@@ -1899,176 +1943,151 @@ const LOCATIONS = [
     id:'london', lat:51.5074, lng:-0.1278,
     name:'London — Departure', day:'Sun 19 Jul · 21:30', type:'stop',
     desc:'Depart London 21:30 on the A1(M) north. First stop: Chesterfield to pick up Stanley (~2.5 hrs). Then continue north to Edinburgh via M1/A1(M). Clear roads overnight — arrive Edinburgh ~06:00.',
-    gmaps:'https://www.google.com/maps/search/London+A1+northbound',
-  },
+    gmaps:'https://www.google.com/maps/search/London+A1+northbound'},
   // ── EDINBURGH
   {
     id:'edinburgh', lat:55.9533, lng:-3.1883,
     name:'Edinburgh', day:'Mon 20 Jul', type:'sleep',
     desc:'Park View House, 14 Hermitage Place EH6 8AF — your base for the night. Arrive ~04:30. Rest, then explore: Calton Hill, Victoria Street, Edinburgh Castle (15:00 entry booked), and Arthur\'s Seat. Sandy Bell\'s pub for live folk music.',
-    gmaps:'https://www.google.com/maps/search/Edinburgh+city+centre',
-  },
+    gmaps:'https://www.google.com/maps/search/Edinburgh+city+centre'},
   // ── GLENCOE
   {
     id:'glencoe', lat:56.6799, lng:-5.0063,
     name:'Glencoe', day:'Tue 21 Jul', type:'photo',
     desc:'Scotland\'s most dramatic glen — the Three Sisters, Meeting of Three Waters, and the weight of the 1692 Massacre. Pull into the NTS Visitor Centre layby for the classic shots.',
-    gmaps:'https://www.google.com/maps/search/Glencoe+Three+Sisters+viewpoint',
-  },
+    gmaps:'https://www.google.com/maps/search/Glencoe+Three+Sisters+viewpoint'},
   // ── GLEN ETIVE
   {
     id:'etive', lat:56.5360, lng:-4.9880,
     name:'Glen Etive — Skyfall Road', day:'Tue 21 Jul', type:'photo',
     desc:'Turn off the A82 into this hidden single-track glen filmed in James Bond\'s Skyfall. Drive to Loch Etive for the perfect mountain reflection. River pools ideal for wild swimming.',
-    gmaps:'https://www.google.com/maps/search/Glen+Etive+Loch+Etive+Scotland',
-  },
+    gmaps:'https://www.google.com/maps/search/Glen+Etive+Loch+Etive+Scotland'},
   // ── GLENFINNAN
   {
     id:'glenfinnan', lat:56.8726, lng:-5.4299,
     name:'Glenfinnan Viaduct', day:'Tue 21 Jul', type:'photo',
     desc:'Walk 15 mins uphill from the NTS car park to the viewpoint above the 21-arch curve. The Jacobite steam train passes here — one of the most spectacular photography moments in Scotland.',
-    gmaps:'https://www.google.com/maps/search/Glenfinnan+Viaduct+viewpoint',
-  },
+    gmaps:'https://www.google.com/maps/search/Glenfinnan+Viaduct+viewpoint'},
   // ── FIVE SISTERS
   {
     id:'fivesisters', lat:57.1580, lng:-5.3660,
     name:'Five Sisters of Kintail', day:'Tue 21 Jul', type:'photo',
     desc:'Five Munros lining the A87 like a guard of honour. Pull over at the Loch Duich or Morvich laybys. Eilean Donan Castle is just around the corner — the most photographed castle in Scotland.',
-    gmaps:'https://www.google.com/maps/search/Five+Sisters+of+Kintail+Glen+Shiel',
-  },
+    gmaps:'https://www.google.com/maps/search/Five+Sisters+of+Kintail+Glen+Shiel'},
   // ── SLIGACHAN
   {
     id:'sligachan', lat:57.2901, lng:-6.1700,
     name:'Sligachan Old Bridge', day:'Wed 22 Jul · 07:00', type:'photo',
     desc:'Skye\'s most iconic sunrise shot — the ancient stone bridge reflected in the river with the Black Cuillin mountains behind. 5 minutes from the hotel. Wide angle, tripod, and arrive before 07:00.',
-    gmaps:'https://www.google.com/maps/search/Sligachan+Old+Bridge+Isle+of+Skye',
-  },
+    gmaps:'https://www.google.com/maps/search/Sligachan+Old+Bridge+Isle+of+Skye'},
   // ── FAIRY POOLS
   {
     id:'fairy', lat:57.2501, lng:-6.3093,
     name:'Fairy Pools', day:'Wed 22 Jul · 08:30', type:'photo',
     desc:'Crystal-clear turquoise pools cascading down from the Cuillins in Glen Brittle. Go before 10am to beat the crowds. Long exposure on the falls. Wild swimming possible in summer.',
-    gmaps:'https://www.google.com/maps/search/Fairy+Pools+Glen+Brittle+Isle+of+Skye',
-  },
+    gmaps:'https://www.google.com/maps/search/Fairy+Pools+Glen+Brittle+Isle+of+Skye'},
   // ── QUIRAING
   {
     id:'quiraing', lat:57.6419, lng:-6.2899,
     name:'The Quiraing', day:'Wed 22 Jul · 10:30', type:'photo',
     desc:'Otherworldly pinnacles and hidden plateaus on the Trotternish ridge. The single-track road itself gives jaw-dropping views over the peninsula. Walk 10 mins in for the hidden table plateau.',
-    gmaps:'https://www.google.com/maps/search/Quiraing+viewpoint+Trotternish+Skye',
-  },
+    gmaps:'https://www.google.com/maps/search/Quiraing+viewpoint+Trotternish+Skye'},
   // ── KILT ROCK
   {
     id:'kiltrock', lat:57.6540, lng:-6.1830,
     name:'Kilt Rock & Mealt Falls', day:'Wed 22 Jul · 11:30', type:'photo',
     desc:'Basalt sea cliffs plunging 60m straight to the sea. Mealt Falls pours off the clifftop right beside them. Shoot wide to capture both cliff and waterfall in one frame from the free viewpoint.',
-    gmaps:'https://www.google.com/maps/search/Kilt+Rock+Mealt+Falls+Staffin+Skye',
-  },
+    gmaps:'https://www.google.com/maps/search/Kilt+Rock+Mealt+Falls+Staffin+Skye'},
   // ── UIG FERRY
   {
     id:'uig', lat:57.5830, lng:-6.3598,
     name:'Uig Ferry Terminal', day:'Wed 22 Jul · 14:00', type:'ferry',
     desc:'CalMac ferry to Tarbert, Harris — BOOKED ✓. Departs 14:00 · Arrives 15:40 · Check-in by 13:15. Stand on deck for dolphins, gannets and the stunning approach into East Loch Tarbert.',
-    gmaps:'https://www.google.com/maps/search/Uig+Ferry+Terminal+Skye+CalMac',
-  },
+    gmaps:'https://www.google.com/maps/search/Uig+Ferry+Terminal+Skye+CalMac'},
   // ── LUSKENTYRE
   {
     id:'luskentyre', lat:57.8900, lng:-6.9380,
     name:'Luskentyre Beach', day:'Wed 22 Jul · Sunset', type:'photo',
     desc:'The finest beach in Britain — white sand, Caribbean-turquoise water, Harris mountains behind, almost always empty. The tidal estuary at low tide creates extraordinary sand patterns. Sunset turns everything gold.',
-    gmaps:'https://www.google.com/maps/search/Luskentyre+Beach+Isle+of+Harris',
-  },
+    gmaps:'https://www.google.com/maps/search/Luskentyre+Beach+Isle+of+Harris'},
   // ── TARBERT HARRIS (overnight)
   {
     id:'tarbert', lat:57.8967, lng:-6.7994,
     name:'Tarbert, Harris — Overnight', day:'Wed 22 Jul night', type:'sleep',
     desc:'Hotel Hebrides, Pier Road, Tarbert HS3 3DG — right by the ferry terminal. Harris Tweed shop nearby. The Anchorage Restaurant for dinner. Hotel Hebrides bar for a dram. If fishermen are at the pier, fresh langoustines are unmissable.',
-    gmaps:'https://www.google.com/maps/search/Tarbert+Harris+Outer+Hebrides',
-  },
+    gmaps:'https://www.google.com/maps/search/Tarbert+Harris+Outer+Hebrides'},
   // ── SCARISTA
   {
     id:'scarista', lat:57.8330, lng:-7.0060,
     name:'Scarista Beach', day:'Thu 23 Jul · Sunrise', type:'photo',
     desc:'Even more remote than Luskentyre. Completely empty at dawn. The sunrise over the bay with the Harris hills behind is extraordinary — arrive before first light for the full golden hour.',
-    gmaps:'https://www.google.com/maps/search/Scarista+Beach+Isle+of+Harris',
-  },
+    gmaps:'https://www.google.com/maps/search/Scarista+Beach+Isle+of+Harris'},
   // ── GOLDEN ROAD
   {
     id:'goldenroad', lat:57.8600, lng:-6.7500,
     name:'The Golden Road, South Harris', day:'Thu 23 Jul · 08:00', type:'photo',
     desc:'B887 single-track along the east coast through 3-billion-year-old Lewisian gneiss rock formations. Hidden sea lochs and fishing villages of Finsbay, Geocrab, and Flodabay — unchanged for centuries.',
-    gmaps:'https://www.google.com/maps/search/Golden+Road+South+Harris+B887',
-  },
+    gmaps:'https://www.google.com/maps/search/Golden+Road+South+Harris+B887'},
   // ── CALLANISH
   {
     id:'callanish', lat:58.1979, lng:-6.7436,
     name:'Callanish Standing Stones', day:'Thu 23 Jul · 10:00', type:'photo',
     desc:'A 5,000-year-old stone circle on Lewis — older than Stonehenge and far less visited. The cross-shaped arrangement is unique in the world. Shoot from within the circle looking toward Loch Roag.',
-    gmaps:'https://www.google.com/maps/search/Callanish+Standing+Stones+Isle+of+Lewis',
-  },
+    gmaps:'https://www.google.com/maps/search/Callanish+Standing+Stones+Isle+of+Lewis'},
   // ── STORNOWAY FERRY
   {
     id:'stornoway', lat:58.2092, lng:-6.3862,
     name:'Stornoway Ferry Terminal', day:'Thu 23 Jul · 14:00', type:'ferry',
     desc:'CalMac ferry to Ullapool — BOOKED ✓. Departs 14:00 · Arrives 16:40 · Check-in by 13:15. Look for sea eagles, gannets and dolphins. The approach into Loch Broom is spectacular.',
-    gmaps:'https://www.google.com/maps/search/Stornoway+CalMac+Ferry+Terminal+Lewis',
-  },
+    gmaps:'https://www.google.com/maps/search/Stornoway+CalMac+Ferry+Terminal+Lewis'},
   // ── ULLAPOOL
   {
     id:'ullapool', lat:57.8970, lng:-5.1605,
     name:'Ullapool', day:'Thu 23 Jul · 16:40', type:'stop',
     desc:'A beautifully preserved fishing village of white-painted cottages on Loch Broom. Walk the seafront. The Arch Inn for a pint of local Ullapool Brewing Co beer. Worth a 30-min stop.',
-    gmaps:'https://www.google.com/maps/search/Ullapool+village+Loch+Broom+Highland',
-  },
+    gmaps:'https://www.google.com/maps/search/Ullapool+village+Loch+Broom+Highland'},
   // ── CORRIESHALLOCH
   {
     id:'corrieshalloch', lat:57.7397, lng:-5.0775,
     name:'Corrieshalloch Gorge', day:'Thu 23 Jul · 17:30', type:'photo',
     desc:'A 60m deep box canyon with the Falls of Measach thundering below a Victorian suspension bridge. Free NTS site — 20 min stop. Spray creates natural diffusion for photography. Spectacular in any weather.',
-    gmaps:'https://www.google.com/maps/search/Corrieshalloch+Gorge+Falls+of+Measach+NTS',
-  },
+    gmaps:'https://www.google.com/maps/search/Corrieshalloch+Gorge+Falls+of+Measach+NTS'},
   // ── INVERNESS
   {
     id:'inverness', lat:57.4778, lng:-4.2247,
     name:'Inverness', day:'Thu 23 Jul night', type:'sleep',
     desc:'Waverley Inn Holiday Apartments, 1 Fraser Street IV1 1DW — your base for the night. Riverside walk on the River Ness. The Kitchen Restaurant for dinner. Hootananny pub for live Celtic music. Velocity Café for breakfast.',
-    gmaps:'https://www.google.com/maps/search/Inverness+city+centre+Highland',
-  },
+    gmaps:'https://www.google.com/maps/search/Inverness+city+centre+Highland'},
   // ── CULLODEN
   {
     id:'culloden', lat:57.4773, lng:-4.0942,
     name:'Culloden Battlefield', day:'Fri 24 Jul · 09:30', type:'stop',
     desc:'The 1746 battlefield where the Jacobite Rising was brutally ended. Clan grave markers on a windswept moor. One of Scotland\'s most powerful historical sites. NTS visitor centre is outstanding.',
-    gmaps:'https://www.google.com/maps/search/Culloden+Battlefield+NTS+Inverness',
-  },
+    gmaps:'https://www.google.com/maps/search/Culloden+Battlefield+NTS+Inverness'},
   // ── URQUHART / LOCH NESS
   {
     id:'urquhart', lat:57.3237, lng:-4.4427,
     name:'Urquhart Castle & Loch Ness', day:'Fri 24 Jul · 11:00', type:'photo',
     desc:'Ruined Highland fortress dramatically perched on a promontory in Loch Ness. Best shot from the loch-side lower path with the Grant Tower and water in frame. The loch itself stretches 23 miles — hauntingly atmospheric.',
-    gmaps:'https://www.google.com/maps/search/Urquhart+Castle+Loch+Ness+Drumnadrochit',
-  },
+    gmaps:'https://www.google.com/maps/search/Urquhart+Castle+Loch+Ness+Drumnadrochit'},
   // ── LUSS / LOCH LOMOND
   {
     id:'luss', lat:56.1050, lng:-4.6380,
     name:'Luss Village, Loch Lomond', day:'Fri 24 Jul · 15:30', type:'photo',
     desc:'Postcard-perfect village on the western shore of Loch Lomond. Stone cottages, a sandy beach, and extraordinary loch views. One of Scotland\'s most picturesque villages — 20 min stop.',
-    gmaps:'https://www.google.com/maps/search/Luss+Village+Loch+Lomond+Trossachs',
-  },
+    gmaps:'https://www.google.com/maps/search/Luss+Village+Loch+Lomond+Trossachs'},
   // ── GLASGOW
   {
     id:'glasgow', lat:55.8642, lng:-4.2518,
     name:'Glasgow', day:'Fri 24 Jul evening', type:'sleep',
     desc:'The UK\'s most underrated city. Dinner at Ox & Finch (book ahead). Evening on Ashton Lane in the West End — cobbled alley of bars. Depart at ~23:00 for the overnight drive to Chesterfield.',
-    gmaps:'https://www.google.com/maps/search/Glasgow+city+centre',
-  },
+    gmaps:'https://www.google.com/maps/search/Glasgow+city+centre'},
   // ── CHESTERFIELD
   {
     id:'chesterfield', lat:53.2355, lng:-1.4197,
     name:'Chesterfield', day:'Sat 25 Jul', type:'sleep',
     desc:'Arrive at Stanley\'s home ~02:30 after the overnight drive. Rest, recover, explore the Saturday market (running since 1143). Optional: Chatsworth House or Stanage Edge in the Peak District.',
-    gmaps:'https://www.google.com/maps/search/Chesterfield+Derbyshire',
-  }
+    gmaps:'https://www.google.com/maps/search/Chesterfield+Derbyshire'}
 ];
 
 
@@ -2426,7 +2445,7 @@ function initMap() {
 
   cv.addEventListener('touchend', e => {
     // Only treat as a tap if finger barely moved
-    if (tTotalMove < TAP_THRESHOLD && e.changedTouches.length === 1) {
+    if (tTotalMove < TAP_THRESHOLD && e.changedTouches?.length === 1) {
       const t  = e.changedTouches[0];
       const r  = MAP.canvas.getBoundingClientRect();
       // Use the START position (t0) for hit testing — more accurate than touchend coords
@@ -2589,23 +2608,23 @@ async function loadWeather() {
     try {
       const r = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&${params}`,
-        { signal: AbortSignal.timeout(6000) }
+        {  }
       );
       if (!r.ok) throw new Error('status ' + r.status);
       const d = await r.json();
       const cur = d.current_weather;
       // Get today's hourly range for high/low
-      const temps = d.hourly.temperature_2m || [];
+      const temps = d.hourly?.temperature_2m ?? [];
       const high  = temps.length ? Math.round(Math.max(...temps)) : Math.round(cur.temperature + 4);
       const low   = temps.length ? Math.round(Math.min(...temps)) : Math.round(cur.temperature - 4);
       const rain  = (d.hourly.precipitation || []).reduce((a,b)=>a+b, 0);
-      const wind  = Math.round(cur.windspeed);
+      const wind  = Math.round(cur.windspeed ?? 0);
       return { high, low, code: cur.weathercode, rain: parseFloat(rain.toFixed(1)), wind, live: true };
     } catch(e1) {
       // Try wttr.in as backup
       try {
         const q   = encodeURIComponent(loc.name + ', UK');
-        const r2  = await fetch(`https://wttr.in/${encodeURIComponent(q)}?format=j1`, { signal: AbortSignal.timeout(5000) });
+        const r2  = await fetch(`https://wttr.in/${encodeURIComponent(q)}?format=j1`, {  });
         if (!r2.ok) throw new Error('wttr ' + r2.status);
         const w   = await r2.json();
         const cur = w.current_condition[0];
@@ -2674,7 +2693,23 @@ const DEFAULT_CONFIRMED = [
 // 3. Copy your database URL and paste it below
 // 4. Share the HTML file with your group — everyone sees the same data
 const FB_URL   = 'https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app';
-const TRIP_KEY = 'scotland_jul_2026';
+const FB_APP_CONFIG = {
+  apiKey:    "AIzaSyPlaceholderKeyForAnonymousAuth",
+  authDomain:"the-wild-north.firebaseapp.com",
+  databaseURL: FB_URL,
+  projectId: "the-wild-north"
+};
+
+// Anonymous auth token — set after signInAnonymously()
+let _fbAuthToken = null;
+
+async function getFbHeaders() {
+  // Returns auth headers if token available, else bare headers
+  const h = { 'Content-Type': 'application/json' };
+  if (_fbAuthToken) h['Authorization'] = 'Bearer ' + _fbAuthToken;
+  return h;
+}
+const TRIP_KEY = 'scotland_jul_2026_WNx7Kp9mQ3';
 const FB_READY = FB_URL !== 'YOUR_FIREBASE_URL_HERE';
 
 let confirmedCosts = JSON.parse(JSON.stringify(DEFAULT_CONFIRMED));
@@ -2700,19 +2735,19 @@ function setSyncStatus(state, msg) {
 async function fbGet(path) {
   const url = path ? `${FB_URL}/${TRIP_KEY}/${path}.json` : `${FB_URL}/${TRIP_KEY}.json`;
   console.log('[SYNC] GET →', url);
-  const r = await fetch(url, { signal: AbortSignal.timeout(6000) });
+  const timeout = new Promise((_,rej) => setTimeout(() => rej(new Error('timeout')), 10000));
+  const r = await Promise.race([fetch(url), timeout]);
   if (!r.ok) throw new Error('FB GET ' + r.status);
   return r.json();
 }
 async function fbSet(path, data) {
   const url = path ? `${FB_URL}/${TRIP_KEY}/${path}.json` : `${FB_URL}/${TRIP_KEY}.json`;
   console.log('[SYNC] PUT →', url);
-  const r = await fetch(url, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-    signal: AbortSignal.timeout(6000)
-  });
+  const timeout = new Promise((_,rej) => setTimeout(() => rej(new Error('timeout')), 10000));
+  const r = await Promise.race([
+    fetch(url, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }),
+    timeout
+  ]);
   if (!r.ok) throw new Error('FB SET ' + r.status);
   return r.json();
 }
@@ -2731,13 +2766,13 @@ async function loadFromCloud() {
     return;
   }
   setSyncStatus('loading', '⟳ Connecting…');
-  console.log('[SYNC] REMOTE LOAD START → Firebase GET', FB_URL + '/' + TRIP_KEY);
+  console.log('[SYNC] REMOTE LOAD START → Firebase GET', FB_URL + '/' + TRIP_KEY + '.json');
   try {
     const data = await fbGet('');
     console.log('[SYNC] REMOTE LOAD SUCCESS ✅ data:', data ? Object.keys(data) : 'null');
     if (data) {
-      if (data.confirmed) confirmedCosts = data.confirmed;
-      if (data.custom)    customExpenses = data.custom;
+      confirmedCosts = data.confirmed ?? confirmedCosts;
+      customExpenses = data.custom    ?? customExpenses;
     }
     fbConnected = true;
     setSyncStatus('saved', '☁ Synced to cloud ✓');
@@ -2750,7 +2785,7 @@ async function loadFromCloud() {
       console.error('[SYNC] 403 Forbidden — Firebase rules are blocking access.');
       console.error('[SYNC] Fix: Go to Firebase Console → Realtime Database → Rules → set read/write to true');
       setSyncStatus('failed', '🔴 Firebase blocked (403) — see console');
-      const hint = document.getElementById('firebase-rules-hint'); if(hint) hint.style.display='block';
+      document.getElementById('firebase-rules-hint')?.style && (document.getElementById('firebase-rules-hint').style.display='block');
     } else {
       setSyncStatus('offline', '⚡ Offline — saved locally');
     }
@@ -2924,11 +2959,12 @@ function renderSettlement(allItems) {
 
   sPanel.innerHTML = txns.map(tx =>
     `<div class="settlement-card owes">
-      <span><strong style="color:var(--cream)">${escapeHtml(T_NAMES[tx.from])}</strong> → <strong style="color:var(--cream)">${escapeHtml(T_NAMES[tx.to])}</strong></span>
+      <span><strong class="u-cream">${escapeHtml(T_NAMES[tx.from])}</strong> → <strong class="u-cream">${escapeHtml(T_NAMES[tx.to])}</strong></span>
       <span class="settlement-owe-amount">£${tx.amt.toFixed(2)}</span>
     </div>`
   ).join('');
 }
+
 
 
 function escapeHtml(s) {
@@ -2955,7 +2991,7 @@ function renderCosts() {
     if (!['ferry','hotel','ticket','fuel'].includes(item.cat)) otherTotal += amt;
 
     const amtDisplay = amt > 0
-      ? `<strong style="color:var(--cream)">£${amt.toFixed(2)}</strong>`
+      ? `<strong class="u-cream">£${amt.toFixed(2)}</strong>`
       : `<span style="color:var(--ink3);font-size:.75rem">TBC</span>`;
 
     const canDelete = item.list === 'custom';
@@ -2965,7 +3001,7 @@ function renderCosts() {
     const paidByColor = item.paidBy ? 'rgba(232,201,106,.8)' : 'rgba(245,240,232,.35)';
 
     // Split display
-    const splitArr = item.splitBetween && item.splitBetween.length > 0 ? item.splitBetween : ['sachu','stanley','stenin','prabhin'];
+    const splitArr = item.splitBetween?.length > 0 ? item.splitBetween : ['sachu','stanley','stenin','prabhin'];
     let splitDisplay = '';
     if (splitArr.length === 4) {
       splitDisplay = `<span class="cost-split-cell">Equally (4)</span>`;
@@ -2974,7 +3010,7 @@ function renderCosts() {
     }
 
     cb.innerHTML += `<tr style="${rowStyle}">
-      <td style="color:var(--cream)">${escapeHtml(item.name)}</td>
+      <td class="u-cream">${escapeHtml(item.name)}</td>
       <td>${catBadge(item.cat)}</td>
       <td style="font-size:.72rem;color:${paidByColor}">${paidByLabel}</td>
       <td>${splitDisplay}</td>
@@ -3314,20 +3350,20 @@ async function loadQAWeather() {
   const tripStart = new Date('2026-07-19');
   const loc = now >= tripStart ? {lat:55.9533, lon:-3.1883, name:'Edinburgh'} : {lat:51.5074, lon:-0.1278, name:'London'};
   try {
-    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${parseFloat(loc.lat).toFixed(4)}&longitude=${parseFloat(loc.lon).toFixed(4)}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&timezone=Europe%2FLondon&forecast_days=1`, {signal:AbortSignal.timeout(6000)});
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${parseFloat(loc.lat).toFixed(4)}&longitude=${parseFloat(loc.lon).toFixed(4)}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&timezone=Europe%2FLondon&forecast_days=1`, {});
     if (!r.ok) throw new Error();
     const d = await r.json();
     const cur = d.current_weather;
-    const temps = d.hourly.temperature_2m || [];
-    const high = temps.length ? Math.round(Math.max(...temps)) : Math.round(cur.temperature+3);
-    const low  = temps.length ? Math.round(Math.min(...temps)) : Math.round(cur.temperature-3);
+    const temps = d.hourly?.temperature_2m ?? [];
+    const high = temps.length ? Math.round(Math.max(...temps)) : Math.round((cur.temperature ?? 0)+3);
+    const low  = temps.length ? Math.round(Math.min(...temps)) : Math.round((cur.temperature ?? 0)-3);
     const WX_ICONS = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'❄️',80:'🌦️',95:'⛈️'};
     const icon = WX_ICONS[cur.weathercode] || '🌤️';
     document.getElementById('qa-wx-temp').textContent = icon + ' ' + Math.round(cur.temperature) + '°C';
     document.getElementById('qa-wx-desc').textContent = 'Current · ' + loc.name;
     document.getElementById('qa-wx-high').textContent = high + '°C';
     document.getElementById('qa-wx-low').textContent  = low  + '°C';
-    document.getElementById('qa-wx-wind').textContent = Math.round(cur.windspeed) + ' km/h';
+    document.getElementById('qa-wx-wind').textContent = Math.round(cur.windspeed ?? 0) + ' km/h';
     document.getElementById('qa-wx-row').style.display = 'flex';
   } catch(e) {
     document.getElementById('qa-wx-temp').textContent = '🌤️ —';
@@ -3348,7 +3384,7 @@ function updateQACards() {
   allItems.forEach(item => {
     const amt = item.amount || 0;
     if (!amt) return;
-    const splitBetween = item.splitBetween && item.splitBetween.length > 0 ? item.splitBetween : ['sachu','stanley','stenin','prabhin'];
+    const splitBetween = item.splitBetween?.length > 0 ? item.splitBetween : ['sachu','stanley','stenin','prabhin'];
     if (item.paidBy && item.paidBy !== 'split' && paid[item.paidBy] !== undefined) {
       paid[item.paidBy] += amt;
     } else {
@@ -3359,7 +3395,7 @@ function updateQACards() {
   allItems.forEach(item => {
     const amt = item.amount || 0;
     if (!amt) return;
-    const splitBetween = item.splitBetween && item.splitBetween.length > 0 ? item.splitBetween : ['sachu','stanley','stenin','prabhin'];
+    const splitBetween = item.splitBetween?.length > 0 ? item.splitBetween : ['sachu','stanley','stenin','prabhin'];
     splitBetween.forEach(t => { if(!shareEach[t]) shareEach[t]=0; shareEach[t] += amt/splitBetween.length; });
   });
   let outstanding = 0;
@@ -3379,4 +3415,15 @@ window.show = function(id, btn) {
   _summaryShow(id, btn);
   if (id === 'summary') { buildTripProgress(); updateQACards(); loadQAWeather(); }
 };
+
+
+// ── SERVICE WORKER ──
+// Blob-URL registration is blocked on https:// origins (security restriction).
+// SW is skipped silently — fonts load from Google CDN as normal.
+// To enable full offline support, host sw.js as a separate file on your server.
+if ('serviceWorker' in navigator && location.protocol === 'http:') {
+  console.log('[SW] localhost detected — SW would register here with a separate sw.js');
+}
 </script>
+</body>
+</html>

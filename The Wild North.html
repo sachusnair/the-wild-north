@@ -468,6 +468,14 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .settle-history{font-size:.65rem;color:rgba(245,240,232,.35);margin-top:3px}
 .settle-progress{height:3px;border-radius:100px;background:rgba(255,255,255,.08);margin-top:8px;overflow:hidden}
 .settle-progress-fill{height:100%;border-radius:100px;background:#7ab872;transition:width .4s ease}
+
+/* ══ PAYMENT HISTORY ══ */
+.settle-history-list{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.settle-hist-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.68rem;padding:4px 8px;background:rgba(255,255,255,.03);border-radius:5px;border:1px solid rgba(255,255,255,.05)}
+.hist-idx{color:rgba(245,240,232,.25);min-width:18px}
+.hist-who{color:rgba(245,240,232,.55);flex:1}
+.hist-amt{color:#7ab872;font-weight:500;font-family:'Playfair Display',serif}
+.hist-date{color:rgba(245,240,232,.3);margin-left:auto;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1805,8 +1813,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div style="color:var(--ink3);font-size:.8rem;padding:.75rem 1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:8px">No expenses recorded yet. Add an expense to calculate balances and settlements.</div>
   </div>
 
-  <div class="cost-section-title" style="margin-top:1rem">👤 Per Person</div>
-  <div id="per-person-panel" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:1.5rem"></div>
+  
 
   <button class="cost-btn" onclick="resetCosts()" style="margin-top:1rem;background:transparent;border-color:rgba(255,255,255,.1);color:rgba(245,240,232,.3);font-size:.65rem">↺ Reset all expenses</button>
 
@@ -2644,7 +2651,8 @@ async function loadWeather() {
       // Try wttr.in as backup
       try {
         const q   = encodeURIComponent(loc.name + ', UK');
-        const r2  = await fetch(`https://wttr.in/${encodeURIComponent(q)}?format=j1`, {  });
+        const _tw2 = new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),6000));
+    const r2  = await Promise.race([fetch(`https://wttr.in/${encodeURIComponent(q)}?format=j1`), _tw2]);
         if (!r2.ok) throw new Error('wttr ' + r2.status);
         const w   = await r2.json();
         const cur = w.current_condition[0];
@@ -2713,22 +2721,7 @@ const DEFAULT_CONFIRMED = [
 // 3. Copy your database URL and paste it below
 // 4. Share the HTML file with your group — everyone sees the same data
 const FB_URL   = 'https://the-wild-north-default-rtdb.europe-west1.firebasedatabase.app';
-const FB_APP_CONFIG = {
-  apiKey:    "AIzaSyPlaceholderKeyForAnonymousAuth",
-  authDomain:"the-wild-north.firebaseapp.com",
-  databaseURL: FB_URL,
-  projectId: "the-wild-north"
-};
-
-// Anonymous auth token — set after signInAnonymously()
-let _fbAuthToken = null;
-
-async function getFbHeaders() {
-  // Returns auth headers if token available, else bare headers
-  const h = { 'Content-Type': 'application/json' };
-  if (_fbAuthToken) h['Authorization'] = 'Bearer ' + _fbAuthToken;
-  return h;
-}
+// Firebase auth scaffold — ready to wire up when needed
 const TRIP_KEY = 'scotland_jul_2026_WNx7Kp9mQ3';
 const FB_READY = FB_URL !== 'YOUR_FIREBASE_URL_HERE';
 
@@ -2907,15 +2900,44 @@ const T_NAMES   = {sachu:'Sachu',stanley:'Stanley',stenin:'Stenin',prabhin:'Prab
 
 
 function recordPartialPayment(fromPerson, toPerson, amount) {
+  const amt = parseFloat(amount || 0);
+  if (!amt || amt <= 0) return;
   const key = fromPerson + '_' + toPerson;
-  partialPayments[key] = (partialPayments[key] || 0) + parseFloat(amount || 0);
+  if (!partialPayments[key]) partialPayments[key] = [];
+  partialPayments[key].push({
+    amount: amt,
+    date: new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}),
+    time: new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})
+  });
+  // Clear input
+  const el = document.getElementById('partial-' + key);
+  if (el) el.value = '';
   saveToCloud();
   renderCosts();
 }
 
 function setFullyPaid(fromPerson, toPerson, totalOwed) {
   const key = fromPerson + '_' + toPerson;
-  partialPayments[key] = totalOwed;
+  const existing = Array.isArray(partialPayments[key]) ? partialPayments[key] : [];
+  const alreadyPaid = existing.reduce((s, r) => s + r.amount, 0);
+  const remaining = Math.max(0, totalOwed - alreadyPaid);
+  if (remaining < 0.01) return; // already settled
+  existing.push({
+    amount: remaining,
+    date: new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}),
+    time: new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})
+  });
+  partialPayments[key] = existing;
+  saveToCloud();
+  renderCosts();
+}
+
+function undoLastPayment(fromPerson, toPerson) {
+  const key = fromPerson + '_' + toPerson;
+  if (Array.isArray(partialPayments[key]) && partialPayments[key].length > 0) {
+    partialPayments[key].pop(); // remove last entry
+    if (partialPayments[key].length === 0) delete partialPayments[key];
+  }
   saveToCloud();
   renderCosts();
 }
@@ -2952,29 +2974,6 @@ function renderSettlement(allItems) {
   const balance = {};
   TRAVELLERS.forEach(t => balance[t] = (paid[t] || 0) - (share[t] || 0));
 
-  // Per person cards
-  const ppPanel = document.getElementById('per-person-panel');
-  if (ppPanel) {
-    ppPanel.innerHTML = '';
-    TRAVELLERS.forEach(t => {
-      const b = balance[t];
-      let actionHtml = '';
-      if (b > 0.01) {
-        actionHtml = `<div class="pp-receive">Should Receive<br><span style="font-family:'Playfair Display',serif;font-size:1rem">£${b.toFixed(2)}</span></div>`;
-      } else if (b < -0.01) {
-        actionHtml = `<div class="pp-owes-lbl">Needs to Pay<br><span style="font-family:'Playfair Display',serif;font-size:1rem">£${Math.abs(b).toFixed(2)}</span></div>`;
-      } else {
-        actionHtml = `<div class="pp-balance-pos" style="margin-top:.4rem;font-size:.72rem">Settled ✓</div>`;
-      }
-      ppPanel.innerHTML += `<div class="per-person-card">
-        <div class="pp-name">${escapeHtml(T_NAMES[t])}</div>
-        <div class="pp-row"><span class="pp-row-lbl">Paid</span><span class="pp-row-val">£${(paid[t]||0).toFixed(2)}</span></div>
-        <div class="pp-row"><span class="pp-row-lbl">Share</span><span class="pp-row-val">£${(share[t]||0).toFixed(2)}</span></div>
-        <div class="pp-row"><span class="pp-row-lbl">Balance</span><span class="pp-row-val" style="color:${b>0.01?'#7ab872':b<-0.01?'#e07a54':'rgba(245,240,232,.5)'}">${b>0.01?'+':''}£${b.toFixed(2)}</span></div>
-        ${actionHtml}
-      </div>`;
-    });
-  }
 
   // Settlement — who pays whom
   const sPanel = document.getElementById('settlement-panel');
@@ -3008,7 +3007,8 @@ function renderSettlement(allItems) {
 
   sPanel.innerHTML = txns.map(tx => {
     const key       = tx.from + '_' + tx.to;
-    const paidSoFar = partialPayments[key] || 0;
+    const records   = Array.isArray(partialPayments[key]) ? partialPayments[key] : [];
+    const paidSoFar = records.reduce((s, r) => s + (r.amount || 0), 0);
     const remaining = Math.max(0, tx.amt - paidSoFar);
     const pct       = Math.min(100, (paidSoFar / tx.amt) * 100);
     const isPaidOff = remaining < 0.01;
@@ -3023,7 +3023,8 @@ function renderSettlement(allItems) {
 
     const actionRow = isPaidOff
       ? `<div class="settle-actions">
-           <button class="settle-pay-btn" onclick="undoPayment('${tx.from}','${tx.to}')">↺ Undo</button>
+           <button class="settle-pay-btn" onclick="undoLastPayment('${tx.from}','${tx.to}')" title="Undo last payment">↺ Undo last</button>
+           <button class="settle-pay-btn" onclick="undoPayment('${tx.from}','${tx.to}')" style="opacity:.5;font-size:.6rem" title="Clear all payments">✕ Clear all</button>
          </div>`
       : `<div class="settle-actions">
            <input class="settle-input" id="partial-${key}" type="number" placeholder="£ amount" min="0.01" step="0.01" max="${remaining.toFixed(2)}" />
@@ -3041,7 +3042,14 @@ function renderSettlement(allItems) {
         </div>
         ${actionRow}
         <div class="settle-progress" style="margin-top:8px"><div class="settle-progress-fill" style="width:${pct}%"></div></div>
-        ${paidSoFar > 0.01 ? `<div class="settle-history">Paid £${paidSoFar.toFixed(2)} · Remaining £${remaining.toFixed(2)} of £${tx.amt.toFixed(2)}</div>` : ''}
+        ${records.length > 0 ? `<div class="settle-history-list">
+          ${records.map((r,i) => `<div class="settle-hist-row">
+            <span class="hist-idx">#${i+1}</span>
+            <span class="hist-who">${escapeHtml(T_NAMES[tx.from])} paid ${escapeHtml(T_NAMES[tx.to])}</span>
+            <span class="hist-amt">£${r.amount.toFixed(2)}</span>
+            <span class="hist-date">${r.date} · ${r.time}</span>
+          </div>`).join('')}
+        </div>` : ''}
       </div>
       <div class="settle-amounts">
         ${isPartial || isPaidOff ? `<span class="settle-total">£${tx.amt.toFixed(2)}</span>` : ''}

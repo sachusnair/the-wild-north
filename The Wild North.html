@@ -3680,20 +3680,11 @@ function getAllOfflineTiles() {
   return [...new Set(tiles)];
 }
 
-window.startOfflineDownload = function () {
+function _doTileDownload() {
   const btn   = document.getElementById('offline-dl-btn');
   const bar   = document.getElementById('offline-progress-wrap');
   const fill  = document.getElementById('offline-progress-fill');
   const label = document.getElementById('offline-progress-label');
-
-  if (!('serviceWorker' in navigator)) {
-    alert('Service workers are not supported in this browser.');
-    return;
-  }
-  if (!navigator.serviceWorker.controller) {
-    alert('Map cache is setting up — please wait a few seconds and try again.');
-    return;
-  }
 
   const tiles = getAllOfflineTiles();
   btn.disabled = true;
@@ -3721,6 +3712,48 @@ window.startOfflineDownload = function () {
     { type: 'PRELOAD_TILES', tiles },
     [mc.port2]
   );
+}
+
+window.startOfflineDownload = function () {
+  const btn   = document.getElementById('offline-dl-btn');
+  const label = document.getElementById('offline-progress-label');
+  const bar   = document.getElementById('offline-progress-wrap');
+
+  if (!('serviceWorker' in navigator)) {
+    alert('Offline maps are not supported in this browser.');
+    return;
+  }
+
+  // SW already controlling the page — start immediately
+  if (navigator.serviceWorker.controller) {
+    _doTileDownload();
+    return;
+  }
+
+  // SW registered but not yet controlling — wait for it (up to 8 seconds)
+  btn.disabled = true;
+  btn.textContent = 'Preparing…';
+  bar.style.display = 'block';
+  label.textContent = 'Starting up cache…';
+
+  const timeout = setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = '⬇ Save map offline';
+    bar.style.display = 'none';
+    label.textContent = '';
+    alert('Could not start offline cache. Please refresh the page and try again.');
+  }, 8000);
+
+  navigator.serviceWorker.ready.then(() => {
+    // After ready, controller may still need one tick
+    const check = setInterval(() => {
+      if (navigator.serviceWorker.controller) {
+        clearInterval(check);
+        clearTimeout(timeout);
+        _doTileDownload();
+      }
+    }, 200);
+  });
 };
 
 // ── PDF BOOKING ATTACHMENTS ──

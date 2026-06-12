@@ -3232,11 +3232,13 @@ function recordPartialPayment(fromPerson, toPerson, amount) {
   if (!amt || amt <= 0) return;
   const key = fromPerson + '_' + toPerson;
   if (!partialPayments[key]) partialPayments[key] = [];
-  partialPayments[key].push({
+  const payment = {
     amount: amt,
     date: new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}),
     time: new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})
-  });
+  };
+  partialPayments[key].push(payment);
+  pushHistory('payment', payment, key);
   // Clear input
   const el = document.getElementById('partial-' + key);
   if (el) el.value = '';
@@ -3247,6 +3249,8 @@ function recordPartialPayment(fromPerson, toPerson, amount) {
 function setFullyPaid(fromPerson, toPerson, totalOwed) {
   const key = fromPerson + '_' + toPerson;
   const existing = Array.isArray(partialPayments[key]) ? partialPayments[key] : [];
+  // Save snapshot for undo
+  pushHistory('settled', existing, key);
   const alreadyPaid = existing.reduce((s, r) => s + r.amount, 0);
   const remaining = Math.max(0, totalOwed - alreadyPaid);
   if (remaining < 0.01) return; // already settled
@@ -3562,7 +3566,9 @@ function addExpense() {
     src[editTarget.index] = { ...src[editTarget.index], name, amount: finalAmount, cat, paidBy, splitBetween };
     editTarget = null;
   } else {
-    customExpenses.push({ name, amount: finalAmount, cat, paidBy, splitBetween });
+    const newExp = { name, amount: finalAmount, cat, paidBy, splitBetween };
+    customExpenses.push(newExp);
+    pushHistory('expense', newExp, 'custom');
   }
   nameEl.value = '';
   document.getElementById('exp-amount').value = '';
@@ -3571,51 +3577,60 @@ function addExpense() {
   saveToCloud();
 }
 
+// ── Unified action history for undo ──────────────────────────
+const actionHistory = []; // {type:'expense'|'payment', data, key?}
+
+function pushHistory(type, data, key) {
+  actionHistory.push({ type, data: JSON.parse(JSON.stringify(data)), key });
+}
+
 function undoLastExpense() {
-  // Find the most recently added item
-  // Custom expenses are user-added — undo removes the last one
-  if (customExpenses.length > 0) {
-    const removed = customExpenses.pop();
-    renderCosts();
-    saveToCloud();
-    // Brief confirmation
-    const btn = document.getElementById('undo-last-btn');
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = '✓ Removed: ' + removed.name;
-      btn.style.color = 'rgba(100,220,100,.9)';
-      btn.style.borderColor = 'rgba(100,220,100,.3)';
-      setTimeout(() => {
-        btn.textContent = orig;
-        btn.style.color = 'rgba(255,165,0,.8)';
-        btn.style.borderColor = 'rgba(255,165,0,.3)';
-      }, 2000);
-    }
-  } else if (confirmedCosts.length > 0) {
-    // Also allow undo on confirmed costs
-    const removed = confirmedCosts.pop();
-    renderCosts();
-    saveToCloud();
-    const btn = document.getElementById('undo-last-btn');
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = '✓ Removed: ' + removed.name;
-      btn.style.color = 'rgba(100,220,100,.9)';
-      btn.style.borderColor = 'rgba(100,220,100,.3)';
-      setTimeout(() => {
-        btn.textContent = orig;
-        btn.style.color = 'rgba(255,165,0,.8)';
-        btn.style.borderColor = 'rgba(255,165,0,.3)';
-      }, 2000);
-    }
-  } else {
-    const btn = document.getElementById('undo-last-btn');
-    if (btn) {
-      const orig = btn.textContent;
-      btn.textContent = '✗ Nothing to undo';
-      setTimeout(() => { btn.textContent = orig; }, 1500);
-    }
+  const btn = document.getElementById('undo-last-btn');
+  function flash(msg, color) {
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = msg;
+    btn.style.color = color;
+    btn.style.borderColor = color.replace('.9', '.3').replace('.8','.3');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.color = 'rgba(255,165,0,.8)';
+      btn.style.borderColor = 'rgba(255,165,0,.3)';
+    }, 2200);
   }
+
+  if (actionHistory.length === 0) {
+    flash('✗ Nothing to undo', 'rgba(255,100,80,.9)');
+    return;
+  }
+
+  const last = actionHistory.pop();
+
+  if (last.type === 'expense') {
+    // Remove last expense from correct list
+    if (last.key === 'custom' && customExpenses.length > 0) {
+      customExpenses.pop();
+      flash('↩ Removed: ' + last.data.name, 'rgba(100,220,100,.9)');
+    } else if (last.key === 'confirmed' && confirmedCosts.length > 0) {
+      confirmedCosts.pop();
+      flash('↩ Removed: ' + last.data.name, 'rgba(100,220,100,.9)');
+    }
+  } else if (last.type === 'payment') {
+    // Remove last payment from partialPayments
+    const key = last.key;
+    if (partialPayments[key] && partialPayments[key].length > 0) {
+      const removed = partialPayments[key].pop();
+      flash('↩ Payment removed: £' + removed.amount.toFixed(2), 'rgba(100,220,100,.9)');
+    }
+  } else if (last.type === 'settled') {
+    // Restore settled payment
+    const key = last.key;
+    partialPayments[key] = last.data;
+    flash('↩ Settlement undone', 'rgba(100,220,100,.9)');
+  }
+
+  renderCosts();
+  saveToCloud();
 }
 
 function deleteCustom(i) {

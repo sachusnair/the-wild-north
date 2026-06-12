@@ -14,7 +14,7 @@
 body{background:var(--ink);font-family:'DM Sans',sans-serif;color:var(--cream);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.4}
 .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:4rem 2rem;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:3;background:radial-gradient(ellipse 80% 50% at 20% 80%,rgba(45,90,110,.35) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 20%,rgba(107,78,125,.25) 0%,transparent 55%),radial-gradient(ellipse 100% 60% at 50% 100%,rgba(74,103,65,.2) 0%,transparent 50%),#1a1814}
+.hero-bg{position:absolute;inset:0;z-index:3;background:transparent}
 .hero-mountains{position:absolute;bottom:0;left:0;right:0;height:45%;opacity:.08;z-index:4}
 .hero-content{position:relative;z-index:5;animation:fadeUp 1.2s cubic-bezier(.16,1,.3,1) both}
 .hero-eyebrow{font-size:.7rem;font-weight:400;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
@@ -483,8 +483,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* ══ HERO SLIDESHOW ══ */
 .hero-slideshow{position:absolute;inset:0;z-index:0;overflow:hidden}
-.hs-slide{position:absolute;inset:0;opacity:0;transition:opacity 2s ease-in-out;pointer-events:none}
+.hs-slide{position:absolute;inset:0;opacity:0;pointer-events:none}
 .hs-slide.hs-active{opacity:1}
+.hs-ready .hs-slide{transition:opacity 1.5s ease-in-out}
 .hs-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
 .hero-slideshow-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(26,24,20,.6) 0%,rgba(26,24,20,.25) 50%,rgba(26,24,20,.75) 100%);pointer-events:none}
 </style>
@@ -3847,27 +3848,33 @@ window.addEventListener('load', () => setTimeout(initAllPdfSlots, 300));
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  var slides = document.querySelectorAll('.hs-slide');
+  var slideshow = document.getElementById('heroSlideshow');
+  var slides = Array.from(document.querySelectorAll('.hs-slide'));
   if (!slides.length) return;
-  // Shuffle order randomly on load
-  var arr = Array.from(slides);
-  var parent = slides[0].parentNode;
+
+  // Shuffle
   var overlay = document.querySelector('.hero-slideshow-overlay');
-  for (var i = arr.length - 1; i > 0; i--) {
+  for (var i = slides.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    parent.insertBefore(arr[j], overlay);
-    parent.insertBefore(arr[i], overlay);
-    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    slideshow.insertBefore(slides[j], overlay);
+    var t = slides[i]; slides[i] = slides[j]; slides[j] = t;
   }
-  // Set first active
-  arr.forEach(function(s) { s.classList.remove('hs-active'); });
-  arr[0].classList.add('hs-active');
+
+  // Show first slide immediately - no transition yet
+  slides[0].classList.add('hs-active');
+
+  // Enable transitions after first frame renders
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      slideshow.classList.add('hs-ready');
+    });
+  });
+
   var cur = 0;
-  // Change every 4 seconds
   setInterval(function() {
-    arr[cur].classList.remove('hs-active');
-    cur = (cur + 1) % arr.length;
-    arr[cur].classList.add('hs-active');
+    slides[cur].classList.remove('hs-active');
+    cur = (cur + 1) % slides.length;
+    slides[cur].classList.add('hs-active');
   }, 4000);
 });
 </script>

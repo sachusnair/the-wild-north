@@ -31,8 +31,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,rgba(200,168,75,.6),transparent);animation:scrollPulse 2s ease-in-out infinite}
 .sticky-nav{position:sticky;top:0;z-index:100;background:rgba(26,24,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,168,75,.15)}
 .nav-fixed-row::-webkit-scrollbar{display:none}
-.nav-fixed-row{display:flex;align-items:center;justify-content:center;gap:8px;padding:.6rem 1rem;border-bottom:1px solid rgba(200,168,75,.12);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.nav-fixed-btn{flex-shrink:0;padding:.48rem 1rem;font-size:.67rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,240,232,.6);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:100px;cursor:pointer;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.nav-fixed-row{display:flex;align-items:center;justify-content:flex-start;gap:6px;padding:.55rem .9rem;border-bottom:1px solid rgba(200,168,75,.12);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav-fixed-btn{flex-shrink:0;padding:.45rem .85rem;font-size:.64rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:rgba(245,240,232,.6);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:100px;cursor:pointer;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .nav-fixed-btn:hover{color:var(--cream);background:rgba(255,255,255,.08)}
 .nav-fixed-btn.active{color:var(--gold2);background:rgba(200,168,75,.12);border-color:rgba(200,168,75,.4)}
 
@@ -723,6 +723,14 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 }
 .other-doc-remove:hover{background:rgba(204,34,0,.2);border-color:rgba(204,34,0,.4);color:#ff4422}
 
+
+@media(max-width:420px){
+  .nav-fixed-row{gap:4px;padding:.5rem .6rem}
+  .nav-fixed-btn{padding:.42rem .7rem;font-size:.6rem;letter-spacing:.04em}
+}
+@media(max-width:360px){
+  .nav-fixed-btn{padding:.4rem .6rem;font-size:.58rem}
+}
 </style>
 </head>
 <body>

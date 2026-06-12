@@ -2045,6 +2045,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
   <div style="display:flex;gap:8px;margin-bottom:1.5rem">
     <button class="cost-btn" id="add-exp-btn" onclick="addExpense()">+ Add</button>
+    <button class="cost-btn" id="undo-last-btn" onclick="undoLastExpense()" style="background:transparent;border-color:rgba(255,165,0,.3);color:rgba(255,165,0,.8)">↩ Undo Last</button>
     <button class="cost-btn" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none;background:transparent;border-color:rgba(255,255,255,.15);color:rgba(245,240,232,.4)">✕ Cancel</button>
   </div>
 
@@ -3568,6 +3569,53 @@ function addExpense() {
   selectAllSplit();
   renderCosts();
   saveToCloud();
+}
+
+function undoLastExpense() {
+  // Find the most recently added item
+  // Custom expenses are user-added — undo removes the last one
+  if (customExpenses.length > 0) {
+    const removed = customExpenses.pop();
+    renderCosts();
+    saveToCloud();
+    // Brief confirmation
+    const btn = document.getElementById('undo-last-btn');
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Removed: ' + removed.name;
+      btn.style.color = 'rgba(100,220,100,.9)';
+      btn.style.borderColor = 'rgba(100,220,100,.3)';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.color = 'rgba(255,165,0,.8)';
+        btn.style.borderColor = 'rgba(255,165,0,.3)';
+      }, 2000);
+    }
+  } else if (confirmedCosts.length > 0) {
+    // Also allow undo on confirmed costs
+    const removed = confirmedCosts.pop();
+    renderCosts();
+    saveToCloud();
+    const btn = document.getElementById('undo-last-btn');
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Removed: ' + removed.name;
+      btn.style.color = 'rgba(100,220,100,.9)';
+      btn.style.borderColor = 'rgba(100,220,100,.3)';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.color = 'rgba(255,165,0,.8)';
+        btn.style.borderColor = 'rgba(255,165,0,.3)';
+      }, 2000);
+    }
+  } else {
+    const btn = document.getElementById('undo-last-btn');
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✗ Nothing to undo';
+      setTimeout(() => { btn.textContent = orig; }, 1500);
+    }
+  }
 }
 
 function deleteCustom(i) {

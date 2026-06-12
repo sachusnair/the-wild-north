@@ -3577,16 +3577,6 @@ document.addEventListener('keydown', e => {
 // Boot: load from cloud when costs tab is first opened
 const _costsOrigShow = window.show;
 window.show = function(id, btn) {
-  // PIN check for costs
-  if (id === 'costs') {
-    var pinOk = localStorage.getItem('wn_pin_ok') === 'true';
-    var viewOnly = localStorage.getItem('wn_pin_view') === 'true';
-    if (!pinOk && !viewOnly) {
-      window._pendingShowBtn = btn;
-      if (window.openPin) window.openPin();
-      return;
-    }
-  }
   _costsOrigShow(id, btn);
   if (id === 'costs' && !fbConnected && !pollTimer) loadFromCloud();
 };
@@ -4284,117 +4274,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 
-<script>
-(function(){
-  var PIN_HASH   = '8eec27653c19ed078b2f3bae16ff901d16347d7917d2b8e2317914e2437bf324';
-  var STORE_KEY  = 'wn_pin_ok';
-  var VIEW_KEY   = 'wn_pin_view';
-  var pinBuffer  = '';
-  var pinLocked  = true;
 
-  // ── SHA-256 in browser ──
-  async function sha256(str){
-    var buf = new TextEncoder().encode(str);
-    var hash = await crypto.subtle.digest('SHA-256', buf);
-    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-
-  // ── On load: check if already unlocked ──
-  window.initPinSystem = function(){
-    var ok   = localStorage.getItem(STORE_KEY);
-    var view = localStorage.getItem(VIEW_KEY);
-    if(ok === 'true'){ pinLocked = false; return; }
-    if(view === 'true'){ pinLocked = true; setViewOnly(); return; }
-  };
-
-  // PIN check is handled directly in the costs show() wrapper
-
-  window.openPin = function(){
-    pinBuffer = '';
-    updateDots();
-    document.getElementById('pin-error').textContent = '';
-    document.getElementById('pin-overlay').classList.add('open');
-  };
-
-  function closePin(){
-    document.getElementById('pin-overlay').classList.remove('open');
-  }
-
-  window.pinKey = function(digit){
-    if(pinBuffer.length >= 4) return;
-    pinBuffer += digit;
-    updateDots();
-    if(pinBuffer.length === 4) verifyPin();
-  };
-
-  window.pinDel = function(){
-    pinBuffer = pinBuffer.slice(0,-1);
-    updateDots();
-    document.getElementById('pin-error').textContent = '';
-    // Remove error state
-    for(var i=0;i<4;i++) document.getElementById('pd'+i).classList.remove('error');
-  };
-
-  window.pinViewOnly = function(){
-    localStorage.setItem(VIEW_KEY, 'true');
-    pinLocked = true;
-    closePin();
-    setViewOnly();
-    // Navigate to costs read-only
-    var btn = window._pendingShowBtn;
-    window.show('costs', btn || document.getElementById('nb-costs'));
-  };
-
-  async function verifyPin(){
-    var hash = await sha256(pinBuffer);
-    if(hash === PIN_HASH){
-      // Correct
-      localStorage.setItem(STORE_KEY, 'true');
-      localStorage.removeItem(VIEW_KEY);
-      pinLocked = false;
-      closePin();
-      var btn = window._pendingShowBtn;
-      _origShow('costs', btn || document.getElementById('nb-costs'));
-    } else {
-      // Wrong
-      for(var i=0;i<4;i++) document.getElementById('pd'+i).classList.add('error');
-      document.getElementById('pin-error').textContent = 'Incorrect PIN — try again';
-      setTimeout(function(){
-        pinBuffer = '';
-        updateDots();
-        for(var i=0;i<4;i++){
-          document.getElementById('pd'+i).classList.remove('error');
-        }
-        document.getElementById('pin-error').textContent = '';
-      }, 900);
-    }
-  }
-
-  function updateDots(){
-    for(var i=0;i<4;i++){
-      var dot = document.getElementById('pd'+i);
-      dot.classList.toggle('filled', i < pinBuffer.length);
-    }
-  }
-
-  function setViewOnly(){
-    // Disable all add/edit buttons in cost tracker
-    var style = document.getElementById('pin-viewonly-style');
-    if(!style){
-      style = document.createElement('style');
-      style.id = 'pin-viewonly-style';
-      style.textContent = '#add-expense-btn, #exp-form, .split-editor, .delete-exp-btn { opacity:.35; pointer-events:none; }' +
-        '#costs .day-sub::after { content:" — view only (no PIN)"; color:rgba(255,100,80,.7); font-size:.75rem; }';
-      document.head.appendChild(style);
-    }
-  }
-
-  // Run on page load
-  document.addEventListener('DOMContentLoaded', function(){
-    initPinSystem();
-  });
-})();
-</script>
 
 
 <script>
@@ -4477,6 +4357,167 @@ document.addEventListener('DOMContentLoaded', function() {
     // Init immediately in case docs panel is default
     renderOtherDocs();
   });
+})();
+</script>
+
+
+<script>
+/* ══ PIN SYSTEM ══ */
+(function() {
+  var HASH     = '8eec27653c19ed078b2f3bae16ff901d16347d7917d2b8e2317914e2437bf324';
+  var OK_KEY   = 'wn_pin_ok';
+  var VIEW_KEY = 'wn_pin_view';
+  var buf      = '';
+
+  /* SHA-256 via Web Crypto */
+  function sha256(str) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str))
+      .then(function(b) {
+        return Array.from(new Uint8Array(b))
+          .map(function(x) { return x.toString(16).padStart(2,'0'); }).join('');
+      });
+  }
+
+  /* Show/hide overlay */
+  function openOverlay() {
+    buf = '';
+    syncDots();
+    var el = document.getElementById('pin-error');
+    if (el) el.textContent = '';
+    var ov = document.getElementById('pin-overlay');
+    if (ov) ov.classList.add('open');
+  }
+  function closeOverlay() {
+    var ov = document.getElementById('pin-overlay');
+    if (ov) ov.classList.remove('open');
+  }
+
+  /* Dot display */
+  function syncDots() {
+    for (var i = 0; i < 4; i++) {
+      var d = document.getElementById('pd' + i);
+      if (d) d.classList.toggle('filled', i < buf.length);
+    }
+  }
+  function flashError() {
+    for (var i = 0; i < 4; i++) {
+      var d = document.getElementById('pd' + i);
+      if (d) d.classList.add('error');
+    }
+    var el = document.getElementById('pin-error');
+    if (el) el.textContent = 'Incorrect PIN — try again';
+    setTimeout(function() {
+      buf = '';
+      syncDots();
+      for (var i = 0; i < 4; i++) {
+        var d = document.getElementById('pd' + i);
+        if (d) d.classList.remove('error');
+      }
+      var el2 = document.getElementById('pin-error');
+      if (el2) el2.textContent = '';
+    }, 900);
+  }
+
+  /* Navigate to costs after unlock */
+  function goToCosts() {
+    var btn = window._pendingCostsBtn || document.getElementById('nb-costs');
+    /* call the base show() chain directly */
+    if (window._costsOrigShow) {
+      window._costsOrigShow(btn ? 'costs' : 'costs', btn);
+    } else {
+      window.show('costs', btn);
+    }
+    window._pendingCostsBtn = null;
+  }
+
+  /* Public API */
+  window.openPin = function() { openOverlay(); };
+
+  window.pinKey = function(digit) {
+    if (buf.length >= 4) return;
+    buf += digit;
+    syncDots();
+    if (buf.length === 4) {
+      sha256(buf).then(function(h) {
+        if (h === HASH) {
+          localStorage.setItem(OK_KEY, 'true');
+          localStorage.removeItem(VIEW_KEY);
+          closeOverlay();
+          goToCosts();
+        } else {
+          flashError();
+        }
+      });
+    }
+  };
+
+  window.pinDel = function() {
+    buf = buf.slice(0, -1);
+    syncDots();
+    var el = document.getElementById('pin-error');
+    if (el) el.textContent = '';
+    for (var i = 0; i < 4; i++) {
+      var d = document.getElementById('pd' + i);
+      if (d) d.classList.remove('error');
+    }
+  };
+
+  window.pinViewOnly = function() {
+    localStorage.setItem(VIEW_KEY, 'true');
+    closeOverlay();
+    setViewOnly();
+    goToCosts();
+  };
+
+  function setViewOnly() {
+    var s = document.getElementById('pin-viewonly-style');
+    if (!s) {
+      s = document.createElement('style');
+      s.id = 'pin-viewonly-style';
+      s.textContent = [
+        /* Add/submit button */
+        '#add-exp-btn { opacity:.35 !important; pointer-events:none !important; cursor:not-allowed !important }',
+        /* All cost inputs and selects */
+        '#exp-name, #exp-amount, #exp-cat, #exp-paid-by { pointer-events:none !important; opacity:.4 !important }',
+        /* Split chips */
+        '#split-chips .split-chip { pointer-events:none !important; opacity:.4 !important }',
+        /* Edit and delete buttons in expense rows */
+        '.cost-btn[onclick*="startEdit"], .cost-btn-del { opacity:.2 !important; pointer-events:none !important }',
+        /* Cancel edit button */
+        '#cancel-edit-btn { opacity:.2 !important; pointer-events:none !important }',
+        /* Reset button */
+        'button[onclick*="resetCosts"] { opacity:.2 !important; pointer-events:none !important }',
+        /* View only label */
+        '#costs .day-sub::after { content:" · View only — enter PIN to edit"; color:rgba(255,120,80,.8); font-size:.72rem }'
+      ].join(' ');
+      document.head.appendChild(s);
+    }
+  }
+
+  /* Intercept show() for costs */
+  var _base = window.show;
+  window.show = function(id, btn) {
+    if (id === 'costs') {
+      var ok = false; // Always ask PIN every session
+      var vo = localStorage.getItem(VIEW_KEY) === 'true';
+      if (!ok && !vo) {
+        window._pendingCostsBtn = btn;
+        openOverlay();
+        return;
+      }
+      if (vo) setViewOnly();
+    }
+    _base(id, btn);
+  };
+
+  /* Close on backdrop tap */
+  document.addEventListener('DOMContentLoaded', function() {
+    var ov = document.getElementById('pin-overlay');
+    if (ov) ov.addEventListener('click', function(e) {
+      if (e.target === ov) closeOverlay();
+    });
+  });
+
 })();
 </script>
 

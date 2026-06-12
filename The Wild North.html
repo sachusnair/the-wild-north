@@ -488,6 +488,109 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .hs-ready .hs-slide{transition:opacity 1.5s ease-in-out}
 .hs-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
 .hero-slideshow-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(10,8,6,.72) 0%,rgba(10,8,6,.42) 45%,rgba(10,8,6,.78) 100%);pointer-events:none}
+
+/* ══ SOS BUTTON ══ */
+#sos-btn{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:9999;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#cc2200,#ff3311);
+  border:none;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(204,34,0,.55), 0 0 0 0 rgba(204,34,0,.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:1px;
+  animation:sos-pulse 2.5s infinite;
+  transition:transform .15s;
+}
+#sos-btn:hover{transform:scale(1.08)}
+#sos-btn:active{transform:scale(0.95)}
+#sos-btn span.sos-text{font-size:.75rem;font-weight:900;letter-spacing:.12em;color:#fff;line-height:1}
+
+@keyframes sos-pulse{
+  0%{box-shadow:0 4px 20px rgba(204,34,0,.55),0 0 0 0 rgba(204,34,0,.5)}
+  70%{box-shadow:0 4px 20px rgba(204,34,0,.55),0 0 0 16px rgba(204,34,0,0)}
+  100%{box-shadow:0 4px 20px rgba(204,34,0,.55),0 0 0 0 rgba(204,34,0,0)}
+}
+
+/* SOS Modal */
+#sos-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(6px);
+  align-items:center;
+  justify-content:center;
+  padding:1.5rem;
+}
+#sos-modal.open{display:flex}
+#sos-box{
+  background:#1a0a08;
+  border:2px solid #cc2200;
+  border-radius:20px;
+  padding:2rem 1.75rem;
+  max-width:360px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.8);
+}
+#sos-box h2{
+  font-family:'Playfair Display',serif;
+  color:#ff4422;
+  font-size:1.6rem;
+  margin:0 0 .4rem;
+}
+#sos-box .sos-sub{
+  font-size:.8rem;
+  color:rgba(245,240,232,.55);
+  margin-bottom:1.5rem;
+  line-height:1.5;
+}
+#sos-status{
+  font-size:.82rem;
+  color:rgba(245,240,232,.75);
+  background:rgba(255,255,255,.05);
+  border-radius:10px;
+  padding:.85rem 1rem;
+  margin-bottom:1.5rem;
+  line-height:1.6;
+  text-align:left;
+  min-height:60px;
+}
+.sos-actions{display:flex;flex-direction:column;gap:.75rem}
+#sos-send-btn{
+  background:linear-gradient(135deg,#cc2200,#ff3311);
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  padding:1rem;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  letter-spacing:.05em;
+  transition:opacity .2s;
+}
+#sos-send-btn:disabled{opacity:.5;cursor:not-allowed}
+#sos-cancel-btn{
+  background:transparent;
+  color:rgba(245,240,232,.5);
+  border:1px solid rgba(245,240,232,.15);
+  border-radius:12px;
+  padding:.75rem;
+  font-size:.85rem;
+  cursor:pointer;
+  transition:color .2s;
+}
+#sos-cancel-btn:hover{color:rgba(245,240,232,.85)}
 </style>
 </head>
 <body>
@@ -3877,6 +3980,106 @@ document.addEventListener('DOMContentLoaded', function() {
     slides[cur].classList.add('hs-active');
   }, 4000);
 });
+</script>
+
+
+<!-- ══ SOS BUTTON ══ -->
+<button id="sos-btn" onclick="openSOS()" aria-label="SOS Emergency">
+  <span class="sos-text">SOS</span>
+</button>
+
+<!-- ══ SOS MODAL ══ -->
+<div id="sos-modal" role="dialog" aria-modal="true" aria-label="SOS Emergency Alert">
+  <div id="sos-box">
+    <h2>🆘 SOS Alert</h2>
+    <p class="sos-sub">This will send an emergency SMS to your contact with your exact GPS location.</p>
+    <div id="sos-status">📍 Tap "Send SOS" to get your location and send the alert...</div>
+    <div class="sos-actions">
+      <button id="sos-send-btn" onclick="sendSOS()">📲 Send SOS Now</button>
+      <button id="sos-cancel-btn" onclick="closeSOS()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SOS_NUMBER = '+447309246587';
+  var TRIP_NAME  = 'The Wild North — Scotland Road Trip Jul 2026';
+  var MEMBERS    = 'Sachu, Stanley, Stenin & Prabhin';
+
+  window.openSOS = function(){
+    document.getElementById('sos-modal').classList.add('open');
+    document.getElementById('sos-status').innerHTML = '📍 Tap <strong>Send SOS</strong> to get your location and send the alert...';
+    document.getElementById('sos-send-btn').disabled = false;
+  };
+
+  window.closeSOS = function(){
+    document.getElementById('sos-modal').classList.remove('open');
+  };
+
+  window.sendSOS = function(){
+    var btn = document.getElementById('sos-send-btn');
+    var status = document.getElementById('sos-status');
+    btn.disabled = true;
+    status.innerHTML = '📡 Getting your GPS location...';
+
+    if (!navigator.geolocation){
+      sendWithLocation(null);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        var lat = pos.coords.latitude.toFixed(5);
+        var lon = pos.coords.longitude.toFixed(5);
+        var acc = Math.round(pos.coords.accuracy);
+        sendWithLocation({ lat:lat, lon:lon, acc:acc });
+      },
+      function(err){
+        status.innerHTML = '⚠️ Location unavailable — sending without GPS...';
+        sendWithLocation(null);
+      },
+      { timeout:8000, maximumAge:0, enableHighAccuracy:true }
+    );
+  };
+
+  function sendWithLocation(loc){
+    var status = document.getElementById('sos-status');
+    var now = new Date().toUTCString();
+    var msg;
+
+    if(loc){
+      var mapsUrl = 'https://maps.google.com/?q=' + loc.lat + ',' + loc.lon;
+      msg = '🆘 SOS — ' + TRIP_NAME + '%0A'
+          + 'GROUP: ' + MEMBERS + '%0A'
+          + 'TIME: ' + now + '%0A'
+          + 'GPS: ' + loc.lat + ', ' + loc.lon + ' (±' + loc.acc + 'm)%0A'
+          + 'MAP: ' + mapsUrl + '%0A'
+          + 'WE NEED HELP — PLEASE CALL OR CONTACT EMERGENCY SERVICES';
+
+      status.innerHTML = '✅ Location found: <strong>' + loc.lat + ', ' + loc.lon + '</strong> (±' + loc.acc + 'm)<br>'
+        + '📲 Opening SMS to ' + SOS_NUMBER + '...';
+    } else {
+      msg = '🆘 SOS — ' + TRIP_NAME + '%0A'
+          + 'GROUP: ' + MEMBERS + '%0A'
+          + 'TIME: ' + now + '%0A'
+          + 'LOCATION: Could not get GPS — check last known location%0A'
+          + 'WE NEED HELP — PLEASE CALL OR CONTACT EMERGENCY SERVICES';
+
+      status.innerHTML = '📲 Opening SMS to ' + SOS_NUMBER + ' (no GPS)...';
+    }
+
+    // Small delay so user can see the status message
+    setTimeout(function(){
+      window.location.href = 'sms:' + SOS_NUMBER + '?body=' + msg;
+    }, 1200);
+  }
+
+  // Close modal on backdrop click
+  document.getElementById('sos-modal').addEventListener('click', function(e){
+    if(e.target === this) closeSOS();
+  });
+})();
 </script>
 
 </body>

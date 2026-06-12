@@ -1912,6 +1912,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <p class="day-label">Trip Finances</p>
       <h2 class="day-title">Cost <em>Tracker</em></h2>
       <p class="day-sub">Shared with all 4 people — changes sync to the cloud instantly</p>
+      <button id="unlock-edit-btn" onclick="unlockToEdit()" style="display:none;margin-top:.75rem;padding:.45rem 1.1rem;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.35);border-radius:100px;cursor:pointer;">🔐 Enter PIN to Edit</button>
     </div>
   </div>
 
@@ -4440,7 +4441,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (buf.length === 4) {
       sha256(buf).then(function(h) {
         if (h === HASH) {
-          localStorage.setItem(OK_KEY, 'true');
+          sessionUnlocked = true;
           localStorage.removeItem(VIEW_KEY);
           closeOverlay();
           goToCosts();
@@ -4463,13 +4464,31 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   window.pinViewOnly = function() {
+    sessionUnlocked = false;
     localStorage.setItem(VIEW_KEY, 'true');
     closeOverlay();
     setViewOnly();
     goToCosts();
   };
 
+  window.unlockToEdit = function() {
+    // Clear view-only state and ask for PIN
+    localStorage.removeItem(VIEW_KEY);
+    sessionUnlocked = false;
+    // Remove view-only style
+    var s = document.getElementById('pin-viewonly-style');
+    if (s) s.remove();
+    // Hide unlock button
+    var ub = document.getElementById('unlock-edit-btn');
+    if (ub) ub.style.display = 'none';
+    // Open PIN overlay
+    openOverlay();
+  };
+
   function setViewOnly() {
+    // Show the unlock button
+    var ub = document.getElementById('unlock-edit-btn');
+    if (ub) ub.style.display = 'inline-block';
     var s = document.getElementById('pin-viewonly-style');
     if (!s) {
       s = document.createElement('style');
@@ -4494,13 +4513,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  /* Session-only unlock flag — resets every page load */
+  var sessionUnlocked = false;
+
   /* Intercept show() for costs */
   var _base = window.show;
   window.show = function(id, btn) {
     if (id === 'costs') {
-      var ok = false; // Always ask PIN every session
       var vo = localStorage.getItem(VIEW_KEY) === 'true';
-      if (!ok && !vo) {
+      if (!sessionUnlocked && !vo) {
         window._pendingCostsBtn = btn;
         openOverlay();
         return;

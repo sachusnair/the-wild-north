@@ -4046,28 +4046,31 @@ document.addEventListener('DOMContentLoaded', function() {
   function sendWithLocation(loc){
     var status = document.getElementById('sos-status');
     var now = new Date().toUTCString();
-    var msg;
+    var lines, msg;
 
     if(loc){
       var mapsUrl = 'https://maps.google.com/?q=' + loc.lat + ',' + loc.lon;
-      msg = '🆘 SOS — ' + TRIP_NAME + '%0A'
-          + 'GROUP: ' + MEMBERS + '%0A'
-          + 'TIME: ' + now + '%0A'
-          + 'GPS: ' + loc.lat + ', ' + loc.lon + ' (±' + loc.acc + 'm)%0A'
-          + 'MAP: ' + mapsUrl + '%0A'
-          + 'WE NEED HELP — PLEASE CALL OR CONTACT EMERGENCY SERVICES';
-
-      status.innerHTML = '✅ Location found: <strong>' + loc.lat + ', ' + loc.lon + '</strong> (±' + loc.acc + 'm)<br>'
-        + '📲 Opening SMS to ' + SOS_NUMBER + '...';
+      lines = [
+        'SOS EMERGENCY - THE WILD NORTH SCOTLAND TRIP',
+        'Group: Sachu, Stanley, Stenin & Prabhin',
+        'Time: ' + now,
+        'GPS: ' + loc.lat + ', ' + loc.lon + ' (+-' + loc.acc + 'm)',
+        'Map: ' + mapsUrl,
+        'WE NEED HELP - PLEASE CALL EMERGENCY SERVICES OR CALL US NOW'
+      ];
+      status.innerHTML = '✅ Location: <strong>' + loc.lat + ', ' + loc.lon + '</strong> (±' + loc.acc + 'm)<br>📲 Opening SMS...';
     } else {
-      msg = '🆘 SOS — ' + TRIP_NAME + '%0A'
-          + 'GROUP: ' + MEMBERS + '%0A'
-          + 'TIME: ' + now + '%0A'
-          + 'LOCATION: Could not get GPS — check last known location%0A'
-          + 'WE NEED HELP — PLEASE CALL OR CONTACT EMERGENCY SERVICES';
-
+      lines = [
+        'SOS EMERGENCY - THE WILD NORTH SCOTLAND TRIP',
+        'Group: Sachu, Stanley, Stenin & Prabhin',
+        'Time: ' + now,
+        'GPS: Not available - check last known location',
+        'WE NEED HELP - PLEASE CALL EMERGENCY SERVICES OR CALL US NOW'
+      ];
       status.innerHTML = '📲 Opening SMS to ' + SOS_NUMBER + ' (no GPS)...';
     }
+    // Use encodeURIComponent for reliable cross-platform SMS encoding
+    msg = encodeURIComponent(lines.join('\n'));
 
     // Small delay so user can see the status message
     setTimeout(function(){

@@ -4046,16 +4046,30 @@ function openPdf(slotId) {
     const raw = localStorage.getItem(pdfKey(slotId));
     if (!raw) return;
     const rec = JSON.parse(raw);
-    // Open base64 PDF in new tab
-    const byteStr = atob(rec.data.split(',')[1]);
-    const bytes   = new Uint8Array(byteStr.length);
-    for (let i = 0; i < byteStr.length; i++) bytes[i] = byteStr.charCodeAt(i);
-    const blob    = new Blob([bytes], { type: 'application/pdf' });
-    const url     = URL.createObjectURL(blob);
-    window.open(url, '_blank', 'noopener');
-    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    // Detect file type from data URL
+    const mime = rec.data.split(';')[0].replace('data:','');
+    const isImage = mime.startsWith('image/');
+    if (isImage) {
+      // For images — convert to blob and open via object URL (works on all mobile browsers)
+      const byteStr2 = atob(rec.data.split(',')[1]);
+      const bytes2   = new Uint8Array(byteStr2.length);
+      for (let i = 0; i < byteStr2.length; i++) bytes2[i] = byteStr2.charCodeAt(i);
+      const blob2 = new Blob([bytes2], { type: mime });
+      const url2  = URL.createObjectURL(blob2);
+      window.open(url2, '_blank', 'noopener');
+      setTimeout(() => URL.revokeObjectURL(url2), 60000);
+    } else {
+      // For PDFs — blob URL
+      const byteStr = atob(rec.data.split(',')[1]);
+      const bytes   = new Uint8Array(byteStr.length);
+      for (let i = 0; i < byteStr.length; i++) bytes[i] = byteStr.charCodeAt(i);
+      const blob    = new Blob([bytes], { type: 'application/pdf' });
+      const url     = URL.createObjectURL(blob);
+      window.open(url, '_blank', 'noopener');
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    }
   } catch(e) {
-    alert('Could not open PDF: ' + e.message);
+    alert('Could not open file: ' + e.message);
   }
 }
 
@@ -4072,15 +4086,16 @@ function renderPdfSlot(slotId) {
   if (raw) {
     const rec = JSON.parse(raw);
     const sizeMB = (rec.size / 1024 / 1024).toFixed(1);
+    const isMimeImage = rec.data && rec.data.startsWith('data:image');
     el.className = 'pdf-slot has-file';
     el.innerHTML = `
-      <span class="pdf-icon">📄</span>
+      <span class="pdf-icon">${isMimeImage ? '🖼️' : '📄'}</span>
       <div class="pdf-info">
         <div class="pdf-label" title="${escapeHtml(rec.name)}">${escapeHtml(rec.name)}</div>
         <div class="pdf-sublabel">${sizeMB}MB · Added ${rec.addedAt}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-        <button class="pdf-action open" onclick="openPdf('${slotId}');event.stopPropagation()">Open ↗</button>
+        <button class="pdf-action open" onclick="openPdf('${slotId}');event.stopPropagation()">${isMimeImage ? "View ↗" : "Open ↗"}</button>
         <button class="pdf-action upload" onclick="removePdf('${slotId}');event.stopPropagation()" style="font-size:.55rem;opacity:.5">✕ Remove</button>
       </div>`;
   } else {
@@ -4091,7 +4106,7 @@ function renderPdfSlot(slotId) {
         <div class="pdf-label" style="opacity:.45">${el.dataset.label || 'Attach booking PDF'}</div>
         <div class="pdf-sublabel">Tap to upload · stored offline</div>
       </div>
-      <input type="file" accept=".pdf" class="pdf-upload-input" id="pdf-input-${slotId}"
+      <input type="file" accept=".pdf,.jpg,.jpeg,.png,.heic,.heif,.webp" class="pdf-upload-input" id="pdf-input-${slotId}"
         onchange="savePdf('${slotId}', this.files[0])">
       <button class="pdf-action upload" onclick="document.getElementById('pdf-input-${slotId}').click();event.stopPropagation()">+ Add</button>`;
   }

@@ -743,6 +743,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .hero-date{font-size:clamp(.8rem,2.5vw,1rem);font-weight:300;color:rgba(255,255,255,0.75);letter-spacing:.08em;margin-bottom:.3rem;text-shadow:0 1px 6px rgba(0,0,0,0.6)}
 .hero-friends{font-family:'Playfair Display',serif;font-size:clamp(1rem,3.5vw,2rem);font-weight:300;color:rgba(255,255,255,0.85);letter-spacing:.05em;margin-bottom:.15em;text-align:center;line-height:1}
 .hero-friends-num{color:var(--gold2)}
+.undo-payment-btn{padding:.22rem .55rem;font-size:.58rem;font-weight:600;color:rgba(255,165,0,.85);background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.25);border-radius:100px;cursor:pointer;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent;margin-left:auto}
+.undo-payment-btn:hover{background:rgba(255,165,0,.18);border-color:rgba(255,165,0,.5)}
+.settle-hist-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -2045,7 +2048,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
   <div style="display:flex;gap:8px;margin-bottom:1.5rem">
     <button class="cost-btn" id="add-exp-btn" onclick="addExpense()">+ Add</button>
-    <button class="cost-btn" id="undo-last-btn" onclick="undoLastExpense()" style="background:transparent;border-color:rgba(255,165,0,.3);color:rgba(255,165,0,.8)">↩ Undo Last</button>
     <button class="cost-btn" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none;background:transparent;border-color:rgba(255,255,255,.15);color:rgba(245,240,232,.4)">✕ Cancel</button>
   </div>
 
@@ -3227,6 +3229,14 @@ const TRAVELLERS = ['sachu','stanley','stenin','prabhin'];
 const T_NAMES   = {sachu:'Sachu',stanley:'Stanley',stenin:'Stenin',prabhin:'Prabhin'};
 
 
+function undoPayment(fromPerson, toPerson, index) {
+  const key = fromPerson + '_' + toPerson;
+  if (!partialPayments[key] || partialPayments[key][index] === undefined) return;
+  partialPayments[key].splice(index, 1);
+  renderCosts();
+  saveToCloud();
+}
+
 function recordPartialPayment(fromPerson, toPerson, amount) {
   const amt = parseFloat(amount || 0);
   if (!amt || amt <= 0) return;
@@ -3380,6 +3390,7 @@ function renderSettlement(allItems) {
             <span class="hist-who">${escapeHtml(T_NAMES[tx.from])} paid ${escapeHtml(T_NAMES[tx.to])}</span>
             <span class="hist-amt">£${r.amount.toFixed(2)}</span>
             <span class="hist-date">${r.date} · ${r.time}</span>
+            ${i === records.length - 1 ? `<button class="undo-payment-btn" onclick="undoPayment('${tx.from}','${tx.to}',${i})">↩ Undo</button>` : ''}
           </div>`).join('')}
         </div>` : ''}
       </div>
@@ -3584,54 +3595,7 @@ function pushHistory(type, data, key) {
   actionHistory.push({ type, data: JSON.parse(JSON.stringify(data)), key });
 }
 
-function undoLastExpense() {
-  const btn = document.getElementById('undo-last-btn');
-  function flash(msg, color) {
-    if (!btn) return;
-    const orig = btn.textContent;
-    btn.textContent = msg;
-    btn.style.color = color;
-    btn.style.borderColor = color.replace('.9', '.3').replace('.8','.3');
-    setTimeout(() => {
-      btn.textContent = orig;
-      btn.style.color = 'rgba(255,165,0,.8)';
-      btn.style.borderColor = 'rgba(255,165,0,.3)';
-    }, 2200);
-  }
 
-  if (actionHistory.length === 0) {
-    flash('✗ Nothing to undo', 'rgba(255,100,80,.9)');
-    return;
-  }
-
-  const last = actionHistory.pop();
-
-  if (last.type === 'expense') {
-    // Remove last expense from correct list
-    if (last.key === 'custom' && customExpenses.length > 0) {
-      customExpenses.pop();
-      flash('↩ Removed: ' + last.data.name, 'rgba(100,220,100,.9)');
-    } else if (last.key === 'confirmed' && confirmedCosts.length > 0) {
-      confirmedCosts.pop();
-      flash('↩ Removed: ' + last.data.name, 'rgba(100,220,100,.9)');
-    }
-  } else if (last.type === 'payment') {
-    // Remove last payment from partialPayments
-    const key = last.key;
-    if (partialPayments[key] && partialPayments[key].length > 0) {
-      const removed = partialPayments[key].pop();
-      flash('↩ Payment removed: £' + removed.amount.toFixed(2), 'rgba(100,220,100,.9)');
-    }
-  } else if (last.type === 'settled') {
-    // Restore settled payment
-    const key = last.key;
-    partialPayments[key] = last.data;
-    flash('↩ Settlement undone', 'rgba(100,220,100,.9)');
-  }
-
-  renderCosts();
-  saveToCloud();
-}
 
 function deleteCustom(i) {
   if (editTarget && editTarget.list === 'custom' && editTarget.index === i) editTarget = null;

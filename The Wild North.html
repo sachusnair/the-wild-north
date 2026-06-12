@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Wild North — Scotland Road Trip</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,8 +30,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .hero-scroll:hover{color:var(--gold)}
 .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,rgba(200,168,75,.6),transparent);animation:scrollPulse 2s ease-in-out infinite}
 .sticky-nav{position:sticky;top:0;z-index:100;background:rgba(26,24,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,168,75,.15)}
-.nav-fixed-row{display:flex;align-items:center;justify-content:center;gap:10px;padding:.7rem 1.5rem;border-bottom:1px solid rgba(200,168,75,.12)}
-.nav-fixed-btn{flex-shrink:0;padding:.5rem 1.2rem;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.6);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:100px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.nav-fixed-row::-webkit-scrollbar{display:none}
+.nav-fixed-row{display:flex;align-items:center;justify-content:center;gap:8px;padding:.6rem 1rem;border-bottom:1px solid rgba(200,168,75,.12);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav-fixed-btn{flex-shrink:0;padding:.48rem 1rem;font-size:.67rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,240,232,.6);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:100px;cursor:pointer;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .nav-fixed-btn:hover{color:var(--cream);background:rgba(255,255,255,.08)}
 .nav-fixed-btn.active{color:var(--gold2);background:rgba(200,168,75,.12);border-color:rgba(200,168,75,.4)}
 
@@ -260,10 +261,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .cost-section-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:500;color:var(--cream);margin:1.8rem 0 .2rem}
 .cost-section-sub{font-size:.75rem;color:var(--ink3);margin-bottom:.8rem}
 .cost-add-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
-.cost-input{flex:1;min-width:120px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .9rem;font-size:.8rem;color:var(--cream);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.cost-input{flex:1;min-width:120px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .9rem;font-size:16px;color:var(--cream);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;font-size:16px}
 .cost-input:focus{border-color:rgba(200,168,75,.5)}
 .cost-input::placeholder{color:var(--ink3)}
-.cost-select{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .9rem;font-size:.8rem;color:var(--cream);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer}
+.cost-select{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.55rem .9rem;font-size:16px;color:var(--cream);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer}
 .cost-select option{background:#1a1814;color:var(--cream)}
 .cost-btn{background:rgba(200,168,75,.15);border:1px solid rgba(200,168,75,.4);color:var(--gold2);font-size:.72rem;letter-spacing:.08em;padding:.55rem 1.1rem;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap}
 .cost-btn:hover{background:rgba(200,168,75,.28)}
@@ -453,7 +454,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .settle-remaining.unpaid{color:#e07a54}
 .settle-paid-badge{font-size:.62rem;padding:2px 7px;border-radius:100px;background:rgba(122,184,114,.15);border:1px solid rgba(122,184,114,.3);color:#7ab872;white-space:nowrap}
 .settle-actions{display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap}
-.settle-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--cream);font-size:.75rem;padding:.3rem .6rem;width:90px;font-family:'DM Sans',sans-serif}
+.settle-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--cream);font-size:16px;padding:.3rem .6rem;width:90px;font-family:'DM Sans',sans-serif}
 .settle-input:focus{outline:none;border-color:rgba(200,168,75,.5)}
 .settle-pay-btn{font-size:.65rem;padding:.3rem .8rem;border-radius:6px;border:1px solid rgba(200,168,75,.4);background:rgba(200,168,75,.1);color:var(--gold2);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
 .settle-pay-btn:hover{background:rgba(200,168,75,.2);border-color:rgba(200,168,75,.7)}
@@ -501,8 +502,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* ══ SOS BUTTON ══ */
 #sos-btn{
   position:fixed;
-  bottom:24px;
-  right:24px;
+  bottom:max(24px, calc(env(safe-area-inset-bottom) + 16px));
+  right:max(24px, calc(env(safe-area-inset-right) + 16px));
   z-index:9999;
   width:58px;
   height:58px;
@@ -600,6 +601,16 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   transition:color .2s;
 }
 #sos-cancel-btn:hover{color:rgba(245,240,232,.85)}
+
+@media(max-width:400px){
+  .nav-fixed-btn{padding:.42rem .75rem;font-size:.62rem;letter-spacing:.05em}
+  .nav-fixed-row{gap:5px;padding:.55rem .75rem}
+}
+@media(max-width:480px){
+  .content{padding:0 1rem 5rem}
+  .hero-meta{gap:1rem}
+  .hero-meta-num{font-size:1.4rem}
+}
 </style>
 </head>
 <body>
@@ -2855,7 +2866,8 @@ const _origShow = window.show;
 window.show = function(id, btn) {
   _origShow(id, btn);
   if (id === 'weather') loadWeather();
-  if (id === 'summary') { setTimeout(initMap, 80); buildTripProgress(); updateQACards(); }
+  if (id === 'summary') { setTimeout(initMap, 80); buildTripProgress();
+  updateNavDayButton(); updateQACards(); }
 };
 
 // Init map on page load since summary is the default active panel
@@ -3567,7 +3579,7 @@ function buildTripProgress() {
     const isDone = dd < today;
     const state  = isCur ? 'tp-current' : isDone ? 'tp-done' : 'tp-future';
     container.innerHTML += `
-      <div class="tp-day ${state}" onclick="show('${d.id}', document.querySelectorAll('.nav-tab')[${d.num - 1}])" title="${d.title}">
+      <div class="tp-day ${state}" onclick="showDay('${d.id}')" title="${d.title}">
         <div class="tp-day-dot"></div>
         <div class="tp-day-num">${d.short}<br>${d.label.split(' ')[1]}</div>
       </div>`;
@@ -3601,9 +3613,56 @@ function buildTripProgress() {
         <div class="cd-item"><div class="cd-item-lbl">🚗 Drive</div><div class="cd-item-val">${currentDay.drive}</div></div>
         <div class="cd-item"><div class="cd-item-lbl">➜ Next</div><div class="cd-item-val">${currentDay.next}</div></div>
       </div>
-      <button class="cd-nav-btn" onclick="show('${currentDay.id}', document.querySelectorAll('.nav-tab')[${currentDay.num - 1}])">
-        View today\'s full itinerary →
+      <button class="cd-nav-btn" onclick="showDay('${currentDay.id}')">
+        View today's full itinerary →
       </button>`;
+  }
+}
+
+// ── showDay: navigate to a day panel, update nav active state ──
+function showDay(id) {
+  show(id, document.querySelector('.nav-fixed-btn[data-id="' + id + '"]') || document.getElementById('nb-check'));
+}
+
+// ── updateNavDayButton: swap Checklist → today's day during trip ──
+function updateNavDayButton() {
+  var btn = document.getElementById('nb-check');
+  if (!btn) return;
+  var now   = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  var currentDay = null;
+  for (var i = 0; i < TRIP_DAYS.length; i++) {
+    var d  = TRIP_DAYS[i];
+    var dd = new Date(d.date.getFullYear(), d.date.getMonth(), d.date.getDate());
+    if (dd.getTime() === today.getTime()) { currentDay = d; break; }
+  }
+
+  var tripEnd = new Date(TRIP_END.getFullYear(), TRIP_END.getMonth(), TRIP_END.getDate());
+
+  // On Jul 19 only show from 21:00 GMT onwards
+  var isJul19 = currentDay && currentDay.id === 'sun1';
+  var afterNine = now.getUTCHours() >= 21;
+  var showDay19 = isJul19 ? afterNine : true;
+
+  if (currentDay && today <= tripEnd && showDay19) {
+    // During the trip — show today's day
+    btn.setAttribute('data-id', currentDay.id);
+    btn.setAttribute('data-mode', 'day');
+    btn.innerHTML = '📍 ' + currentDay.label + ' · ' + currentDay.title;
+    btn.onclick = function() { showDay(currentDay.id); };
+    btn.style.color = 'var(--gold2)';
+    btn.style.borderColor = 'rgba(200,168,75,.5)';
+    btn.style.background = 'rgba(200,168,75,.15)';
+  } else {
+    // Before or after trip — show Checklist
+    btn.setAttribute('data-id', 'checklist');
+    btn.setAttribute('data-mode', 'checklist');
+    btn.innerHTML = '✓ Checklist';
+    btn.onclick = function() { show('checklist', btn); };
+    btn.style.color = '';
+    btn.style.borderColor = '';
+    btn.style.background = '';
   }
 }
 

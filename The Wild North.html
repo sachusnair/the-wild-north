@@ -3577,6 +3577,16 @@ document.addEventListener('keydown', e => {
 // Boot: load from cloud when costs tab is first opened
 const _costsOrigShow = window.show;
 window.show = function(id, btn) {
+  // PIN check for costs
+  if (id === 'costs') {
+    var pinOk = localStorage.getItem('wn_pin_ok') === 'true';
+    var viewOnly = localStorage.getItem('wn_pin_view') === 'true';
+    if (!pinOk && !viewOnly) {
+      window._pendingShowBtn = btn;
+      if (window.openPin) window.openPin();
+      return;
+    }
+  }
   _costsOrigShow(id, btn);
   if (id === 'costs' && !fbConnected && !pollTimer) loadFromCloud();
 };
@@ -4297,20 +4307,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if(view === 'true'){ pinLocked = true; setViewOnly(); return; }
   };
 
-  // ── Intercept show() for costs ──
-  var _origShow = window.show;
-  window.show = function(id, btn){
-    if(id === 'costs'){
-      initPinSystem();
-      if(pinLocked && localStorage.getItem(STORE_KEY) !== 'true'){
-        // Store pending navigation
-        window._pendingShowBtn = btn;
-        openPin();
-        return;
-      }
-    }
-    _origShow(id, btn);
-  };
+  // PIN check is handled directly in the costs show() wrapper
 
   window.openPin = function(){
     pinBuffer = '';
@@ -4345,7 +4342,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setViewOnly();
     // Navigate to costs read-only
     var btn = window._pendingShowBtn;
-    _origShow('costs', btn || document.getElementById('nb-costs'));
+    window.show('costs', btn || document.getElementById('nb-costs'));
   };
 
   async function verifyPin(){

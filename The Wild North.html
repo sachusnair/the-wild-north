@@ -611,6 +611,118 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   .hero-meta{gap:1rem}
   .hero-meta-num{font-size:1.4rem}
 }
+
+/* ══ PIN LOCK ══ */
+#pin-overlay{
+  display:none;
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(10,8,6,.96);
+  backdrop-filter:blur(12px);
+  align-items:center;justify-content:center;
+  flex-direction:column;
+  padding:2rem;
+}
+#pin-overlay.open{display:flex}
+#pin-box{
+  background:rgba(26,24,20,1);
+  border:1px solid rgba(200,168,75,.25);
+  border-radius:20px;
+  padding:2.2rem 2rem;
+  max-width:320px;width:100%;
+  text-align:center;
+}
+#pin-box h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;color:var(--cream);
+  margin:0 0 .3rem;
+}
+#pin-box .pin-sub{
+  font-size:.75rem;color:rgba(245,240,232,.45);
+  margin-bottom:1.8rem;letter-spacing:.05em;
+}
+.pin-dots{
+  display:flex;justify-content:center;gap:14px;
+  margin-bottom:1.8rem;
+}
+.pin-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid rgba(200,168,75,.4);
+  background:transparent;
+  transition:background .15s,border-color .15s;
+}
+.pin-dot.filled{
+  background:var(--gold);
+  border-color:var(--gold);
+}
+.pin-dot.error{
+  background:#cc2200;border-color:#cc2200;
+}
+.pin-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;margin-bottom:1rem;
+}
+.pin-key{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:.9rem;
+  font-size:1.1rem;font-weight:600;
+  color:var(--cream);cursor:pointer;
+  transition:all .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.pin-key:hover{background:rgba(200,168,75,.15);border-color:rgba(200,168,75,.4)}
+.pin-key:active{transform:scale(.93)}
+.pin-key.del{color:rgba(245,240,232,.5);font-size:.85rem}
+.pin-error-msg{
+  font-size:.72rem;color:#ff4422;
+  min-height:1.2rem;margin-top:.3rem;
+  letter-spacing:.05em;
+}
+.pin-bypass{
+  margin-top:1.2rem;font-size:.68rem;
+  color:rgba(245,240,232,.3);cursor:pointer;
+  text-decoration:underline;
+  background:none;border:none;
+}
+
+/* ══ DOCS VAULT ══ */
+.docs-vault{padding:.5rem 0 3rem}
+.docs-day-group{margin-bottom:1.8rem}
+.docs-day-label{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid rgba(200,168,75,.15)}
+.docs-slots-row{display:flex;flex-wrap:wrap;gap:10px}
+@media(max-width:600px){.docs-slots-row{flex-direction:column}}
+
+
+/* ══ OTHER DOCS DYNAMIC ══ */
+.other-add-btn{
+  margin-top:.75rem;
+  padding:.5rem 1.2rem;
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold2);
+  background:rgba(200,168,75,.08);
+  border:1px dashed rgba(200,168,75,.35);
+  border-radius:100px;cursor:pointer;
+  transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.other-add-btn:hover{background:rgba(200,168,75,.15);border-style:solid}
+.other-doc-row{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:8px;
+}
+.other-doc-row .pdf-slot{flex:1;min-width:0}
+.other-doc-remove{
+  flex-shrink:0;width:28px;height:28px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:50%;color:rgba(245,240,232,.4);
+  font-size:.75rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.other-doc-remove:hover{background:rgba(204,34,0,.2);border-color:rgba(204,34,0,.4);color:#ff4422}
+
 </style>
 </head>
 <body>
@@ -659,6 +771,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <button class="nav-fixed-btn" id="nb-costs" onclick="show('costs',this)" data-id="costs">💷 Costs</button>
     <button class="nav-fixed-btn" id="nb-weather" onclick="show('weather',this)" data-id="weather">🌤 Weather</button>
     <button class="nav-fixed-btn" id="nb-check" onclick="show('checklist',this)" data-id="checklist">✓ Checklist</button>
+    <button class="nav-fixed-btn" id="nb-docs" onclick="show('docs',this)" data-id="docs">📄 Docs</button>
   </div>
 
 </nav>
@@ -1987,6 +2100,65 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 </section>
 
+
+<!-- ══ DOCS PANEL ══ -->
+<section class="day-panel" id="docs">
+<div class="day-header">
+  <div>
+    <p class="day-label">All Trip Documents</p>
+    <h2 class="day-title">Booking <em>Docs</em></h2>
+    <p class="day-sub">All booking confirmations, ferry tickets and hotel PDFs in one place</p>
+  </div>
+</div>
+
+<div class="docs-vault">
+
+
+
+  <div class="docs-day-group">
+    <div class="docs-day-label">🏰 Mon 20 — Edinburgh</div>
+    <div class="docs-slots-row">
+      <div class="pdf-slot" id="pdf-slot-mon_accom2" data-label="Park View House · Edinburgh Accommodation"></div>
+      <div class="pdf-slot" id="pdf-slot-mon_ticket2" data-label="Edinburgh Castle / Attractions Tickets"></div>
+    </div>
+  </div>
+
+  <div class="docs-day-group">
+    <div class="docs-day-label">🏔 Tue 21 — Highlands → Skye</div>
+    <div class="docs-slots-row">
+      <div class="pdf-slot" id="pdf-slot-tue_accom2" data-label="Portree Hostel · Skye Accommodation"></div>
+    </div>
+  </div>
+
+  <div class="docs-day-group">
+    <div class="docs-day-label">⛴ Wed 22 — Skye & Harris (Ferry Uig→Tarbert)</div>
+    <div class="docs-slots-row">
+      <div class="pdf-slot" id="pdf-slot-wed_ferry2" data-label="CalMac Ferry Booking · Uig→Tarbert"></div>
+      <div class="pdf-slot" id="pdf-slot-wed_accom2" data-label="Hotel Hebrides · Harris Accommodation"></div>
+    </div>
+  </div>
+
+  <div class="docs-day-group">
+    <div class="docs-day-label">⛴ Thu 23 — Harris → Inverness (Ferry Stornoway→Ullapool)</div>
+    <div class="docs-slots-row">
+      <div class="pdf-slot" id="pdf-slot-thu_ferry2" data-label="CalMac Ferry Booking · Stornoway→Ullapool"></div>
+      <div class="pdf-slot" id="pdf-slot-thu_accom2" data-label="Waverley Inn · Inverness Accommodation"></div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="docs-day-group">
+    <div class="docs-day-label">📋 Other Documents</div>
+    <div id="other-docs-list"></div>
+    <button class="other-add-btn" onclick="addOtherDoc()">＋ Add Document</button>
+  </div>
+
+</div>
+</section>
+
 </main>
 
 <script>
@@ -2001,6 +2173,8 @@ function show(id, btn) {
   if(btn) btn.classList.add('active');
   // Scroll to top of content
   document.querySelector('.content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Init PDF slots when docs panel opens
+  if(id === 'docs') setTimeout(initAllPdfSlots, 50);
 }
 // ── Checklist state helpers ──────────────────────────────────
 const CL_FB_PATH = 'checklist';
@@ -4110,6 +4284,247 @@ document.addEventListener('DOMContentLoaded', function() {
   // Close modal on backdrop click
   document.getElementById('sos-modal').addEventListener('click', function(e){
     if(e.target === this) closeSOS();
+  });
+})();
+</script>
+
+
+<!-- ══ PIN OVERLAY ══ -->
+<div id="pin-overlay" role="dialog" aria-modal="true" aria-label="Enter trip PIN">
+  <div id="pin-box">
+    <h3>🔐 Trip PIN</h3>
+    <p class="pin-sub">Enter the 4-digit PIN to access the Cost Tracker</p>
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-grid">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key" style="visibility:hidden"></button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-error-msg" id="pin-error"></div>
+    <button class="pin-bypass" onclick="pinViewOnly()">View only (no PIN)</button>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  var PIN_HASH   = '8eec27653c19ed078b2f3bae16ff901d16347d7917d2b8e2317914e2437bf324';
+  var STORE_KEY  = 'wn_pin_ok';
+  var VIEW_KEY   = 'wn_pin_view';
+  var pinBuffer  = '';
+  var pinLocked  = true;
+
+  // ── SHA-256 in browser ──
+  async function sha256(str){
+    var buf = new TextEncoder().encode(str);
+    var hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  // ── On load: check if already unlocked ──
+  window.initPinSystem = function(){
+    var ok   = localStorage.getItem(STORE_KEY);
+    var view = localStorage.getItem(VIEW_KEY);
+    if(ok === 'true'){ pinLocked = false; return; }
+    if(view === 'true'){ pinLocked = true; setViewOnly(); return; }
+  };
+
+  // ── Intercept show() for costs ──
+  var _origShow = window.show;
+  window.show = function(id, btn){
+    if(id === 'costs'){
+      initPinSystem();
+      if(pinLocked && localStorage.getItem(STORE_KEY) !== 'true'){
+        // Store pending navigation
+        window._pendingShowBtn = btn;
+        openPin();
+        return;
+      }
+    }
+    _origShow(id, btn);
+  };
+
+  window.openPin = function(){
+    pinBuffer = '';
+    updateDots();
+    document.getElementById('pin-error').textContent = '';
+    document.getElementById('pin-overlay').classList.add('open');
+  };
+
+  function closePin(){
+    document.getElementById('pin-overlay').classList.remove('open');
+  }
+
+  window.pinKey = function(digit){
+    if(pinBuffer.length >= 4) return;
+    pinBuffer += digit;
+    updateDots();
+    if(pinBuffer.length === 4) verifyPin();
+  };
+
+  window.pinDel = function(){
+    pinBuffer = pinBuffer.slice(0,-1);
+    updateDots();
+    document.getElementById('pin-error').textContent = '';
+    // Remove error state
+    for(var i=0;i<4;i++) document.getElementById('pd'+i).classList.remove('error');
+  };
+
+  window.pinViewOnly = function(){
+    localStorage.setItem(VIEW_KEY, 'true');
+    pinLocked = true;
+    closePin();
+    setViewOnly();
+    // Navigate to costs read-only
+    var btn = window._pendingShowBtn;
+    _origShow('costs', btn || document.getElementById('nb-costs'));
+  };
+
+  async function verifyPin(){
+    var hash = await sha256(pinBuffer);
+    if(hash === PIN_HASH){
+      // Correct
+      localStorage.setItem(STORE_KEY, 'true');
+      localStorage.removeItem(VIEW_KEY);
+      pinLocked = false;
+      closePin();
+      var btn = window._pendingShowBtn;
+      _origShow('costs', btn || document.getElementById('nb-costs'));
+    } else {
+      // Wrong
+      for(var i=0;i<4;i++) document.getElementById('pd'+i).classList.add('error');
+      document.getElementById('pin-error').textContent = 'Incorrect PIN — try again';
+      setTimeout(function(){
+        pinBuffer = '';
+        updateDots();
+        for(var i=0;i<4;i++){
+          document.getElementById('pd'+i).classList.remove('error');
+        }
+        document.getElementById('pin-error').textContent = '';
+      }, 900);
+    }
+  }
+
+  function updateDots(){
+    for(var i=0;i<4;i++){
+      var dot = document.getElementById('pd'+i);
+      dot.classList.toggle('filled', i < pinBuffer.length);
+    }
+  }
+
+  function setViewOnly(){
+    // Disable all add/edit buttons in cost tracker
+    var style = document.getElementById('pin-viewonly-style');
+    if(!style){
+      style = document.createElement('style');
+      style.id = 'pin-viewonly-style';
+      style.textContent = '#add-expense-btn, #exp-form, .split-editor, .delete-exp-btn { opacity:.35; pointer-events:none; }' +
+        '#costs .day-sub::after { content:" — view only (no PIN)"; color:rgba(255,100,80,.7); font-size:.75rem; }';
+      document.head.appendChild(style);
+    }
+  }
+
+  // Run on page load
+  document.addEventListener('DOMContentLoaded', function(){
+    initPinSystem();
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  var OTHER_INDEX_KEY = 'other_docs_index';
+
+  function getOtherIds(){
+    try{
+      var raw = localStorage.getItem(OTHER_INDEX_KEY);
+      return raw ? JSON.parse(raw) : ['other_0'];
+    } catch(e){ return ['other_0']; }
+  }
+
+  function saveOtherIds(ids){
+    localStorage.setItem(OTHER_INDEX_KEY, JSON.stringify(ids));
+  }
+
+  function renderOtherDocs(){
+    var ids = getOtherIds();
+    var list = document.getElementById('other-docs-list');
+    if(!list) return;
+    list.innerHTML = '';
+    ids.forEach(function(id){
+      var row = document.createElement('div');
+      row.className = 'other-doc-row';
+      row.id = 'other-row-' + id;
+
+      var slot = document.createElement('div');
+      slot.className = 'pdf-slot';
+      slot.id = 'pdf-slot-' + id;
+      slot.setAttribute('data-label', 'Tap to attach document');
+      row.appendChild(slot);
+
+      var removeBtn = document.createElement('button');
+      removeBtn.className = 'other-doc-remove';
+      removeBtn.innerHTML = '✕';
+      removeBtn.title = 'Remove this slot';
+      removeBtn.onclick = (function(docId){ return function(){ removeOtherDoc(docId); }; })(id);
+      row.appendChild(removeBtn);
+
+      list.appendChild(row);
+      renderPdfSlot(id);
+    });
+  }
+
+  window.addOtherDoc = function(){
+    var ids = getOtherIds();
+    var newId = 'other_' + Date.now();
+    ids.push(newId);
+    saveOtherIds(ids);
+    renderOtherDocs();
+    // Auto-trigger file picker on new slot
+    setTimeout(function(){
+      var el = document.getElementById('pdf-slot-' + newId);
+      if(el) el.click();
+    }, 100);
+  };
+
+  window.removeOtherDoc = function(docId){
+    // Remove the PDF from storage
+    localStorage.removeItem(pdfKey(docId));
+    // Remove from index
+    var ids = getOtherIds().filter(function(id){ return id !== docId; });
+    if(ids.length === 0) ids = ['other_0']; // keep at least one
+    saveOtherIds(ids);
+    renderOtherDocs();
+  };
+
+  // Expose so initAllPdfSlots can call it
+  window.renderOtherDocs = renderOtherDocs;
+
+  // Init when docs panel opens
+  var _origInitSlots = window.initAllPdfSlots;
+  window.initAllPdfSlots = function(){
+    if(_origInitSlots) _origInitSlots();
+    renderOtherDocs();
+  };
+
+  document.addEventListener('DOMContentLoaded', function(){
+    // Init immediately in case docs panel is default
+    renderOtherDocs();
   });
 })();
 </script>

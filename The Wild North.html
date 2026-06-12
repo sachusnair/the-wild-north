@@ -3229,10 +3229,10 @@ const TRAVELLERS = ['sachu','stanley','stenin','prabhin'];
 const T_NAMES   = {sachu:'Sachu',stanley:'Stanley',stenin:'Stenin',prabhin:'Prabhin'};
 
 
-function undoPayment(fromPerson, toPerson, index) {
+function undoPayment(fromPerson, toPerson) {
   const key = fromPerson + '_' + toPerson;
-  if (!partialPayments[key] || partialPayments[key][index] === undefined) return;
-  partialPayments[key].splice(index, 1);
+  if (!partialPayments[key] || partialPayments[key].length === 0) return;
+  partialPayments[key].pop(); // remove only the LAST payment
   renderCosts();
   saveToCloud();
 }
@@ -3284,11 +3284,11 @@ function undoLastPayment(fromPerson, toPerson) {
   renderCosts();
 }
 
-function undoPayment(fromPerson, toPerson) {
+function clearPayments(fromPerson, toPerson) {
   const key = fromPerson + '_' + toPerson;
   delete partialPayments[key];
-  saveToCloud();
   renderCosts();
+  saveToCloud();
 }
 
 function renderSettlement(allItems) {
@@ -3366,7 +3366,7 @@ function renderSettlement(allItems) {
     const actionRow = isPaidOff
       ? `<div class="settle-actions">
            <button class="settle-pay-btn" onclick="undoLastPayment('${tx.from}','${tx.to}')" title="Undo last payment">↺ Undo last</button>
-           <button class="settle-pay-btn" onclick="undoPayment('${tx.from}','${tx.to}')" style="opacity:.5;font-size:.6rem" title="Clear all payments">✕ Clear all</button>
+           <button class="settle-pay-btn" onclick="clearPayments('${tx.from}','${tx.to}')" style="opacity:.5;font-size:.6rem" title="Clear all payments">✕ Clear all</button>
          </div>`
       : `<div class="settle-actions">
            <input class="settle-input" id="partial-${key}" type="number" placeholder="£ amount" min="0.01" step="0.01" max="${remaining.toFixed(2)}" />
@@ -3390,7 +3390,7 @@ function renderSettlement(allItems) {
             <span class="hist-who">${escapeHtml(T_NAMES[tx.from])} paid ${escapeHtml(T_NAMES[tx.to])}</span>
             <span class="hist-amt">£${r.amount.toFixed(2)}</span>
             <span class="hist-date">${r.date} · ${r.time}</span>
-            ${i === records.length - 1 ? `<button class="undo-payment-btn" onclick="undoPayment('${tx.from}','${tx.to}',${i})">↩ Undo</button>` : ''}
+            ${i === records.length - 1 ? `<button class="undo-payment-btn" onclick="undoPayment('${tx.from}','${tx.to}')">↩ Undo</button>` : ''}
           </div>`).join('')}
         </div>` : ''}
       </div>

@@ -52,9 +52,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .day-label{font-size:.65rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
 .day-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:400;line-height:1.05;color:var(--cream)}
 .day-title em{font-style:italic;color:var(--gold2)}
-.day-sub{margin-top:.75rem;font-size:.85rem;color:var(--ink3);font-weight:300;line-height:1.6}
+.day-sub{margin-top:.6rem;font-size:.82rem;color:rgba(245,240,232,.6);font-weight:300;line-height:1.55}
 .day-stats{display:flex;flex-direction:column;gap:8px;text-align:right}
-.stat-pill{background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.2);border-radius:100px;padding:5px 14px;font-size:.7rem;color:var(--sand);white-space:nowrap}
+.stat-pill{background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.28);border-radius:10px;padding:6px 12px;font-size:.72rem;color:var(--cream);white-space:nowrap;text-align:right}
 .section-heading{font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin:2.5rem 0 1.5rem;display:flex;align-items:center;gap:1rem}
 .section-heading::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07)}
 .timeline{display:flex;flex-direction:column}
@@ -783,19 +783,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 1 · Sunday, 19 Jul</p>
       <h2 class="day-title">London to<br><em>Edinburgh</em></h2>
-      <p class="day-sub">Depart 21:30, Sun 19 Jul · Stop Chesterfield to collect Stanley · Continue to Edinburgh · Arrive Mon 20 Jul ~06:00</p>
+      <p class="day-sub">Depart 21:30 · Collect Stanley in Chesterfield · Overnight drive to Edinburgh</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-sun1_accom" data-label="Park View House · Edinburgh Accommodation"></div>
-    <div class="pdf-slot" id="pdf-slot-sun1_drive" data-label="London → Edinburgh Drive / Route Confirmation"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">Sun 19 Jul · 21:30</span>
-      <span class="stat-pill">~375 miles inc. Chesterfield</span>
-      <span class="stat-pill">M1/A1(M) north</span>
+      <span class="stat-pill">🕘 Depart 21:30</span>
+      <span class="stat-pill">📍 Collect Stanley</span>
+      <span class="stat-pill">🛣 ~375 miles overnight</span>
     </div>
   </div>
   <div class="timeline">
@@ -854,19 +848,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 2 · Monday, 20 Jul</p>
       <h2 class="day-title">Full Day<br><em>Edinburgh</em></h2>
-      <p class="day-sub">Mon 20 Jul · Arrive ~04:30 · Rest · Full day sightseeing · Old Town, viewpoints &amp; nightlife · Overnight stay</p>
+      <p class="day-sub">Arrive ~04:30 · Rest · Old Town · Arthur's Seat · Castle at 15:00 · Overnight stay</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-mon_accom" data-label="Park View House · Edinburgh Accommodation"></div>
-    <div class="pdf-slot" id="pdf-slot-mon_ticket" data-label="Edinburgh Attractions / Tickets"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">All on foot</span>
-      <span class="stat-pill">Arthur's Seat hike</span>
-      <span class="stat-pill">Overnight Edinburgh</span>
+      <span class="stat-pill">🏰 Castle booked 15:00</span>
+      <span class="stat-pill">⛰ Arthur's Seat hike</span>
+      <span class="stat-pill">🥃 Bow Bar whiskies</span>
     </div>
   </div>
   <div class="timeline">
@@ -972,19 +960,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 3 · Tuesday, 21 Jul</p>
       <h2 class="day-title">Edinburgh to<br><em>Isle of Skye</em></h2>
-      <p class="day-sub">Tue 21 Jul · Morning Edinburgh · Noon depart · Glencoe · Glen Etive · Glenfinnan Viaduct · Arrive Skye ~20:30</p>
+      <p class="day-sub">Depart noon · Glencoe · Glenfinnan Viaduct · Skye Bridge · Arrive ~20:30</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-tue_accom" data-label="Glencoe / Fort William Accommodation"></div>
-    <div class="pdf-slot" id="pdf-slot-tue_route" data-label="Edinburgh → Glencoe Route"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">~195 miles</span>
-      <span class="stat-pill">~6 hrs + stops</span>
-      <span class="stat-pill">A82 Highland road</span>
+      <span class="stat-pill">🏔 Glencoe Three Sisters</span>
+      <span class="stat-pill">🚂 Glenfinnan Viaduct</span>
+      <span class="stat-pill">🌉 Skye Bridge crossing</span>
     </div>
   </div>
   <p class="section-heading">Morning — Edinburgh</p>
@@ -1093,19 +1075,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 4 · Wednesday, 22 Jul</p>
       <h2 class="day-title">Skye Morning,<br><em>Harris</em> by Evening</h2>
-      <p class="day-sub">Wed 22 Jul · Skye 07:00–12:00 · Ferry departs Uig 14:00 · Arrive Tarbert 16:00 · Luskentyre sunset</p>
+      <p class="day-sub">Skye 07:00–12:00 · Drive to Uig · Ferry 14:00 · Arrive Tarbert 16:00</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-wed_ferry" data-label="CalMac Ferry · Uig → Tarbert (Harris)"></div>
-    <div class="pdf-slot" id="pdf-slot-wed_accom" data-label="Isle of Harris Accommodation"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">Uig → Tarbert</span>
-      <span class="stat-pill">Ferry 13:00 — arrive early!</span>
-      <span class="stat-pill">Book in advance!</span>
+      <span class="stat-pill">⛴ Ferry departs 14:00</span>
+      <span class="stat-pill">⚠️ Be at Uig by 13:00</span>
+      <span class="stat-pill">🏖 Luskentyre sunset</span>
     </div>
   </div>
   <p class="section-heading">Morning — Isle of Skye</p>
@@ -1206,19 +1182,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 5 · Thursday, 23 Jul</p>
       <h2 class="day-title">Harris · Ferry · to<br><em>Inverness</em></h2>
-      <p class="day-sub">Thu 23 Jul · Golden Road · Callanish Stones · Stornoway ferry 14:00 · Arrive Ullapool 16:40 · Inverness ~19:30</p>
+      <p class="day-sub">Golden Road · Callanish Stones · Ferry Stornoway 14:00 · Ullapool 16:40 · Inverness ~19:30</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-thu_ferry" data-label="CalMac Ferry · Stornoway → Ullapool"></div>
-    <div class="pdf-slot" id="pdf-slot-thu_accom" data-label="Inverness Accommodation"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">Stornoway → Ullapool</span>
-      <span class="stat-pill">Ferry departs 14:00</span>
-      <span class="stat-pill">~65 miles to Inverness</span>
+      <span class="stat-pill">🗿 Callanish Stones</span>
+      <span class="stat-pill">⛴ Ferry departs 14:00</span>
+      <span class="stat-pill">⚠️ Be at Stornoway by 13:00</span>
     </div>
   </div>
   <div class="timeline">
@@ -1307,19 +1277,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 6 · Friday, 24 Jul</p>
       <h2 class="day-title">Inverness · Loch Ness<br>to <em>Glasgow</em></h2>
-      <p class="day-sub">Fri 24 Jul · Culloden · Urquhart Castle · A82 south · Arrive Glasgow ~17:30 · Depart midnight for Chesterfield</p>
+      <p class="day-sub">Culloden · Urquhart Castle & Loch Ness · A82 south · Glasgow ~17:30 · Depart midnight</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-fri_accom" data-label="Inverness Accommodation"></div>
-    <div class="pdf-slot" id="pdf-slot-fri_route" data-label="Inverness → Glasgow Route"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">~105 miles to Glasgow</span>
-      <span class="stat-pill">~220 miles to Chesterfield</span>
-      <span class="stat-pill">Late night departure</span>
+      <span class="stat-pill">⚔️ Culloden Battlefield</span>
+      <span class="stat-pill">🏰 Urquhart Castle</span>
+      <span class="stat-pill">🌙 Depart midnight</span>
     </div>
   </div>
   <div class="timeline">
@@ -1408,18 +1372,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 7 · Saturday, 25 Jul</p>
       <h2 class="day-title">Rest Day<br><em>Chesterfield</em></h2>
-      <p class="day-sub">Sat 25 Jul · Arrive ~02:30 early morning · Stanley's home · Rest · Optional Peak District exploring</p>
+      <p class="day-sub">Arrive ~02:30 · Stanley's home · Rest and recover · Optional Peak District</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-sat_accom" data-label="Chesterfield / Peak District Accommodation"></div>
-    <div class="pdf-slot" id="pdf-slot-sat_route" data-label="Glasgow → Chesterfield Route"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">Recovery day</span>
-      <span class="stat-pill">Peak District nearby</span>
+      <span class="stat-pill">😴 Recovery day</span>
+      <span class="stat-pill">🏞 Peak District nearby</span>
+      <span class="stat-pill">🏡 Stanley's home base</span>
     </div>
   </div>
   <div class="timeline">
@@ -1471,18 +1430,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div>
       <p class="day-label">Day 8 · Sunday, 26 Jul</p>
       <h2 class="day-title">Chesterfield<br>to <em>London</em></h2>
-      <p class="day-sub">Sun 26 Jul · Relax all day · Depart ~18:00 · A617 → M1 south → London · ~160 miles · ~2.5–3 hrs</p>
+      <p class="day-sub">Relax all day · Depart ~18:00 · A617 → M1 south → London · ~160 miles</p>
     </div>
-  <!-- PDF Booking Attachments -->
-  <div class="pdf-section-title">📎 Booking Confirmations</div>
-  <div class="booking-pdfs">
-    <div class="pdf-slot" id="pdf-slot-sun2_drive" data-label="Chesterfield → London Drive Confirmation"></div>
-  </div>
 
     <div class="day-stats">
-      <span class="stat-pill">~160 miles</span>
-      <span class="stat-pill">Depart ~18:00</span>
-      <span class="stat-pill">M1 south — easy run</span>
+      <span class="stat-pill">🕕 Depart ~18:00</span>
+      <span class="stat-pill">🛣 M1 south ~160 miles</span>
+      <span class="stat-pill">🏠 Home ~20:30</span>
     </div>
   </div>
   <div class="timeline">

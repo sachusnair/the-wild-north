@@ -3337,6 +3337,21 @@ function renderSettlement(allItems) {
   const balance = {};
   TRAVELLERS.forEach(t => balance[t] = (paid[t] || 0) - (share[t] || 0));
 
+  // Incorporate actual cash payments made (partialPayments)
+  // e.g. if Sachu paid Stanley £285.29 cash, adjust both balances
+  Object.keys(partialPayments).forEach(key => {
+    const parts = key.split('_');
+    if (parts.length < 2) return;
+    const from = parts[0];
+    const to   = parts.slice(1).join('_');
+    if (balance[from] === undefined || balance[to] === undefined) return;
+    const totalPaid = (partialPayments[key] || []).reduce((s, r) => s + (r.amount || 0), 0);
+    if (totalPaid <= 0) return;
+    // From person paid cash to To person — adjust balances
+    balance[from] += totalPaid; // from now owes less (or is owed more)
+    balance[to]   -= totalPaid; // to received cash so they owe more back
+  });
+
 
   // Settlement — who pays whom
   const sPanel = document.getElementById('settlement-panel');

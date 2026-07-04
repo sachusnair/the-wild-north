@@ -746,6 +746,17 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .undo-payment-btn{padding:.22rem .55rem;font-size:.58rem;font-weight:600;color:rgba(255,165,0,.85);background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.25);border-radius:100px;cursor:pointer;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent;margin-left:auto}
 .undo-payment-btn:hover{background:rgba(255,165,0,.18);border-color:rgba(255,165,0,.5)}
 .settle-hist-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+
+/* ══ TRANSACTION HISTORY ══ */
+.txn-history-wrap{margin-top:1.5rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:1rem 1.1rem}
+.txn-history-title{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid rgba(200,168,75,.15)}
+.txn-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.txn-row:last-child{border-bottom:none}
+.txn-num{font-size:.6rem;color:rgba(245,240,232,.3);min-width:20px}
+.txn-who{font-size:.78rem;color:var(--cream);flex:1;min-width:120px}
+.txn-amt{font-size:.82rem;font-weight:600;color:var(--gold2);white-space:nowrap}
+.txn-date{font-size:.62rem;color:rgba(245,240,232,.35);white-space:nowrap}
+
 </style>
 <!-- WN-BUILD-v3 -->
 </head>
@@ -3437,6 +3448,40 @@ function renderSettlement(allItems) {
       </div>
     </div>`;
   }).join('');
+
+  // ── Full Transaction History ──────────────────────────────
+  const allPayments = [];
+  Object.keys(partialPayments).forEach(key => {
+    const parts = key.split('_');
+    if (parts.length < 2) return;
+    const from = parts[0];
+    const to   = parts.slice(1).join('_');
+    (partialPayments[key] || []).forEach((r, i) => {
+      allPayments.push({ from, to, amount: r.amount, date: r.date, time: r.time, key, idx: i });
+    });
+  });
+
+  // Sort by date/time
+  allPayments.sort((a, b) => {
+    const da = new Date(a.date + ' ' + a.time);
+    const db = new Date(b.date + ' ' + b.time);
+    return da - db;
+  });
+
+  if (allPayments.length > 0) {
+    sPanel.innerHTML += `
+      <div class="txn-history-wrap">
+        <div class="txn-history-title">📋 Full Transaction History</div>
+        ${allPayments.map((p, i) => `
+          <div class="txn-row">
+            <span class="txn-num">#${i+1}</span>
+            <span class="txn-who"><strong>${escapeHtml(T_NAMES[p.from] || p.from)}</strong> paid <strong>${escapeHtml(T_NAMES[p.to] || p.to)}</strong></span>
+            <span class="txn-amt">£${p.amount.toFixed(2)}</span>
+            <span class="txn-date">${p.date} · ${p.time}</span>
+            ${i === allPayments.length - 1 ? `<button class="undo-payment-btn" onclick="undoPayment('${p.key.split('_')[0]}','${p.key.split('_').slice(1).join('_')}')">↩ Undo</button>` : ''}
+          </div>`).join('')}
+      </div>`;
+  }
 }
 
 
